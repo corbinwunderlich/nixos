@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  machine,
   ...
 }: let
   modifier = config.xsession.windowManager.i3.config.modifier;
@@ -40,7 +41,7 @@ in {
 
       config = {
         modifier =
-          if config.machine.type == "vm"
+          if machine == "vm"
           then "Mod1"
           else "Mod4";
 
@@ -88,6 +89,10 @@ in {
             command = "${pkgs._1password-gui}/bin/1password --silent";
             always = true;
           }
+          {
+            command = "/home/corbin/xwayland";
+            always = false;
+          }
         ];
 
         defaultWorkspace = "workspace number 1";
@@ -106,7 +111,7 @@ in {
         };
 
         keybindings =
-          if (config.machine.type == "vm")
+          if (machine == "vm")
           then {
             "${modifier}+Shift+r" = "restart";
 
@@ -223,7 +228,7 @@ in {
 
         "battery all" = {
           position = 2;
-          enable = config.machine.type == "laptop";
+          enable = machine == "laptop";
           settings = {
             format = "%percentage %status";
             format_percentage = "%.0f%s";

@@ -1,8 +1,6 @@
 {...}: {
   imports = [../modules.nix];
 
-  machine.type = "vm"; # Result of hostnamectl chassis
-
   hyprland.enable = false;
   hyprlock.enable = false;
   hyprpaper.enable = false;

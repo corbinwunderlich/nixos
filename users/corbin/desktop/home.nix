@@ -1,8 +1,6 @@
 {...}: {
   imports = [../modules.nix];
 
-  machine.type = "desktop"; # Result of hostnamectl chassis
-
   home = {
     username = "corbin";
     homeDirectory = "/home/corbin";

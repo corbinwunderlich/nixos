@@ -51,7 +51,10 @@
   }: {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {
+          inherit inputs;
+          machine = "desktop";
+        };
 
         system = "x86_64-linux";
 
@@ -60,7 +63,10 @@
 
           home-manager.nixosModules.home-manager
           {
-            home-manager.extraSpecialArgs = {inherit inputs;};
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              machine = "desktop";
+            };
             home-manager.useGlobalPkgs = true;
             home-manager.users.corbin = import ./users/corbin/desktop/home.nix;
           }
@@ -68,7 +74,10 @@
       };
 
       nixvm = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {
+          inherit inputs;
+          machine = "vm";
+        };
 
         system = "x86_64-linux";
 
@@ -79,7 +88,10 @@
 
           home-manager.nixosModules.home-manager
           {
-            home-manager.extraSpecialArgs = {inherit inputs;};
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              machine = "vm";
+            };
             home-manager.useGlobalPkgs = true;
             home-manager.users.corbin = import ./users/corbin/nixvm/home.nix;
           }
@@ -87,7 +99,10 @@
       };
 
       nixpad = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;};
+        specialArgs = {
+          inherit inputs;
+          machine = "laptop";
+        };
 
         system = "x86_64-linux";
 
@@ -96,7 +111,10 @@
 
           home-manager.nixosModules.home-manager
           {
-            home-manager.extraSpecialArgs = {inherit inputs;};
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              machine = "laptop";
+            };
             home-manager.useGlobalPkgs = true;
             home-manager.users.corbin = import ./users/corbin/nixpad/home.nix;
           }
