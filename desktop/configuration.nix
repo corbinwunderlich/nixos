@@ -8,32 +8,11 @@
   inputs,
   ...
 }: {
-  imports = [./hardware-configuration.nix ./../modules/modules.nix];
+  imports = [./hardware-configuration.nix ./lact.nix ./../modules/modules.nix];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff"];
-
-  systemd.packages = with pkgs; [lact];
-  systemd.services.lactd.wantedBy = ["multi-user.target"];
-
-  #  environment.etc."lact/config.yaml".text = ''
-  #    daemon:
-  #      log_level: info
-  #      admin_groups:
-  #      - wheel
-  #      - sudo
-  #      disable_clocks_cleanup: false
-  #    gpus:
-  #      1002:744C-1DA2:475E-0000:03:00.0:
-  #        fan_control_enabled: false
-  #        power_cap: 280
-  #        performance_level: manual
-  #        voltage_offset: -50
-  #    apply_settings_timer: 5
-  #  '';
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
