@@ -261,7 +261,7 @@ in {
           "$mainMod SHIFT, up, movewindow, u"
           "$mainMod SHIFT, down, movewindow, d"
           "$mainMod SHIFT, left, movewindow, l"
-          "$mainMOD SHIFT, right, movewindow, r"
+          "$mainMod SHIFT, right, movewindow, r"
 
           "$mainMod, mouse_down, workspace, e+1"
           "$mainMod, mouse_up, workspace, e-1"
