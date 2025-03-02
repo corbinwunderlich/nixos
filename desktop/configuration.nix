@@ -27,6 +27,19 @@
     ACTION=="add" SUBSYSTEM=="pci" ATTR{vendor}=="0x1022" ATTR{device}=="0x15b8" ATTR{power/wakeup}="disabled"
   '';
 
+  services.udev.packages = [
+    (pkgs.writeTextFile {
+      name = "sayo-rules";
+
+      text = ''
+        SUBSYSTEM=="hidraw", ATTRS{idVendor}=="8089", TAG+="uaccess"
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="8089", TAG+="uaccess"
+      '';
+
+      destination = "/etc/udev/rules.d/70-sayo.rules";
+    })
+  ];
+
   services.btrfs.autoScrub.enable = true;
 
   networking = {
