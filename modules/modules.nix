@@ -16,6 +16,8 @@
     ./tools/xrdp.nix
     ./tools/fcitx.nix
     ./tools/bluetooth.nix
+    ./tools/input-devices.nix
+    ./tools/flatpak.nix
 
     ./apps/kitty.nix
     ./apps/steam.nix
@@ -30,6 +32,7 @@
     ./apps/chromium.nix
     ./apps/3d-printing.nix
     ./apps/remmina.nix
+    ./apps/jetbrains.nix
 
     ./common.nix
   ];
@@ -58,6 +61,11 @@
 
   bluetooth.enable = lib.mkDefault true;
 
+  sayodevice.enable = lib.mkDefault true;
+  neo65.enable = lib.mkDefault true;
+
+  flatpak.enable = lib.mkDefault true;
+
   kitty.enable = lib.mkDefault true;
 
   steam.enable = lib.mkDefault true;
@@ -83,4 +91,6 @@
   bambu-studio.enable = lib.mkDefault true;
 
   remmina.enable = lib.mkDefault true;
+
+  jetbrains.enable = lib.mkDefault true;
 }
