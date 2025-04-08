@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
   hyprland.enable = false;
@@ -13,6 +17,8 @@
   printing.enable = false;
 
   bluetooth.enable = false;
+
+  arduino.enable = false;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 

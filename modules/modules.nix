@@ -18,6 +18,7 @@
     ./tools/bluetooth.nix
     ./tools/input-devices.nix
     ./tools/flatpak.nix
+    ./tools/arduino.nix
 
     ./apps/kitty.nix
     ./apps/steam.nix
@@ -65,6 +66,8 @@
   neo65.enable = lib.mkDefault true;
 
   flatpak.enable = lib.mkDefault true;
+
+  arduino.enable = lib.mkDefault true;
 
   kitty.enable = lib.mkDefault true;
 
