@@ -217,7 +217,7 @@ in {
 
       general = {
         colors = true;
-        interval = 5;
+        interval = 1;
       };
 
       modules = {
