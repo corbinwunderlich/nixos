@@ -19,6 +19,7 @@
     ./tools/input-devices.nix
     ./tools/flatpak.nix
     ./tools/arduino.nix
+    ./tools/syncthing.nix
 
     ./apps/kitty.nix
     ./apps/steam.nix
@@ -34,6 +35,7 @@
     ./apps/3d-printing.nix
     ./apps/remmina.nix
     ./apps/jetbrains.nix
+    ./apps/kicad.nix
 
     ./common.nix
   ];
@@ -69,6 +71,8 @@
 
   arduino.enable = lib.mkDefault true;
 
+  syncthing.enable = lib.mkDefault true;
+
   kitty.enable = lib.mkDefault true;
 
   steam.enable = lib.mkDefault true;
@@ -96,4 +100,6 @@
   remmina.enable = lib.mkDefault true;
 
   jetbrains.enable = lib.mkDefault true;
+
+  kicad.enable = lib.mkDefault true;
 }
