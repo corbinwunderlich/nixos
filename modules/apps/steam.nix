@@ -16,8 +16,6 @@
       heroic
       lutris
       mangohud
-      steam-tui
-      steamcmd
       protonup
     ];
 
