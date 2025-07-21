@@ -49,7 +49,7 @@ in {
         }
       ];
 
-      initExtra = zshrc;
+      initContent = zshrc;
     };
   };
 }

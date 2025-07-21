@@ -3,6 +3,7 @@
     ./wms/i3.nix
     ./wms/hyprland.nix
     ./wms/kde.nix
+    ./wms/sway.nix
 
     ./tools/samba.nix
     ./tools/1password.nix
@@ -43,6 +44,8 @@
   i3.enable = lib.mkDefault false;
   hyprland.enable = lib.mkDefault true;
   kde.enable = lib.mkDefault true;
+
+  sway.enable = lib.mkDefault true;
 
   samba.enable = lib.mkDefault true;
   passwordmanager.enable = lib.mkDefault true;
@@ -99,7 +102,7 @@
 
   remmina.enable = lib.mkDefault true;
 
-  jetbrains.enable = lib.mkDefault true;
+  jetbrains.enable = lib.mkDefault false;
 
   kicad.enable = lib.mkDefault true;
 }

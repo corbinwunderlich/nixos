@@ -28,7 +28,7 @@
       fan_control_enabled = false;
       power_cap = 280.0;
       performance_level = "auto";
-      voltage_offset = -50;
+      voltage_offset = -30;
     };
   };
 

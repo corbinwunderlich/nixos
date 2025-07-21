@@ -9,7 +9,10 @@
     programs.kitty = {
       enable = true;
 
-      environment = {"TERM" = "xterm-256color";};
+      environment = {
+        "TERM" = "xterm-256color";
+        "DISPLAY" = ":0";
+      };
 
       shellIntegration.mode = "no-cursor";
 

@@ -8,6 +8,7 @@
   hyprland.enable = false;
   kde.enable = false;
   i3.enable = true;
+  sway.enable = false;
   xrdp.enable = true;
 
   btrfs-assistant.enable = false;

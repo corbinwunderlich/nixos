@@ -23,4 +23,6 @@
   config.boot.extraModprobeConfig = ''
     options hid_apple fnmode=2
   '';
+
+  config.users.users.corbin.extraGroups = ["input"];
 }

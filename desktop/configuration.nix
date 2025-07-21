@@ -7,6 +7,10 @@
 }: {
   imports = [./hardware-configuration.nix ./lact.nix ./../modules/modules.nix];
 
+  samba.enable = false;
+
+  hyprland.enable = false;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -53,6 +57,13 @@
   environment.systemPackages = [
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     pkgs.rose-pine-cursor
+    pkgs.gh
+
+    pkgs.winetricks
+    pkgs.p7zip
+    pkgs.cabextract
+    pkgs.ppp
+    pkgs.wine
   ];
 
   hardware.graphics = {
@@ -60,7 +71,11 @@
     enable32Bit = true;
   };
 
-  services.xserver.videoDrivers = ["amdgpu"];
+  boot.initrd.kernelModules = ["amdgpu"];
+
+  services.xserver.videoDrivers = ["modesetting"];
+
+  boot.kernelParams = ["video=DP-1:1920x1200@60" "video=DP-2:3840x2160@150"];
 
   programs.coolercontrol.enable = true;
 
