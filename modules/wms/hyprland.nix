@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  machine,
   inputs,
   ...
 }: {
@@ -24,6 +25,7 @@
     programs.hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
     };
 
     services.xserver.enable = true;
@@ -31,7 +33,13 @@
     services.displayManager = {
       defaultSession = "hyprland";
 
-      sddm.enable = true;
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+        wayland.compositor = "kwin";
+      };
     };
+
+    services.desktopManager.plasma6.enable = lib.mkForce false;
   };
 }

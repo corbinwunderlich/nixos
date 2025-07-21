@@ -15,7 +15,7 @@
 
       configDir = ./ags;
 
-      extraPackages = with pkgs; [gtksourceview webkitgtk accountsservice];
+      extraPackages = with pkgs; [gtksourceview accountsservice];
     };
 
     home.packages = with pkgs; [brightnessctl inotify-tools];

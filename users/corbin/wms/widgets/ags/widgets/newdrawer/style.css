@@ -2,7 +2,7 @@
     background-color: rgba(0, 0, 0, 0);
 }
 
-#ags-drawer > box {
+#ags-drawer>box {
     min-height: 1px;
     min-width: 1px;
     padding: 1px;
@@ -93,12 +93,12 @@
     margin-left: 10px;
 }
 
-.cpu-progress > trough {
+.cpu-progress>trough {
     min-height: 2px;
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.cpu-progress > trough > progress {
+.cpu-progress>trough>progress {
     min-height: 2px;
 }
 
@@ -120,12 +120,12 @@
     margin-bottom: 34px;
 }
 
-.ram-progress > trough {
+.ram-progress>trough {
     min-height: 2px;
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.ram-progress > trough > progress {
+.ram-progress>trough>progress {
     min-height: 2px;
 }
 
@@ -147,12 +147,12 @@
     margin-bottom: 36px;
 }
 
-.storage-progress > trough {
+.storage-progress>trough {
     min-height: 2px;
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.storage-progress > trough > progress {
+.storage-progress>trough>progress {
     min-height: 2px;
 }
 
@@ -165,16 +165,16 @@
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-.shortcut > box {
+.shortcut>box {
     margin: 25px;
     margin-bottom: 10px;
 }
 
-.shortcut > box > box {
+.shortcut>box>box {
     /* margin: 25px; */
     /* margin-bottom: 10px; */
     margin-right: 25px;
-    
+
 
     min-width: 25px;
     min-height: 25px;
@@ -182,26 +182,26 @@
     background-size: cover;
 }
 
-.shortcut > box > label {
+.shortcut>box>label {
     font-family: 'Inter SemiBold', sans-serif;
 
     color: white;
 }
 
-.google-classroom > box > box {
+.google-classroom>box>box {
     min-width: 30px;
     min-height: 26px;
 }
 
-.realistic-cities > box > box {
+.realistic-cities>box>box {
     /* margin-bottom: 25px; */
 }
 
-.ags-config > box {
+.ags-config>box {
     margin-bottom: 25px;
 }
 
-.logout > box {
+.logout>box {
     margin: 20px;
     margin-top: 698px;
 
