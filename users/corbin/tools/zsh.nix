@@ -9,6 +9,8 @@
     PROMPT="%~ at %T"$'\n'"❯ "
 
     ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_UNDERLINE
+
+    eval "$(direnv hook zsh)"
   '';
 in {
   options.zsh.enable = lib.mkEnableOption "Enables ZSH";

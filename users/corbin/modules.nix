@@ -11,6 +11,7 @@
 
     ./tools/zsh.nix
     ./tools/fcitx.nix
+    ./tools/direnv.nix
 
     ./wms/i3.nix
     ./wms/sway.nix
