@@ -11,8 +11,8 @@
       prismlauncher
 
       jre8
-      jetbrains.jdk-no-jcef-17
-      jetbrains.jdk
+      jre17_minimal
+      jdk
     ];
   };
 }
