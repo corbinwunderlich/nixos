@@ -13,7 +13,5 @@
     hardware.pulseaudio.support32Bit = true;
 
     environment.systemPackages = with pkgs; [pavucontrol];
-
-    users.extraUsers.xrdp.extraGroups = ["audio"];
   };
 }

@@ -10,6 +10,7 @@
     nixpkgs.config.allowUnfree = true;
 
     programs.steam.enable = true;
+    programs.steam.package = pkgs.steam.override {extraLibraries = pkgs: [pkgs.util-linux];};
     programs.steam.gamescopeSession.enable = true;
 
     environment.systemPackages = with pkgs; [

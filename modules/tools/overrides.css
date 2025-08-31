@@ -1,0 +1,37 @@
+.window-NORMAL {
+    top: 0px !important;
+    left: 0px !important;
+}
+
+div.window canvas {
+    border-radius: 0px !important;
+}
+
+.Menu.-vertical {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(5px) !important;
+    /*padding: 5px !important;*/
+}
+
+.Menu li ul {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+.Icon, [data-icon]::before {
+    color: white !important;
+}
+
+.Menu, .Menu li.-hasSubmenu > a::after {
+    color: white !important;
+    border-color: white !important;
+    backdrop-filter: blur(5px) !important;
+}
+
+#float_menu_button {
+    background: rgba(0, 0, 0, 0.3) !important;
+    backdrop-filter: blur(5px) !important;
+    overflow: clip !important;
+    /*padding: 3px !important;*/
+    /*left: 35px !important;*/
+}
