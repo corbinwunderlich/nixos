@@ -99,8 +99,8 @@ in {
 
         modes = {
           resize = {
-            Up = "resize shrink width 10 px or 10 ppt";
-            Down = "resize grow height 10 px or 10 ppt";
+            Up = "resize grow height 10 px or 10 ppt";
+            Down = "resize shrink height 10 px or 10 ppt";
             Left = "resize shrink width 10 px or 10 ppt";
             Right = "resize grow width 10 px or 10 ppt";
 
@@ -289,15 +289,22 @@ in {
       };
 
       theme = {
-        name = "adwaita-dark-amoled";
+        name = "Adwaita-dark-amoled";
         package = pkgs.stdenvNoCC.mkDerivation {
           pname = "adwaita-dark-amoled";
           version = "2023-06-03";
 
           src = pkgs.fetchFromGitLab {
             owner = "tearch-linux";
-            repo = "Adwaita-dark-amoled";
+            repo = "artworks/themes-and-icons/Adwaita-dark-amoled";
+            rev = "7fd16477";
+            hash = "sha256-tMMTUM0stpBcyAC0Y8w79m9VYTdyEJNg6yyei64Ut6w=";
           };
+
+          installPhase = ''
+            mkdir -p $out/share/themes/Adwaita-dark-amoled
+            cp -a $src/gtk-2.0 $src/gtk-3.0 $out/share/themes/Adwaita-dark-amoled
+          '';
         };
       };
 
