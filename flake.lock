@@ -959,11 +959,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1752500758,
-        "narHash": "sha256-KdKct2Iedo0iW4aellZHGhA1eKKQykIMymxgccf2JYw=",
+        "lastModified": 1757696589,
+        "narHash": "sha256-4S1v8bKMUHA0YVPhZOB1uo4GuKwXUwfF+6VLSmV0Qro=",
         "owner": "CorbinWunderlich",
         "repo": "neovim",
-        "rev": "bd1e2195de77ed436a10ed38fe6f3200f2d3801f",
+        "rev": "4e474aea0223c8fce39350d48caccc2d468ef05e",
         "type": "github"
       },
       "original": {
