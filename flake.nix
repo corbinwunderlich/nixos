@@ -2,8 +2,7 @@
   description = "A NixOS configuration for my personal computers";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 
     nvidia-vgpu.url = "github:mrzenc/vgpu4nixos";
 
@@ -34,6 +33,8 @@
 
     nixvim.url = "github:CorbinWunderlich/neovim";
 
+    affinity-nix.url = "github:mrshmllow/affinity-nix";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,7 +43,6 @@
 
   outputs = inputs @ {
     nixpkgs,
-    nixpkgs-stable,
     home-manager,
     sops-nix,
     nvidia-vgpu,
@@ -119,7 +119,7 @@
             home-manager.users.corbin = import ./users/corbin/nixpad/home.nix;
           }
 
-          nixos-hardware.nixosModules.lenovo-thinkpad-t14
+          nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen5
         ];
       };
     };

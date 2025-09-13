@@ -6,7 +6,8 @@
 }: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
-  i3.enable = true;
+  i3.enable = false;
+  sway.enable = true;
   kde.enable = false;
   hyprland.enable = false;
 
@@ -41,6 +42,8 @@
     enable32Bit = true;
   };
 
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
+
   users.users.corbin = import ./../users/corbin/corbin.nix;
   users.defaultUserShell = pkgs.zsh;
 
@@ -53,7 +56,20 @@
     settings.PasswordAuthentication = false;
   };
 
-  services.libinput.enable = true;
+  services.libinput = {
+    enable = true;
+    touchpad.tapping = true;
+    touchpad.clickMethod = "clickfinger";
+    touchpad.tappingButtonMap = "lrm";
+  };
+
+  services.fprintd = {
+    enable = true;
+  };
+
+  security.pam.services.login.fprintAuth = true;
+  security.pam.services.gtklock.fprintAuth = true;
+  security.pam.services.sudo.fprintAuth = true;
 
   system.stateVersion = "24.11";
 }

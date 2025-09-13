@@ -14,6 +14,18 @@
       xwayland-satellite
     ];
 
+    home.pointerCursor = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+      size = 18;
+      x11 = {
+        enable = true;
+        defaultCursor = "Adwaita";
+      };
+      gtk.enable = true;
+      sway.enable = true;
+    };
+
     wayland.windowManager.sway = {
       enable = true;
 
@@ -28,24 +40,38 @@
         launcher = "DISPLAY=:0 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
         swaysome = "${pkgs.swaysome}/bin/swaysome";
       in {
-        output = lib.mkIf (machine == "desktop") {
-          DP-2 = {
-            scale = "1.5";
-            mode = "3840x2160@150hz";
-            position = "0,0";
-            adaptive_sync = "true";
+        output =
+          if (machine == "desktop")
+          then {
+            DP-2 = {
+              scale = "1.5";
+              mode = "3840x2160@150hz";
+              position = "0,0";
+              adaptive_sync = "true";
+            };
+            DP-1 = {
+              mode = "1920x1200@60hz";
+              transform = "90";
+              position = "2560,-300";
+            };
+          }
+          else {
+            eDP-1 = {
+              scale = "2";
+              mode = "2880x1800@120hz";
+              position = "0,0";
+              adaptive_sync = "true";
+            };
           };
-          DP-1 = {
-            mode = "1920x1200@60hz";
-            transform = "90";
-            position = "2560,-300";
-          };
-        };
 
         modifier =
           if machine == "vm"
           then "Mod1"
           else "Mod4";
+
+        input."type:touchpad" = {
+          tap = "enabled";
+        };
 
         terminal = "kitty";
 
@@ -102,6 +128,10 @@
           {
             command = "${swaysome} focus-group 2; ${swaysome} focus-group 0";
             always = false;
+          }
+          {
+            command = "${pkgs.swayidle}/bin/swayidle before-sleep ${pkgs.gtklock}/bin/gtklock";
+            always = true;
           }
         ];
 
@@ -216,8 +246,12 @@
             "${modifier}+e" = "exec ${launcher}";
             "${modifier}+Shift+q" = "kill";
 
-            "XF86MonBrightnessDown" = "exec brightnessctl s 5%-";
-            "XF86MonBrightnessUp" = "exec brightnessctl s 5%+";
+            "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
+            "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
+
+            "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+            "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
+            "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
           };
       };
     };
@@ -265,6 +299,16 @@
       };
     };
 
+    dconf.settings = {
+      "org/gnome/desktop/background" = {
+        picture-uri-dark = "file://${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
+      };
+
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+    };
+
     gtk = {
       enable = true;
 
@@ -274,23 +318,8 @@
       };
 
       theme = {
-        name = "Adwaita-dark-amoled";
-        package = pkgs.stdenvNoCC.mkDerivation {
-          pname = "adwaita-dark-amoled";
-          version = "2023-06-03";
-
-          src = pkgs.fetchFromGitLab {
-            owner = "tearch-linux";
-            repo = "artworks/themes-and-icons/Adwaita-dark-amoled";
-            rev = "7fd16477";
-            hash = "sha256-tMMTUM0stpBcyAC0Y8w79m9VYTdyEJNg6yyei64Ut6w=";
-          };
-
-          installPhase = ''
-            mkdir -p $out/share/themes/Adwaita-dark-amoled
-            cp -a $src/gtk-2.0 $src/gtk-3.0 $out/share/themes/Adwaita-dark-amoled
-          '';
-        };
+        name = "Adwaita-dark";
+        package = pkgs.gnome-themes-extra;
       };
 
       font = {

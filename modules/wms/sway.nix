@@ -33,7 +33,6 @@
       programs.sway = {
         enable = true;
         wrapperFeatures.gtk = true;
-        #package = pkgs.swayfx;
       };
 
       services.xserver.enable = true;
@@ -56,10 +55,12 @@
       };
 
       environment.etc."greetd/environments".text = ''
-        sway-run
         sway
+        sway-run
         zsh
         bash
       '';
+
+      programs.gtklock.enable = true;
     };
 }

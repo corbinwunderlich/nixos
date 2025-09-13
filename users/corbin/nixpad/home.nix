@@ -4,7 +4,8 @@
   hyprland.enable = false;
   hyprlock.enable = false;
   hyprpaper.enable = false;
-  i3.enable = true;
+  i3.enable = false;
+  sway.enable = true;
   ags.enable = false;
 
   home = {
