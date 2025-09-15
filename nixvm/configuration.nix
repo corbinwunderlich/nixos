@@ -6,8 +6,9 @@
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
   hyprland.enable = false;
-  i3.enable = true;
+
   sway.enable = false;
+  i3.enable = true;
 
   kde.enable = false;
 

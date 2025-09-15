@@ -5,6 +5,7 @@
   hyprlock.enable = false;
   hyprpaper.enable = false;
   i3.enable = true;
+  sway.enable = false;
   ags.enable = false;
 
   home = {
