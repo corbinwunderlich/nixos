@@ -67,7 +67,7 @@
           {
             home-manager.extraSpecialArgs = {
               inherit inputs;
-              machine = "desktop";
+             machine = "desktop";
             };
             home-manager.useGlobalPkgs = true;
             home-manager.users.corbin = import ./users/corbin/desktop/home.nix;

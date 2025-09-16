@@ -14,4 +14,13 @@
   nix.settings.trusted-users = ["@wheel root"];
 
   networking.firewall.allowedTCPPorts = [8080];
+
+  nixpkgs.overlays = [
+    (final: prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        system = final.system;
+        config.allowUnfree = true;
+      };
+    })
+  ];
 }
