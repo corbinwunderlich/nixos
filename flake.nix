@@ -38,7 +38,7 @@
     affinity-nix.url = "github:mrshmllow/affinity-nix";
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager?ref=release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -67,7 +67,7 @@
           {
             home-manager.extraSpecialArgs = {
               inherit inputs;
-             machine = "desktop";
+              machine = "desktop";
             };
             home-manager.useGlobalPkgs = true;
             home-manager.users.corbin = import ./users/corbin/desktop/home.nix;
