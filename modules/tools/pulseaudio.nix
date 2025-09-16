@@ -9,8 +9,10 @@
   config = lib.mkIf config.pulseaudio.enable {
     services.pipewire.enable = false;
 
-    hardware.pulseaudio.enable = true;
-    hardware.pulseaudio.support32Bit = true;
+    services.pulseaudio = {
+      enable = true;
+      support32Bit = true;
+    };
 
     environment.systemPackages = with pkgs; [pavucontrol];
   };
