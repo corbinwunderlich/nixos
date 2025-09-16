@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
 
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     nvidia-vgpu.url = "github:mrzenc/vgpu4nixos";
 
     sops-nix.url = "github:Mic92/sops-nix";
