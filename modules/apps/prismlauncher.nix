@@ -8,11 +8,15 @@
 
   config = lib.mkIf config.prismlauncher.enable {
     environment.systemPackages = with pkgs; [
-      prismlauncher
-
       jre8
       jre17_minimal
       jdk
+    ];
+
+    services.flatpak.enable = true;
+
+    services.flatpak.packages = [
+      "org.prismlauncher.PrismLauncher"
     ];
   };
 }
