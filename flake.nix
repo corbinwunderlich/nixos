@@ -6,6 +6,8 @@
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+
     nvidia-vgpu.url = "github:mrzenc/vgpu4nixos";
 
     sops-nix.url = "github:Mic92/sops-nix";
@@ -46,11 +48,15 @@
   outputs = inputs @ {
     nixpkgs,
     home-manager,
-    sops-nix,
+    nix-flatpak,
     nvidia-vgpu,
     nixos-hardware,
     ...
-  }: {
+  }: let
+    commonModules = [
+      nix-flatpak.nixosModules.nix-flatpak
+    ];
+  in {
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -60,19 +66,21 @@
 
         system = "x86_64-linux";
 
-        modules = [
-          ./desktop/configuration.nix
+        modules =
+          [
+            ./desktop/configuration.nix
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              machine = "desktop";
-            };
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.corbin = import ./users/corbin/desktop/home.nix;
-          }
-        ];
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                machine = "desktop";
+              };
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.corbin = import ./users/corbin/desktop/home.nix;
+            }
+          ]
+          ++ commonModules;
       };
 
       nixvm = nixpkgs.lib.nixosSystem {
@@ -83,21 +91,23 @@
 
         system = "x86_64-linux";
 
-        modules = [
-          ./nixvm/configuration.nix
+        modules =
+          [
+            ./nixvm/configuration.nix
 
-          nvidia-vgpu.nixosModules.guest
+            nvidia-vgpu.nixosModules.guest
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              machine = "vm";
-            };
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.corbin = import ./users/corbin/nixvm/home.nix;
-          }
-        ];
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                machine = "vm";
+              };
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.corbin = import ./users/corbin/nixvm/home.nix;
+            }
+          ]
+          ++ commonModules;
       };
 
       nixpad = nixpkgs.lib.nixosSystem {
@@ -108,21 +118,23 @@
 
         system = "x86_64-linux";
 
-        modules = [
-          ./nixpad/configuration.nix
+        modules =
+          [
+            ./nixpad/configuration.nix
 
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              machine = "laptop";
-            };
-            home-manager.useGlobalPkgs = true;
-            home-manager.users.corbin = import ./users/corbin/nixpad/home.nix;
-          }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                machine = "laptop";
+              };
+              home-manager.useGlobalPkgs = true;
+              home-manager.users.corbin = import ./users/corbin/nixpad/home.nix;
+            }
 
-          nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen5
-        ];
+            nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen5
+          ]
+          ++ commonModules;
       };
     };
   };
