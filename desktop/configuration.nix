@@ -71,10 +71,6 @@
     enable32Bit = true;
   };
 
-  boot.initrd.kernelModules = ["amdgpu"];
-
-  services.xserver.videoDrivers = ["modesetting"];
-
   boot.kernelParams = ["video=DP-1:1920x1200@60" "video=DP-2:3840x2160@150"];
 
   programs.coolercontrol.enable = true;
@@ -86,6 +82,13 @@
   };
 
   services.fstrim.enable = true;
+
+  nix.settings = {
+    substituters = ["https://cache.garnix.io"];
+    trusted-public-keys = [
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+    ];
+  };
 
   system.stateVersion = "24.11";
 }

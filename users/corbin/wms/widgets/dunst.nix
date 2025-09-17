@@ -124,14 +124,14 @@
         };
 
         urgency_low = {
-          background = "#00000003";
+          background = "#000000";
           foreground = "#888888";
           timeout = 10;
           #default_icon = /path/to/icon
         };
 
         urgency_normal = {
-          background = "#00000003";
+          background = "#000000";
           foreground = "#ffffff";
           timeout = 10;
           override_pause_level = 30;
@@ -139,7 +139,7 @@
         };
 
         urgency_critical = {
-          background = "#00000003";
+          background = "#000000";
           foreground = "#ffffff";
           frame_color = "#ff0000";
           timeout = 0;
