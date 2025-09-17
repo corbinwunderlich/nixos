@@ -8,5 +8,10 @@
 
   config = lib.mkIf config.thunderbird.enable {
     environment.systemPackages = with pkgs; [thunderbird];
+    services.flatpak.enable = true;
+
+    services.flatpak.packages = [
+      "com.ulduzsoft.Birdtray"
+    ];
   };
 }
