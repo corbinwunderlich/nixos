@@ -7,6 +7,10 @@
   options.vesktop.enable = lib.mkEnableOption "Enables Vesktop";
 
   config = lib.mkIf config.vesktop.enable {
-    environment.systemPackages = with pkgs; [vesktop];
+    services.flatpak.enable = true;
+
+    services.flatpak.packages = [
+      "dev.vencord.Vesktop"
+    ];
   };
 }
