@@ -30,6 +30,17 @@
 
       services.gnome.gnome-keyring.enable = true;
 
+      programs.uwsm = {
+        enable = true;
+        waylandCompositors = {
+          sway = {
+            prettyName = "Sway";
+            comment = "Sway compositor managed by UWSM";
+            binPath = "${pkgs.sway}/bin/sway";
+          };
+        };
+      };
+
       programs.sway = {
         enable = true;
         wrapperFeatures.gtk = true;
@@ -46,9 +57,7 @@
 
         settings = {
           default_session = {
-            command = "${pkgs.sway}/bin/sway --config ${swayConfig}";
-            #command = "${pkgs.execline}/bin/exec env DISPLAY=:0 ${pkgs.sway}/bin/sway --config ${swayConfig}";
-            #command = "${sway-run}/bin/sway-run";
+            command = "uwsm start sway-uwsm.desktop";
             user = "corbin";
           };
         };
