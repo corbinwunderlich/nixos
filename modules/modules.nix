@@ -22,6 +22,7 @@
     ./tools/arduino.nix
     ./tools/syncthing.nix
     ./tools/ventoy.nix
+    ./tools/calculator.nix
 
     ./apps/kitty.nix
     ./apps/steam.nix
@@ -79,6 +80,8 @@
   syncthing.enable = lib.mkDefault true;
 
   ventoy.enable = lib.mkDefault true;
+
+  calculator.enable = lib.mkDefault true;
 
   kitty.enable = lib.mkDefault true;
 
