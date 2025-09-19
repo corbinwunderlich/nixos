@@ -43,6 +43,8 @@
       url = "github:nix-community/home-manager?ref=release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    _1password-shell-plugins.url = "github:1Password/shell-plugins";
   };
 
   outputs = inputs @ {
