@@ -27,5 +27,8 @@
         nativeBuildInputs = with pkgs.python313Packages; [setuptools setuptools-scm];
       })
     ];
+
+    services.flatpak.enable = true;
+    services.flatpak.packages = ["com.st.STM32CubeMX"];
   };
 }
