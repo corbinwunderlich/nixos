@@ -73,6 +73,8 @@
 
   boot.kernelParams = ["video=DP-1:1920x1200@60" "video=DP-2:3840x2160@150"];
 
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
+
   programs.coolercontrol.enable = true;
 
   services.openssh = {
@@ -82,13 +84,6 @@
   };
 
   services.fstrim.enable = true;
-
-  nix.settings = {
-    substituters = ["https://cache.garnix.io"];
-    trusted-public-keys = [
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
-    ];
-  };
 
   system.stateVersion = "24.11";
 }
