@@ -26,10 +26,35 @@
       sway.enable = true;
     };
 
+    services.swayidle = let
+      display = status: "swaymsg 'output * power ${status}'";
+    in {
+      enable = true;
+
+      timeouts =
+        [
+          {
+            timeout = 900;
+            command = display "off";
+            resumeCommand = display "on";
+          }
+        ]
+        ++ (lib.optional (machine == "laptop") {
+          timeout = 300;
+          command = "${pkgs.systemd}/bin/systemctl suspend";
+        });
+
+      events = [
+        {
+          event = "before-sleep";
+          command = "${pkgs.gtklock}/bin/gtklock";
+        }
+      ];
+    };
+
     wayland.windowManager.sway = {
       enable = true;
 
-      #package = pkgs.swayfx;
       package = pkgs.sway;
 
       xwayland = false;
@@ -128,10 +153,6 @@
           {
             command = "${swaysome} focus-group 2; ${swaysome} focus-group 0";
             always = false;
-          }
-          {
-            command = "${pkgs.swayidle}/bin/swayidle before-sleep ${pkgs.gtklock}/bin/gtklock";
-            always = true;
           }
         ];
 
