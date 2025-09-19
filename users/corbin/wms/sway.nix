@@ -266,6 +266,7 @@
             "${modifier}+d" = "exec ${launcher}";
             "${modifier}+e" = "exec ${launcher}";
             "${modifier}+Shift+q" = "kill";
+            "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
 
             "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
             "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
