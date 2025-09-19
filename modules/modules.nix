@@ -21,6 +21,7 @@
     ./tools/flatpak.nix
     ./tools/arduino.nix
     ./tools/syncthing.nix
+    ./tools/ventoy.nix
 
     ./apps/kitty.nix
     ./apps/steam.nix
@@ -75,6 +76,8 @@
   arduino.enable = lib.mkDefault true;
 
   syncthing.enable = lib.mkDefault true;
+
+  ventoy.enable = lib.mkDefault true;
 
   kitty.enable = lib.mkDefault true;
 
