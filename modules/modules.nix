@@ -38,6 +38,7 @@
     ./apps/remmina.nix
     ./apps/jetbrains.nix
     ./apps/kicad.nix
+    ./apps/openbubbles.nix
 
     ./common.nix
   ];
@@ -108,4 +109,6 @@
   jetbrains.enable = lib.mkDefault false;
 
   kicad.enable = lib.mkDefault true;
+
+  openbubbles.enable = lib.mkDefault true;
 }
