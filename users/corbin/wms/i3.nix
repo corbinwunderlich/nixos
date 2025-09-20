@@ -45,7 +45,7 @@ in {
           then "Mod1"
           else "Mod4";
 
-        terminal = "kitty";
+        terminal = "${pkgs.kitty}/bin/kitty";
 
         fonts = {
           names = ["JetBrainsMono Nerd Font"];
@@ -61,7 +61,7 @@ in {
               size = 9.0;
             };
 
-            statusCommand = "i3status";
+            statusCommand = "${pkgs.i3status}/bin/i3status";
           }
         ];
 
@@ -155,8 +155,8 @@ in {
             "${modifier}+v" = "floating toggle";
 
             "${modifier}+Return" = "exec ${terminal}";
-            "${modifier}+d" = "exec dmenu_run -fn 'JetBrainsMono Nerd Font-10' -nb black";
-            "${modifier}+e" = ''exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'JetBrainsMono Nerd Font-10' -nb black"'';
+            "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run -fn 'JetBrainsMono Nerd Font-10' -nb black";
+            "${modifier}+e" = ''exec ${pkgs.i3}/bin/i3-dmenu-desktop --dmenu="dmenu -i -fn 'JetBrainsMono Nerd Font-10' -nb black"'';
             "${modifier}+Shift+q" = "kill";
           }
           else {
@@ -202,12 +202,12 @@ in {
             "${modifier}+v" = "floating toggle";
 
             "${modifier}+Return" = "exec ${terminal}";
-            "${modifier}+d" = "exec dmenu_run -fn 'JetBrainsMono Nerd Font-10' -nb black";
-            "${modifier}+e" = ''exec i3-dmenu-desktop --dmenu="dmenu -i -fn 'JetBrainsMono Nerd Font-10' -nb black"'';
+            "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run -fn 'JetBrainsMono Nerd Font-10' -nb black";
+            "${modifier}+e" = ''exec ${pkgs.i3}/bin/i3-dmenu-desktop --dmenu="dmenu -i -fn 'JetBrainsMono Nerd Font-10' -nb black"'';
             "${modifier}+Shift+q" = "kill";
 
-            "XF86MonBrightnessDown" = "exec brightnessctl s 5%-";
-            "XF86MonBrightnessUp" = "exec brightnessctl s 5%+";
+            "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%-";
+            "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%+";
           };
       };
     };

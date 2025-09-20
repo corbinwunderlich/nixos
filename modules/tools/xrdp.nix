@@ -48,44 +48,73 @@
     withNvenc = true;
     withHtml = false;
   };
-
-  xpraWestonXvfb = pkgs.writeShellScriptBin "xpra_weston_xvfb" ''
-    unset DISPLAY
-    export WAYLAND_DISPLAY=headless-$$
-    ${pkgs.westonLite}/bin/weston --backend=headless --socket=$WAYLAND_DISPLAY --renderer=gl -- ${pkgs.xwayland}/bin/Xwayland -noreset $@
-  '';
 in {
   options.xrdp.enable = lib.mkEnableOption "Enables xrdp";
 
   config = lib.mkIf config.xrdp.enable {
-    environment.systemPackages = [xpra xpra-html5 xpraWestonXvfb];
+    environment.systemPackages = [xpra xpra-html5];
 
     security.polkit.enable = true;
 
     hardware.uinput.enable = true;
 
-    boot.kernelModules = ["v4l2loopback"];
+    boot.kernelModules = ["v4l2loopback" "uinput"];
 
-    systemd.services."xpra" = {
+    systemd.user.services."xwfb" = {
+      enable = true;
+      wantedBy = ["multi-user.target" "default.target"];
+      partOf = ["graphical-session.target"];
+      after = ["network.target"];
+
+      serviceConfig = {
+        Restart = "always";
+        RestartSec = "5s";
+      };
+
+      unitConfig.ConditionUser = "corbin";
+
+      path = with pkgs; [i3status kitty dmenu];
+
+      script = let
+        initScript = pkgs.writeShellScriptBin "init" ''
+          ${pkgs.systemd}/bin/systemctl --user import-environment PATH DISPLAY XAUTHORITY DESKTOP_SESSION XDG_CONFIG_DIRS XDG_DATA_DIRS XDG_RUNTIME_DIR XDG_SESSION_ID DBUS_SESSION_BUS_ADDRESS || true
+          ${pkgs.dbus}/bin/dbus/dbus-update-activation-environment --systemd --all || true
+
+          unset WAYLAND_DISPLAY
+          export XDG_SESSION_TYPE=x11
+          export SDL_VIDEODRIVER=x11
+          export GDK_BACKEND=x11
+          export QT_QPA_PLATFORM=xcb
+          export MOZ_X11_EGL=true
+
+          ${pkgs.i3}/bin/i3
+        '';
+      in ''
+        ${pkgs.xwayland-run}/bin/xwfb-run -d :0 -f /home/corbin/.Xauthority -c weston -z \\--renderer -z gl -n 0 -- ${initScript}/bin/init
+      '';
+    };
+
+    systemd.user.services."xpra" = {
       enable = true;
 
       wantedBy = ["multi-user.target" "default.target"];
-      after = ["graphical.target" "display-manager.service"];
+      bindsTo = ["xwfb.service"];
 
-      path = with pkgs; [bash util-linux] ++ [xpra];
-      environment.DISPLAY = ":1";
+      environment.DISPLAY = ":0";
       environment.LD_LIBRARY_PATH = "${pkgs.libGL}/lib";
+      environment.XAUTHORITY = "/home/corbin/.Xauthority";
 
       serviceConfig = {
-        User = "corbin";
-        WorkingDirectory = "/home/corbin";
-        Restart = "on-failure";
+        Restart = "always";
       };
 
+      unitConfig.ConditionUser = "corbin";
+
       script = ''
-        xpra start-desktop --use-display :0 --daemon=no --pulseaudio=no --mdns=no --speaker=yes --sound-source=pulse  --html=${xpra-html5.out} --bind-wss=0.0.0.0:14500,auth=file,filename=/home/corbin/password.txt --video-encoders=nvjpeg,jpeg --ssl-key=/home/corbin/.xpra/cloudflare-key.pem --ssl-cert=/home/corbin/.xpra/cloudflare-cert.pem
+        ${xpra}/bin/xpra start-desktop --use-display :0 --daemon=no --pulseaudio=no --mdns=no --speaker=yes --sound-source=pulse  --html=${xpra-html5.out} --bind-wss=0.0.0.0:14500,auth=file,filename=/home/corbin/password.txt --video-encoders=nvjpeg,jpeg,x264 --ssl-key=/home/corbin/.xpra/cloudflare-key.pem --ssl-cert=/home/corbin/.xpra/cloudflare-cert.pem
       '';
     };
+
     users.users.corbin.linger = true;
 
     xdg.menus.enable = true;
