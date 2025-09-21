@@ -154,10 +154,6 @@
             command = "${swaysome} focus-group 2; ${swaysome} focus-group 0";
             always = false;
           }
-          {
-            command = "${pkgs.gtklock}/bin/gtklock";
-            always = false;
-          }
         ];
 
         defaultWorkspace = "workspace number 1";
