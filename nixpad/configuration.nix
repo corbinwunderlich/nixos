@@ -71,5 +71,11 @@
   security.pam.services.gtklock.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
 
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchDocked = "suspend";
+    lidSwitchExternalPower = "suspend";
+  };
+
   system.stateVersion = "24.11";
 }

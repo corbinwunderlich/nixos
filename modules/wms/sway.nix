@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  machine,
   ...
 }: {
   options.sway.enable = lib.mkEnableOption "Enables swaywm";
@@ -37,8 +38,13 @@
       restart = true;
 
       settings = {
-        initial_session = {
-         command = "uwsm start sway-uwsm.desktop";
+        default_session = lib.mkIf (machine == "laptop") {
+          command = "uwsm start sway-uwsm.desktop";
+          user = "corbin";
+        };
+
+        initial_session = lib.mkIf (machine != "laptop") {
+          command = "uwsm start sway-uwsm.desktop";
           user = "corbin";
         };
       };
