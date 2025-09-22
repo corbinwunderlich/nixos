@@ -22,7 +22,7 @@
         owner = "corbinwunderlich";
         repo = "black-ulauncher-theme";
         rev = "main";
-        hash = "sha256-Ev/VP0vJ8pApKMQmRVgvbJBOFnzriaM+y0CM8Tbvih4=";
+        hash = "sha256-YV+pOCSdamZam1+AALxvyiR42ZkEtxE5/uaRff3yXJU=";
       };
     };
 

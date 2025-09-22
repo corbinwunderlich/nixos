@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  machine,
   ...
 }: {
   options.kitty.enable = lib.mkEnableOption "Enables Kitty";
@@ -11,7 +12,10 @@
 
       environment = {
         "TERM" = "xterm-256color";
-        "DISPLAY" = ":0";
+        "DISPLAY" =
+          if machine == "vm"
+          then ":1"
+          else ":0";
       };
 
       shellIntegration.mode = "no-cursor";

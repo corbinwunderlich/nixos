@@ -7,6 +7,8 @@
 }: let
   modifier = config.xsession.windowManager.i3.config.modifier;
   terminal = config.xsession.windowManager.i3.config.terminal;
+
+  launcher = "${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
 in {
   options.i3.enable = lib.mkEnableOption "Enables i3";
 
@@ -34,6 +36,31 @@ in {
       getFrom
       "https://github.com/sevmeyer/mocu-xcursor/releases/download/1.1/mocu-xcursor-1.1.zip"
       "sha256-KVPU545DSfjeOSoWp7k7JCezzGLNCWyV/+PtYoYV1wE=" "Mocu-Black-Left";
+
+    xdg.configFile."ulauncher/user-themes/black" = {
+      force = true;
+      recursive = true;
+
+      source = pkgs.fetchFromGitHub {
+        owner = "corbinwunderlich";
+        repo = "black-ulauncher-theme";
+        rev = "main";
+        hash = "sha256-YV+pOCSdamZam1+AALxvyiR42ZkEtxE5/uaRff3yXJU=";
+      };
+    };
+
+    xdg.configFile."ulauncher/settings.json".source = pkgs.writeText "ulauncher-settings.json" (builtins.toJSON {
+      "blacklisted-desktop-dirs" = "/usr/share/locale:/usr/share/app-install:/usr/share/kservices5:/usr/share/fk5:/usr/share/kservicetypes5:/usr/share/applications/screensavers:/usr/share/kde4:/usr/share/mimelnk";
+      "clear-previous-query" = true;
+      "disable-desktop-filters" = false;
+      "grab-mouse-pointer" = true;
+      "hotkey-show-app" = "<Primary>space";
+      "render-on-screen" = "mouse-pointer-monitor";
+      "show-indicator-icon" = true;
+      "show-recent-apps" = "0";
+      "terminal-command" = "kitty";
+      "theme-name" = "Black-Theme";
+    });
 
     xsession.windowManager.i3 = {
       enable = true;
@@ -155,8 +182,8 @@ in {
             "${modifier}+v" = "floating toggle";
 
             "${modifier}+Return" = "exec ${terminal}";
-            "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run -fn 'JetBrainsMono Nerd Font-10' -nb black";
-            "${modifier}+e" = ''exec ${pkgs.i3}/bin/i3-dmenu-desktop --dmenu="dmenu -i -fn 'JetBrainsMono Nerd Font-10' -nb black"'';
+            "${modifier}+d" = "exec ${launcher}";
+            "${modifier}+e" = "exec ${launcher}";
             "${modifier}+Shift+q" = "kill";
           }
           else {
@@ -202,8 +229,8 @@ in {
             "${modifier}+v" = "floating toggle";
 
             "${modifier}+Return" = "exec ${terminal}";
-            "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run -fn 'JetBrainsMono Nerd Font-10' -nb black";
-            "${modifier}+e" = ''exec ${pkgs.i3}/bin/i3-dmenu-desktop --dmenu="dmenu -i -fn 'JetBrainsMono Nerd Font-10' -nb black"'';
+            "${modifier}+d" = "exec ${launcher}";
+            "${modifier}+e" = "exec ${launcher}";
             "${modifier}+Shift+q" = "kill";
 
             "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%-";

@@ -62,8 +62,6 @@ in {
 
     systemd.user.services."xwfb" = {
       enable = true;
-      wantedBy = ["multi-user.target" "default.target"];
-      partOf = ["graphical-session.target"];
       after = ["network.target"];
 
       serviceConfig = {
@@ -73,7 +71,7 @@ in {
 
       unitConfig.ConditionUser = "corbin";
 
-      path = with pkgs; [i3status kitty dmenu cage];
+      path = with pkgs; [cage] ++ config.services.xserver.windowManager.i3.extraPackages;
 
       script = let
         initScript = pkgs.writeShellScriptBin "init" ''
@@ -87,6 +85,8 @@ in {
           export QT_QPA_PLATFORM=xcb
           export MOZ_X11_EGL=true
 
+          export PATH="''${XDG_BIN_HOME}:$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
+
           ${pkgs.i3}/bin/i3
         '';
       in ''
@@ -97,7 +97,7 @@ in {
     systemd.user.services."xpra" = {
       enable = true;
 
-      wantedBy = ["multi-user.target" "default.target"];
+      wantedBy = ["default.target"];
       bindsTo = ["xwfb.service"];
 
       environment.DISPLAY = ":1";
