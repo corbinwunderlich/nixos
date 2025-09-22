@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: {
   options.fcitx.enable = lib.mkEnableOption "Enables Fcitx5 ui config files";
 
   config = lib.mkIf config.fcitx.enable {
-    xdg.configFile."fcitx5/conf/classicui.conf".text = ''
+    xdg.configFile."fcitx5/conf/classicui.conf".source = pkgs.writeText "fcitx5-classicui.conf" ''
       Vertical Candidate List = True
 
       WheelForPaging = True
