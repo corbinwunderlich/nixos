@@ -73,7 +73,7 @@ in {
 
       unitConfig.ConditionUser = "corbin";
 
-      path = with pkgs; [i3status kitty dmenu];
+      path = with pkgs; [i3status kitty dmenu cage];
 
       script = let
         initScript = pkgs.writeShellScriptBin "init" ''
@@ -90,7 +90,7 @@ in {
           ${pkgs.i3}/bin/i3
         '';
       in ''
-        ${pkgs.xwayland-run}/bin/xwfb-run -d :0 -f /home/corbin/.Xauthority -c weston -z \\--renderer -z gl -n 0 -- ${initScript}/bin/init
+        ${pkgs.xwayland-run}/bin/xwfb-run -d :1 -f /home/corbin/.Xauthority -c cage -n 1 -- ${initScript}/bin/init
       '';
     };
 
@@ -100,7 +100,7 @@ in {
       wantedBy = ["multi-user.target" "default.target"];
       bindsTo = ["xwfb.service"];
 
-      environment.DISPLAY = ":0";
+      environment.DISPLAY = ":1";
       environment.LD_LIBRARY_PATH = "${pkgs.libGL}/lib";
       environment.XAUTHORITY = "/home/corbin/.Xauthority";
 
@@ -111,7 +111,7 @@ in {
       unitConfig.ConditionUser = "corbin";
 
       script = ''
-        ${xpra}/bin/xpra start-desktop --use-display :0 --daemon=no --pulseaudio=no --mdns=no --speaker=yes --sound-source=pulse  --html=${xpra-html5.out} --bind-wss=0.0.0.0:14500,auth=file,filename=/home/corbin/password.txt --video-encoders=nvjpeg,jpeg,x264 --ssl-key=/home/corbin/.xpra/cloudflare-key.pem --ssl-cert=/home/corbin/.xpra/cloudflare-cert.pem
+        ${xpra}/bin/xpra start-desktop --use-display :1 --daemon=no --pulseaudio=no --mdns=no --speaker=yes --sound-source=pulse  --html=${xpra-html5.out} --bind-wss=0.0.0.0:14500,auth=file,filename=/home/corbin/password.txt --video-encoders=nvjpeg,jpeg,x264 --ssl-key=/home/corbin/.xpra/cloudflare-key.pem --ssl-cert=/home/corbin/.xpra/cloudflare-cert.pem
       '';
     };
 
