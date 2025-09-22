@@ -14,6 +14,31 @@
       xwayland-satellite
     ];
 
+    xdg.configFile."ulauncher/user-themes/black" = {
+      force = true;
+      recursive = true;
+
+      source = pkgs.fetchFromGitHub {
+        owner = "corbinwunderlich";
+        repo = "black-ulauncher-theme";
+        rev = "main";
+        hash = "sha256-Ev/VP0vJ8pApKMQmRVgvbJBOFnzriaM+y0CM8Tbvih4=";
+      };
+    };
+
+    xdg.configFile."ulauncher/settings.json".source = pkgs.writeText "ulauncher-settings.json" (builtins.toJSON {
+      "blacklisted-desktop-dirs" = "/usr/share/locale:/usr/share/app-install:/usr/share/kservices5:/usr/share/fk5:/usr/share/kservicetypes5:/usr/share/applications/screensavers:/usr/share/kde4:/usr/share/mimelnk";
+      "clear-previous-query" = true;
+      "disable-desktop-filters" = false;
+      "grab-mouse-pointer" = true;
+      "hotkey-show-app" = "<Primary>space";
+      "render-on-screen" = "mouse-pointer-monitor";
+      "show-indicator-icon" = true;
+      "show-recent-apps" = "0";
+      "terminal-command" = "kitty";
+      "theme-name" = "Black-Theme";
+    });
+
     home.pointerCursor = {
       name = "Adwaita";
       package = pkgs.adwaita-icon-theme;
@@ -47,15 +72,83 @@
       events = [
         {
           event = "before-sleep";
-          command = "${pkgs.gtklock}/bin/gtklock";
+          command =
+            if machine == "laptop"
+            then "${pkgs.gtklock}/bin/gtklock -M eDP-1"
+            else "${pkgs.gtklock}/bin/gtklock";
         }
       ];
+    };
+
+    programs.waybar = {
+      enable = false;
+
+      settings = {
+        mainBar = {
+          layer = "top";
+          position = "bottom";
+
+          modules-left = ["sway/workspaces" "sway/mode"];
+          modules-center = ["clock"];
+          modules-right = ["backlight" "pulseaudio" "battery" "network" "tray"];
+        };
+      };
+
+      style = ''
+        * {
+          font-family: JetBrainsMono Nerd Font;
+          font-size: 11pt;
+        }
+
+        window#waybar {
+          background-color: black;
+        }
+
+        .module {
+          background-color: black;
+          margin: 10px;
+          margin-top: 0px;
+          margin-bottom: 0px;
+        }
+
+        #workspaces {
+          margin: 0px;
+        }
+
+        #workspaces button {
+          padding: 0px;
+          padding-left: 3px;
+          padding-right: 3px;
+
+          margin: 0px;
+
+          border-radius: 0px;
+
+          background-color: #222222;
+          border: 2px solid #333333;
+        }
+
+        #workspaces button.focused {
+          background-color: #285577;
+          border: 2px solid #4c7899;
+        }
+
+        #workspaces button.active {
+          background-color: #5f676a;
+          border: 1px solid #333333;
+        }
+
+        #workspaces button.urgent {
+          background-color: #900000;
+          border: 1px solid #2f343a;
+        }
+      '';
     };
 
     wayland.windowManager.sway = {
       enable = true;
 
-      package = pkgs.sway;
+      package = pkgs.sway-tray-dbus-menu;
 
       xwayland = false;
 
@@ -148,10 +241,6 @@
           }
           {
             command = "${pkgs.xwayland-satellite}/bin/xwayland-satellite";
-            always = false;
-          }
-          {
-            command = "${swaysome} focus-group 2; ${swaysome} focus-group 0";
             always = false;
           }
         ];
@@ -267,6 +356,7 @@
             "${modifier}+e" = "exec ${launcher}";
             "${modifier}+Shift+q" = "kill";
             "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
+            "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
 
             "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
             "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
