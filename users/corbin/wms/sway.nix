@@ -198,7 +198,7 @@
             always = true;
           }
           {
-            command = "${pkgs._1password-gui}/bin/1password --silent";
+            command = "env NIXOS_OZONE_WL=1 ${pkgs._1password-gui}/bin/1password --silent";
             always = true;
           }
           {
