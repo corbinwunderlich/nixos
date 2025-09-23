@@ -12,6 +12,8 @@
       ulauncher
       swaysome
       xwayland-satellite
+
+      (pkgs.callPackage ../../../packages/sw_swaybar.nix {sw = pkgs.callPackage ../../../packages/sw.nix {};})
     ];
 
     xdg.configFile."ulauncher/user-themes/black" = {
@@ -80,71 +82,6 @@
       ];
     };
 
-    programs.waybar = {
-      enable = false;
-
-      settings = {
-        mainBar = {
-          layer = "top";
-          position = "bottom";
-
-          modules-left = ["sway/workspaces" "sway/mode"];
-          modules-center = ["clock"];
-          modules-right = ["backlight" "pulseaudio" "battery" "network" "tray"];
-        };
-      };
-
-      style = ''
-        * {
-          font-family: JetBrainsMono Nerd Font;
-          font-size: 11pt;
-        }
-
-        window#waybar {
-          background-color: black;
-        }
-
-        .module {
-          background-color: black;
-          margin: 10px;
-          margin-top: 0px;
-          margin-bottom: 0px;
-        }
-
-        #workspaces {
-          margin: 0px;
-        }
-
-        #workspaces button {
-          padding: 0px;
-          padding-left: 3px;
-          padding-right: 3px;
-
-          margin: 0px;
-
-          border-radius: 0px;
-
-          background-color: #222222;
-          border: 2px solid #333333;
-        }
-
-        #workspaces button.focused {
-          background-color: #285577;
-          border: 2px solid #4c7899;
-        }
-
-        #workspaces button.active {
-          background-color: #5f676a;
-          border: 1px solid #333333;
-        }
-
-        #workspaces button.urgent {
-          background-color: #900000;
-          border: 1px solid #2f343a;
-        }
-      '';
-    };
-
     wayland.windowManager.sway = {
       enable = true;
 
@@ -199,17 +136,46 @@
           size = 9.0;
         };
 
-        bars = [
-          {
-            fonts = {
-              names = ["JetBrainsMono Nerd Font"];
-              style = "SemiBold";
-              size = 9.0;
-            };
+        bars = let
+          bar = {
+            fontSize,
+            output ? "*",
+          }: {
+            command = "sw_swaybar";
+
+            extraConfig =
+              ''
+                font JetBrainsMono Nerd Font-${toString fontSize}:SemiBold
+              ''
+              + lib.optionalString (output != "*") ''
+                output ${output}
+              '';
 
             statusCommand = "i3status";
-          }
-        ];
+          };
+        in
+          if machine == "desktop"
+          then [
+            (bar
+              {
+                fontSize = 32;
+                output = "DP-2";
+              })
+            (bar
+              {
+                fontSize = 14;
+                output = "DP-1";
+              })
+          ]
+          else if machine == "laptop"
+          then [
+            (bar
+              {
+                fontSize = 14;
+                output = "eDP-1";
+              })
+          ]
+          else [];
 
         window = {
           border = 2;
