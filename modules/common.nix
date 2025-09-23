@@ -22,5 +22,11 @@
         config.allowUnfree = true;
       };
     })
+
+    (final: prev: {
+      ulauncher = prev.ulauncher.overrideAttrs {
+        propagatedBuildInputs = prev.ulauncher.propagatedBuildInputs ++ [pkgs.python3Packages.pytz];
+      };
+    })
   ];
 }
