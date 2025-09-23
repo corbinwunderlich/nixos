@@ -171,8 +171,14 @@
           then [
             (bar
               {
-                fontSize = 14;
+                fontSize = 26;
                 output = "eDP-1";
+              })
+
+            (bar
+              {
+                fontSize = 14;
+                output = "DP-2";
               })
           ]
           else [];
