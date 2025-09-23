@@ -148,7 +148,7 @@
     wayland.windowManager.sway = {
       enable = true;
 
-      package = pkgs.sway-tray-dbus-menu;
+      package = pkgs.sway;
 
       xwayland = false;
 
