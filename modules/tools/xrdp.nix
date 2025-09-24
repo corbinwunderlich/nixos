@@ -4,40 +4,10 @@
   pkgs,
   ...
 }: let
-  pycuda = pkgs.python312Packages.pycuda.overrideAttrs (old: rec {
-    pname = "pycuda";
-    version = "2025.1";
-
-    src = pkgs.fetchPypi {
-      inherit pname version;
-      hash = "sha256-UnOOmpQcKVwKXfaqDUmsifZtg12szpyci4TnUw/kYi8=";
-    };
-  });
-
   xpra-html5 = pkgs.callPackage ./xpra-html5.nix {};
 
-  nvHeaders = pkgs.runCommand "nv-headers" {} ''
-    mkdir -p $out/include $out/lib/pkgconfig
-    substituteAll ${pkgs.cudaPackages.libnvjpeg.dev}/share/pkgconfig/nvjpeg.pc $out/lib/pkgconfig/nvjpeg.pc
-    substituteAll ${pkgs.nv-codec-headers-12}/lib/pkgconfig/ffnvcodec.pc $out/lib/pkgconfig/nvenc.pc
-    substituteAll ${pkgs.cudaPackages.cudatoolkit}/share/pkgconfig/cuda.pc $out/lib/pkgconfig/cuda.pc
-    cp ${pkgs.nv-codec-headers-12}/include/ffnvcodec/nvEncodeAPI.h $out/include
-  '';
-
   xpraOverride = pkgs.xpra.overrideAttrs (oldAttrs: {
-    #postPatch = oldAttrs.postPatch + "\n patchShebangs --build fs/bin/build_cuda_kernels.py";
-
-    #stdenv = pkgs.cudaPackages.backendStdenv;
-
-    #setupPyBuildFlags = oldAttrs.setupPyBuildFlags ++ ["--with-nvjpeg_encoder"];
-
     nativeBuildInputs = (lib.remove pkgs.clang oldAttrs.nativeBuildInputs) ++ [pkgs.cudaPackages.cuda_nvcc];
-
-    #propagatedBuildInputs = lib.remove (builtins.elemAt oldAttrs.propagatedBuildInputs 21) oldAttrs.propagatedBuildInputs ++ [pkgs.python312Packages.pyopengl-accelerate pkgs.python312Packages.aioquic pkgs.python312Packages.uvloop pkgs.python312Packages.pyopenssl pkgs.gst_all_1.gst-vaapi pkgs.gst_all_1.gst-plugins-ugly pycuda];
-    #propagatedBuildInputs = oldAttrs.propagatedBuildInputs ++ [pkgs.libGL];
-
-    #buildInputs = lib.remove (lib.last oldAttrs.buildInputs) oldAttrs.buildInputs ++ [pkgs.clang nvHeaders pkgs.libyuv pkgs.libavif pkgs.libspng pkgs.openh264 pkgs.python312Packages.aioquic pkgs.python312Packages.uvloop pkgs.python312Packages.pyopenssl pkgs.gst_all_1.gst-vaapi pkgs.gst_all_1.gst-plugins-ugly];
-    #nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [pkgs.clang pkgs.python312Packages.pyopenssl];
 
     postInstall = oldAttrs.postInstall + "\n mkdir -p $out/share/www" + "\n cp -r ${xpra-html5}/* $out/share/www/";
   });
@@ -59,6 +29,7 @@ in {
     hardware.uinput.enable = true;
 
     boot.kernelModules = ["v4l2loopback" "uinput"];
+    boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
 
     systemd.user.services."xwfb" = {
       enable = true;
