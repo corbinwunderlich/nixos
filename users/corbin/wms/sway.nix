@@ -98,16 +98,17 @@
         output =
           if (machine == "desktop")
           then {
-            DP-2 = {
+            DP-1 = {
               scale = "1.5";
               mode = "3840x2160@150hz";
               position = "0,0";
               adaptive_sync = "true";
             };
-            DP-1 = {
-              mode = "1920x1200@60hz";
-              transform = "90";
-              position = "2560,-300";
+            DP-2 = {
+              scale = "1.5";
+              mode = "3840x2160@120hz";
+              position = "2560,0";
+              adaptive_sync = "true";
             };
           }
           else {
@@ -159,12 +160,6 @@
             (bar
               {
                 fontSize = 32;
-                output = "DP-2";
-              })
-            (bar
-              {
-                fontSize = 14;
-                output = "DP-1";
               })
           ]
           else if machine == "laptop"
