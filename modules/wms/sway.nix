@@ -2,74 +2,78 @@
   pkgs,
   config,
   lib,
+  machine,
   ...
 }: {
   options.sway.enable = lib.mkEnableOption "Enables swaywm";
 
-  config = let
-    swayConfig = pkgs.writeText "greetd-sway-config" ''
-      exec "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l; swaymsg exit"
+  config = lib.mkIf config.sway.enable {
+    environment.systemPackages = with pkgs; [grim slurp wl-clipboard dunst ulauncher swaysome uwsm];
 
-      bindsym Mod4+shift+e exec swaynag \
-        -t warning \
-        -m 'What do you want to do?' \
-        -b 'Shutdown' 'systemctl poweroff' \
-        -b 'Reboot' 'systemctl reboot' \
-        -b 'Sleep' 'systemctl suspend'
-      include /etc/sway/config.d/*
-    '';
+    services.gnome.gnome-keyring.enable = true;
 
-    sway-uwsm = pkgs.writeShellScriptBin "sway+uwsm" ''
-      uwsm start sway-uwsm.desktop
-    '';
-  in
-    lib.mkIf config.sway.enable {
-      environment.systemPackages = with pkgs; [grim slurp wl-clipboard dunst ulauncher swaysome uwsm] ++ [sway-uwsm];
+    environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-      services.gnome.gnome-keyring.enable = true;
+    programs.uwsm = {
+      enable = true;
+      waylandCompositors = {
+        sway = {
+          prettyName = "Sway";
+          comment = "Sway compositor managed by UWSM";
+          binPath = "${pkgs.sway}/bin/sway";
+        };
+      };
+    };
 
-      environment.sessionVariables.NIXOS_OZONE_WL = "1";
+    programs.sway = {
+      enable = true;
+      wrapperFeatures.gtk = false;
+    };
 
-      programs.uwsm = {
+    services.xserver.enable = true;
+
+    security.polkit.enable = true;
+
+    services.xserver.displayManager = {
+      sddm = {
         enable = true;
-        waylandCompositors = {
-          sway = {
-            prettyName = "Sway";
-            comment = "Sway compositor managed by UWSM";
-            binPath = "${pkgs.sway}/bin/sway";
+
+        wayland = {
+          enable = true;
+        };
+
+        settings = let
+          westonConfig = pkgs.writeText "sddmWestonConfig" ''
+            [output]
+            name=DP-2
+            mode=3840x2160@150
+            force-on=true
+
+            [output]
+            name=DP-1
+            mode=1920x1200@60
+            transform=rotate-270
+          '';
+        in {
+          Wayland = {
+            CompositorCommand = "${pkgs.weston}/bin/weston --shell=kiosk -c ${westonConfig}";
           };
         };
       };
 
-      programs.sway = {
+      autoLogin = lib.mkIf (machine == "desktop") {
         enable = true;
-        wrapperFeatures.gtk = false;
+        user = "corbin";
       };
 
-      services.xserver.enable = true;
-
-      security.polkit.enable = true;
-
-      services.greetd = let
-      in {
-        enable = true;
-        restart = true;
-
-        settings = {
-          default_session = {
-            command = "${pkgs.uwsm}/bin/uwsm start -- ${pkgs.sway}/bin/sway --config ${swayConfig}";
-            user = "corbin";
-          };
-        };
-      };
-
-      environment.etc."greetd/environments".text = ''
-        sway+uwsm
-        sway
-        zsh
-        bash
+      setupCommands = ''
+        ${pkgs.xorg.xrandr}/bin/xrandr --output DP-1 --off
+        ${pkgs.xorg.xrandr}/bin/xrandr --output DP-2 --on
       '';
 
-      programs.gtklock.enable = true;
+      defaultSession = "sway-uwsm";
     };
+
+    programs.gtklock.enable = true;
+  };
 }

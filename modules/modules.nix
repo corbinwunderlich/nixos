@@ -46,7 +46,7 @@
 
   i3.enable = lib.mkDefault false;
   hyprland.enable = lib.mkDefault true;
-  kde.enable = lib.mkDefault true;
+  kde.enable = lib.mkDefault false;
 
   sway.enable = lib.mkDefault true;
 
