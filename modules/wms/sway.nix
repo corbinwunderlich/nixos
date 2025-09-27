@@ -35,41 +35,41 @@
     security.polkit.enable = true;
 
     services.xserver.displayManager = {
-      sddm = {
-        enable = true;
-
-        wayland = {
-          enable = true;
-        };
-
-        settings = let
-          westonConfig = pkgs.writeText "sddmWestonConfig" ''
-            [output]
-            name=DP-2
-            mode=3840x2160@150
-            force-on=true
-
-            [output]
-            name=DP-1
-            mode=1920x1200@60
-            transform=rotate-270
-          '';
-        in {
-          Wayland = {
-            CompositorCommand = "${pkgs.weston}/bin/weston --shell=kiosk -c ${westonConfig}";
-          };
-        };
-      };
-
       autoLogin = lib.mkIf (machine == "desktop") {
-        enable = true;
+        enable = false;
         user = "corbin";
       };
 
-      setupCommands = ''
-        ${pkgs.xorg.xrandr}/bin/xrandr --output DP-1 --off
-        ${pkgs.xorg.xrandr}/bin/xrandr --output DP-2 --on
-      '';
+      lightdm = {
+        enable = true;
+
+        greeters.gtk = {
+          theme.name = "Adwaita-dark";
+        };
+
+        extraSeatDefaults = let
+          lightdmSession = pkgs.writeShellScriptBin "lightdm-session" ''
+            # From https://gist.github.com/glebzlat/bf207aad44da6e9f22b29651f37ae067
+            # Wait until the Xorg process finishes
+            while pgrep -u 0 Xorg > /dev/null; do
+              sleep 0.1
+            done
+
+            if [ -z "$\{XDG_RUNTIME_DIR}" ]; then
+              export XDG_RUNTIME_DIR=/run/user/$(id -u)
+              mkdir -p $\{XDG_RUNTIME_DIR}
+            fi
+
+            # If your distro uses dbus-daemon instead of dbus-broker,
+            # uncomment dbus-run-session line.
+            # exec env dbus-run-session $@
+
+            # On Fedora dbus-run-session tries to connect to DBus daemon,
+            # which is not running
+            exec env $@
+          '';
+        in "session-wrapper=${lightdmSession}/bin/lightdm-session";
+      };
 
       defaultSession = "sway-uwsm";
     };
