@@ -12,10 +12,7 @@
 
       environment = {
         "TERM" = "xterm-256color";
-        "DISPLAY" =
-          if machine == "vm"
-          then ":1"
-          else ":0";
+        "DISPLAY" = ":0";
       };
 
       shellIntegration.mode = "no-cursor";

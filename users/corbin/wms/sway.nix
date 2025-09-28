@@ -87,7 +87,7 @@
 
       package = pkgs.sway;
 
-      xwayland = false;
+      xwayland = machine == "vm";
 
       config = let
         modifier = config.wayland.windowManager.sway.config.modifier;
@@ -176,6 +176,10 @@
                 output = "DP-2";
               })
           ]
+          else if machine == "vm"
+          then [
+            (bar {fontSize = 14;})
+          ]
           else [];
 
         window = {
@@ -206,10 +210,11 @@
             command = "${swaysome} init 1";
             always = false;
           }
+          (lib.mkIf (machine != "vm")
           {
-            command = "${pkgs.xwayland-satellite}/bin/xwayland-satellite";
-            always = false;
-          }
+            command = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :0";
+            always = true;
+          })
         ];
 
         defaultWorkspace = "workspace number 1";
@@ -275,6 +280,8 @@
             "${modifier}+d" = "exec ${launcher}";
             "${modifier}+e" = "exec ${launcher}";
             "${modifier}+Shift+q" = "kill";
+            "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
+            "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
           }
           else {
             "${modifier}+Shift+r" = "restart";

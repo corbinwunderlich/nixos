@@ -1,14 +1,16 @@
 {
   pkgs,
   config,
+  lib,
+  inputs,
   ...
 }: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
   hyprland.enable = false;
 
-  sway.enable = false;
-  i3.enable = true;
+  sway.enable = true;
+  i3.enable = false;
 
   kde.enable = false;
 
@@ -60,15 +62,22 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
+
+    extraPackages = with pkgs; [
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-vaapi-driver # LIBVA_DRIVER_NAME=i965
+    ];
   };
 
   services.xserver.videoDrivers = ["nvidia"];
 
-  boot.kernelPackages = pkgs.linuxPackages_6_6;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
 
   hardware.nvidia = {
     open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.grid_18_0;
+    package = config.boot.kernelPackages.nvidiaPackages.grid_18_0.override {
+      stdenv = pkgs.overrideCC pkgs.stdenv pkgs.gcc14;
+    };
     gsp.enable = false;
     vgpu.griddUnlock = {
       enable = true;
@@ -82,6 +91,27 @@
   };
 
   hardware.nvidia-container-toolkit.enable = true;
+
+  boot.kernelParams = ["i915-sriov.enable_guc=3" "module_blacklist=xe" "module_blacklist=i915"];
+
+  boot.kernelModules = ["i915-sriov"];
+  boot.initrd.kernelModules = ["i915-sriov"];
+
+  boot.extraModulePackages = [
+    (pkgs.i915-sriov.overrideAttrs {
+      installPhase = ''
+        mkdir -p $out/lib/modules/${pkgs.linux_6_12.modDirVersion}/extra
+
+        ${pkgs.xz}/bin/xz -z -f i915.ko
+
+        cp i915.ko.xz $out/lib/modules/${pkgs.linux_6_12.modDirVersion}/extra/i915-sriov.ko.xz
+      '';
+    })
+  ];
+
+  boot.postBootCommands = ''
+    /run/current-system/sw/bin/depmod -a ${pkgs.linux_6_12.modDirVersion}
+  '';
 
   users.users.corbin = import ./../users/corbin/corbin.nix;
   users.defaultUserShell = pkgs.zsh;
@@ -98,120 +128,13 @@
 
   networking.firewall.enable = false;
 
-  environment.systemPackages = let
-    selkies-gstreamer = pkgs.stdenv.mkDerivation rec {
-      pname = "selkies-gstreamer";
-      version = "1.6.2";
+  environment.systemPackages = with pkgs; [
+    westonLite
+    cage
+    xwayland
 
-      src = pkgs.fetchurl {
-        url = "https://github.com/selkies-project/selkies/releases/download/v${version}/gstreamer-selkies_gpl_v${version}_ubuntu24.04_amd64.tar.gz";
-        hash = "sha256-M5yjqzXrjCrX3pqKPcWSkqnP/hHr9Lxrxqk5feI/m5A=";
-      };
-
-      nativeBuildInputs = [pkgs.makeWrapper];
-
-      buildInputs = with pkgs;
-        [
-          libpulseaudio
-          wayland-protocols
-          wayland
-          egl-wayland
-          libxkbcommon
-          libgcrypt
-          gobject-introspection
-          glib-networking
-          libglibutil
-          libgudev
-          alsa-utils
-          jack2
-          libjack2
-          libpulseaudio
-          libopus
-          libvpx
-          x264
-          x265
-          libdrm
-          libGL
-          egl-wayland
-          libglvnd
-          wmctrl
-          xsel
-          xdotool
-          libxcvt
-          openh264
-          svt-av1
-          libavif
-        ]
-        ++ (with pkgs.xorg; [
-          xkbutils
-          libXdamage
-          libXfixes
-          libXv
-          libXtst
-          xvfb
-          libxcb
-          libX11
-          libXext
-        ])
-        ++ (with pkgs.python312Packages; [
-          setuptools
-          wheel
-        ]);
-
-      postInstall = ''
-        mkdir -p $out
-        cp -r * $out
-
-        chmod +x $out/gst-env
-        mv $out/gst-env $out/bin/gst-env
-      '';
-    };
-  in
-    with pkgs; [
-      westonLite
-      cage
-      xwayland
-
-      nvidia-container-toolkit
-
-      (let
-        version = "1.6.2";
-
-        selkies-web = pkgs.stdenvNoCC.mkDerivation {
-          pname = "selkies-gstreamer-web";
-          inherit version;
-
-          src = pkgs.fetchurl {
-            url = "https://github.com/selkies-project/selkies/releases/download/v${version}/selkies-gstreamer-web_v${version}.tar.gz";
-            hash = "sha256-cfzDXVn42KbGtyRywgpFryB6tWoNBVOvNLcxoulm0MY=";
-          };
-
-          postInstall = ''
-            mkdir -p $out
-            cp -r * $out
-          '';
-        };
-      in
-        pkgs.python312Packages.buildPythonPackage rec {
-          pname = "selkies_gstreamer-py3";
-          inherit version;
-          format = "wheel";
-          src = pkgs.fetchurl {
-            url = "https://github.com/selkies-project/selkies/releases/download/v${version}/selkies_gstreamer-${version}-py3-none-any.whl";
-            hash = "sha256-9CauCThTSS7PhXYJ79TJvSFBskxhkRhWHkIiCSdVTu4=";
-          };
-
-          nativeBuildInputs = with pkgs; [makeWrapper];
-
-          propagatedBuildInputs = with pkgs.python312Packages; [watchdog xlib pynput msgpack pillow websockets pygobject3 gst-python];
-
-          postFixup = ''
-            wrapProgram $out/bin/selkies-gstreamer \
-              --set SELKIES_WEB_ROOT ${selkies-web.outPath} \
-              --set GSTREAMER_PATH ${pkgs.python312Packages.gst-python.outPath}
-          '';
-        })
-    ];
+    nvidia-container-toolkit
+  ];
 
   environment.etc."weston.ini".source = (pkgs.formats.ini {}).generate "weston.ini" {
     shell = {locking = false;};
