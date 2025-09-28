@@ -77,6 +77,8 @@
           command =
             if machine == "laptop"
             then "${pkgs.gtklock}/bin/gtklock -M eDP-1"
+            else if machine == "desktop"
+            then "${pkgs.gtklock}/bin/gtklock -M DP-1"
             else "${pkgs.gtklock}/bin/gtklock";
         }
       ];
@@ -211,10 +213,10 @@
             always = false;
           }
           (lib.mkIf (machine != "vm")
-          {
-            command = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :0";
-            always = true;
-          })
+            {
+              command = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :0";
+              always = true;
+            })
         ];
 
         defaultWorkspace = "workspace number 1";
