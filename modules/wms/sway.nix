@@ -12,8 +12,40 @@
 
     services.gnome.gnome-keyring.enable = true;
 
-    environment.sessionVariables.NIXOS_OZONE_WL = "1";
-    environment.sessionVariables.GTK_CSD = "0";
+    environment.sessionVariables = {
+      GTK_CSD = "0";
+      LD_PRELOAD = let
+        gtk3-nocsd = pkgs.stdenv.mkDerivation {
+          pname = "gtk3-nocsd";
+          version = "3.0.8";
+
+          src = pkgs.fetchFromGitHub {
+            owner = "ZaWertun";
+            repo = "gtk3-nocsd";
+            rev = "v3.0.8";
+            sha256 = "sha256-BOsQqxaVdC5O6EnB3KZinKSj0U5mCcX8HSjRmSBUFks=";
+          };
+
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+          ];
+
+          buildInputs = with pkgs; [
+            gtk3
+            gobject-introspection
+          ];
+
+          installPhase = ''
+            mkdir -p $out/lib
+            mkdir -p $out/bin
+            cp libgtk3-nocsd.so.0 $out/lib/
+            cp gtk3-nocsd $out/bin/
+          '';
+        };
+      in "${gtk3-nocsd}/lib/libgtk3-nocsd.so.0";
+
+      NIXOS_OZONE_WL = "1";
+    };
 
     programs.uwsm = {
       enable = true;
