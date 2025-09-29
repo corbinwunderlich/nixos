@@ -214,7 +214,7 @@
           }
           (lib.mkIf (machine != "vm")
             {
-              command = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :0";
+              command = "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.xwayland-satellite}/bin/xwayland-satellite :0";
               always = true;
             })
         ];
