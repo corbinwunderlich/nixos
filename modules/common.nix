@@ -13,6 +13,8 @@
 
   nix.settings.trusted-users = ["@wheel root"];
 
+  environment.sessionVariables.NIXPKGS_ALLOW_UNFREE = "1";
+
   networking.firewall.allowedTCPPorts = [8080];
 
   nixpkgs.overlays = [
