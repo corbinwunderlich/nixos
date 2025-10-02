@@ -12,6 +12,8 @@
       ulauncher
       swaysome
       xwayland-satellite
+      cliphist
+      wl-clipboard
 
       (pkgs.callPackage ../../../packages/sw_swaybar.nix {sw = pkgs.callPackage ../../../packages/sw.nix {};})
     ];
@@ -94,7 +96,7 @@
       config = let
         modifier = config.wayland.windowManager.sway.config.modifier;
         terminal = config.wayland.windowManager.sway.config.terminal;
-        launcher = "DISPLAY=:0 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
+        launcher = if machine == "vm" then "DISPLAY=:0 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow" else "DISPLAY=:1 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
         swaysome = "${pkgs.swaysome}/bin/swaysome";
       in {
         output =
@@ -205,16 +207,16 @@
             always = true;
           }
           {
-            command = "env NIXOS_OZONE_WL=1 ${pkgs._1password-gui}/bin/1password --silent";
-            always = true;
-          }
-          {
             command = "${swaysome} init 1";
             always = false;
           }
+          {
+            command = "${pkgs.wl-clipboard}/bin/wl-paste --watch cliphist store";
+            always = true;
+          }
           (lib.mkIf (machine != "vm")
             {
-              command = "${pkgs.uwsm}/bin/uwsm app -- ${pkgs.xwayland-satellite}/bin/xwayland-satellite :0";
+              command = "sleep 2 && ${pkgs.xwayland-satellite}/bin/xwayland-satellite :1";
               always = true;
             })
         ];
