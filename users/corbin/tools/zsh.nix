@@ -16,6 +16,15 @@ in {
   options.zsh.enable = lib.mkEnableOption "Enables ZSH";
 
   config = lib.mkIf config.zsh.enable {
+    home.packages = with pkgs; [
+      fd
+      bat
+      eza
+      xh
+      dust
+      delta
+    ];
+
     programs.zsh = {
       enable = true;
 
@@ -23,9 +32,13 @@ in {
       autosuggestion.enable = true;
 
       shellAliases = {
-        ll = "ls -l";
+        ll = "eza -l";
         grim = "grimblast";
         svim = "sudo -Es nvim";
+
+        cat = "bat";
+        ls = "eza";
+        du = "dust";
       };
 
       history = {
@@ -52,6 +65,16 @@ in {
       ];
 
       initContent = zshrc;
+    };
+
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    programs.git = {
+      enable = true;
+      delta.enable = true;
     };
   };
 }
