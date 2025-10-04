@@ -55,6 +55,8 @@
       sway.enable = true;
     };
 
+    services.polkit-gnome.enable = true;
+
     services.swayidle = let
       display = status: "swaymsg 'output * power ${status}'";
     in {
@@ -96,7 +98,10 @@
       config = let
         modifier = config.wayland.windowManager.sway.config.modifier;
         terminal = config.wayland.windowManager.sway.config.terminal;
-        launcher = if machine == "vm" then "DISPLAY=:0 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow" else "DISPLAY=:1 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
+        launcher =
+          if machine == "vm"
+          then "DISPLAY=:0 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow"
+          else "DISPLAY=:1 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
         swaysome = "${pkgs.swaysome}/bin/swaysome";
       in {
         output =
@@ -200,10 +205,6 @@
         startup = [
           {
             command = "${pkgs.autotiling}/bin/autotiling";
-            always = true;
-          }
-          {
-            command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &";
             always = true;
           }
           {

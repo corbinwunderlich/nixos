@@ -168,6 +168,9 @@ in {
         export PATH="''${XDG_BIN_HOME}:$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
 
         export DISPLAY=:0
+        export XDG_SESSION_TYPE=wayland
+        export XDG_SESSION_ID=1
+        export XDG_SESSION_DESKTOP=sway
 
         WLR_BACKENDS=headless WLR_LIBINPUT_NO_DEVICES=1 ${pkgs.sway}/bin/sway
       '';
