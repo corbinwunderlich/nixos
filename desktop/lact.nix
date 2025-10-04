@@ -3,7 +3,9 @@
   lib,
   ...
 }: {
-  boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff"];
+  hardware.amdgpu.overdrive.enable = true;
+
+  boot.kernelParams = ["amdgpu.sg_display=0"];
 
   systemd.services.lactd = {
     description = "AMDGPU Control Daemon";
@@ -27,7 +29,7 @@
     gpus."1002:744C-1DA2:475E-0000:03:00.0" = {
       fan_control_enabled = false;
       power_cap = 280.0;
-      performance_level = "auto";
+      performance_level = "high";
       voltage_offset = -30;
     };
   };
