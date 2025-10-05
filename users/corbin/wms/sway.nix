@@ -136,6 +136,7 @@
 
         input."type:touchpad" = {
           tap = "enabled";
+          dwt = "disabled";
         };
 
         terminal = "kitty";
@@ -182,7 +183,7 @@
             (bar
               {
                 fontSize = 14;
-                output = "DP-2";
+                output = "DP-8";
               })
           ]
           else if machine == "vm"
