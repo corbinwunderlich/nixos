@@ -42,7 +42,7 @@
     enable32Bit = true;
   };
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_16;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_17;
 
   users.users.corbin = import ./../users/corbin/corbin.nix;
   users.defaultUserShell = pkgs.zsh;
