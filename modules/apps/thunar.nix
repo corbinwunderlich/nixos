@@ -10,7 +10,7 @@
     programs.thunar.enable = true;
     services.tumbler.enable = true;
 
-    environment.systemPackages = with pkgs; [oculante];
+    environment.systemPackages = with pkgs; [oculante vlc];
 
     xdg.mime.defaultApplications = {
       "application/pdf" = "firefox.desktop";
