@@ -290,6 +290,7 @@
             "${modifier}+Shift+q" = "kill";
             "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
             "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
+            "${modifier}+c" = "exec ${pkgs.hyprpicker}/bin/hyprpicker -a";
           }
           else {
             "${modifier}+Shift+r" = "restart";
@@ -339,6 +340,7 @@
             "${modifier}+Shift+q" = "kill";
             "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
             "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
+            "${modifier}+c" = "exec ${pkgs.hyprpicker}/bin/hyprpicker -a";
 
             "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
             "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
