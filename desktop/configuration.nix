@@ -71,7 +71,7 @@
     enable32Bit = true;
   };
 
-  boot.kernelParams = ["video=DP-1:3840x2160@150" "video=DP-2:3840x2160@120"];
+  boot.kernelParams = ["video=DP-1:3840x2160@120" "video=DP-2:3840x2160@150"];
 
   hardware.amdgpu.initrd.enable = true;
 

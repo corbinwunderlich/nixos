@@ -111,15 +111,14 @@
           then {
             DP-1 = {
               scale = "1.5";
-              mode = "3840x2160@150hz";
+              mode = "3840x2160@120hz";
               position = "0,0";
               adaptive_sync = "true";
             };
             DP-2 = {
               scale = "1.5";
-              mode = "3840x2160@120hz";
+              mode = "3840x2160@150hz";
               position = "2560,0";
-              adaptive_sync = "true";
             };
           }
           else {
