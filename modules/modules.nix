@@ -24,7 +24,7 @@
     ./tools/ventoy.nix
     ./tools/calculator.nix
 
-    ./apps/kitty.nix
+    ./apps/ghostty.nix
     ./apps/steam.nix
     ./apps/firefox.nix
     ./apps/obsidian.nix
@@ -83,7 +83,7 @@
 
   calculator.enable = lib.mkDefault true;
 
-  kitty.enable = lib.mkDefault true;
+  ghostty.enable = lib.mkDefault true;
 
   steam.enable = lib.mkDefault true;
 

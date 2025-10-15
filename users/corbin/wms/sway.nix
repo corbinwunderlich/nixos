@@ -41,7 +41,7 @@
       "render-on-screen" = "mouse-pointer-monitor";
       "show-indicator-icon" = true;
       "show-recent-apps" = "0";
-      "terminal-command" = "kitty";
+      "terminal-command" = "ghostty";
       "theme-name" = "Black-Theme";
     });
 
@@ -113,12 +113,13 @@
               scale = "1.5";
               mode = "3840x2160@120hz";
               position = "0,0";
-              adaptive_sync = "true";
+              adaptive_sync = "false";
             };
             DP-2 = {
               scale = "1.5";
               mode = "3840x2160@150hz";
               position = "2560,0";
+              adaptive_sync = "false";
             };
           }
           else {
@@ -140,7 +141,7 @@
           dwt = "disabled";
         };
 
-        terminal = "kitty";
+        terminal = "ghostty";
 
         fonts = {
           names = ["JetBrainsMono Nerd Font"];

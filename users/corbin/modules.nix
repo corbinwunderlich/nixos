@@ -5,7 +5,7 @@
 }: {
   imports = [
     ./apps/1password.nix
-    ./apps/kitty.nix
+    ./apps/ghostty.nix
     ./apps/neovim.nix
     ./apps/game-mods.nix
 
@@ -25,7 +25,7 @@
   ];
 
   passwordmanager.enable = lib.mkDefault true;
-  kitty.enable = lib.mkDefault true;
+  ghostty.enable = lib.mkDefault true;
   neovim.enable = lib.mkDefault true;
   mods.enable = lib.mkDefault true;
 

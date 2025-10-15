@@ -10,6 +10,8 @@
 
     ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_UNDERLINE
 
+    export PAGER=bat
+
     eval "$(direnv hook zsh)"
   '';
 in {
