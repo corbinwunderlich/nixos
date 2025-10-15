@@ -71,9 +71,14 @@
             command = display "off";
             resumeCommand = display "on";
           }
+          {
+            timeout = 300;
+            command = "${pkgs.brightnessctl}/bin/brightnessctl --save; ${pkgs.brightnessctl}/bin/brightnessctl set 5%";
+            resumeCommand = "${pkgs.brightnessctl}/bin/brightnessctl --restore";
+          }
         ]
         ++ (lib.optional (machine == "laptop") {
-          timeout = 300;
+          timeout = 600;
           command = "${pkgs.systemd}/bin/systemctl suspend";
         });
 
