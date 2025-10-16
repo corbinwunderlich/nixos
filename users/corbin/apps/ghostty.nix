@@ -9,11 +9,17 @@
     programs.ghostty = {
       enable = true;
 
+      enableZshIntegration = true;
+
       installVimSyntax = true;
 
       settings = {
         background = "000000";
         foreground = "ffffff";
+
+        cursor-color = "#ffffff";
+
+        theme = "arcoiris";
 
         font-family = "JetBrainsMono Nerd Font";
         font-family-bold = "JetBrainsMono Nerd Font";
@@ -30,10 +36,9 @@
 
         font-size = 9;
 
-        shell-integration-features = "no-cursor";
         cursor-style-blink = false;
-
         cursor-style = "underline";
+        adjust-cursor-thickness = 10;
 
         focus-follows-mouse = true;
 
