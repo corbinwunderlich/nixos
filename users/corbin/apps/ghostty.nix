@@ -25,9 +25,6 @@
         font-family-bold = "JetBrainsMono Nerd Font";
         font-family-italic = "JetBrainsMono Nerd Font";
         font-family-bold-italic = "JetBrainsMono Nerd Font";
-        #font-family-bold = "JetBrainsMono NF Bold";
-        #font-family-italic = "JetBrainsMono NF SemiBold Italic";
-        #font-family-bold-italic = "JetBrainsMono NF Bold Italic";
 
         font-style = "Bold";
         font-style-bold = "ExtraBold";
@@ -38,7 +35,8 @@
 
         cursor-style-blink = false;
         cursor-style = "underline";
-        adjust-cursor-thickness = 10;
+        adjust-cursor-thickness = 3;
+        adjust-underline-thickness = 5;
 
         focus-follows-mouse = true;
 
