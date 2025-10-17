@@ -12,6 +12,7 @@
     ./tools/zsh.nix
     ./tools/fcitx.nix
     ./tools/direnv.nix
+    ./tools/rclone.nix
 
     ./wms/i3.nix
     ./wms/sway.nix
@@ -31,6 +32,7 @@
 
   zsh.enable = lib.mkDefault true;
   fcitx.enable = lib.mkDefault true;
+  rclone.enable = lib.mkDefault true;
 
   hyprland.enable = lib.mkDefault true;
   hyprlock.enable = lib.mkDefault true;

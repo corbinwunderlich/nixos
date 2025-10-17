@@ -13,9 +13,5 @@
       configDir = "/home/corbin/.config/syncthing";
       openDefaultPorts = true;
     };
-
-    services.flatpak.packages = [
-      "com.hunterwittenborn.Celeste"
-    ];
   };
 }

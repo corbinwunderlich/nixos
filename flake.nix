@@ -51,6 +51,7 @@
     nixpkgs,
     home-manager,
     nix-flatpak,
+    sops-nix,
     nvidia-vgpu,
     nixos-hardware,
     ...
@@ -80,6 +81,7 @@
               };
               home-manager.useGlobalPkgs = true;
               home-manager.users.corbin = import ./users/corbin/desktop/home.nix;
+              home-manager.sharedModules = [sops-nix.homeManagerModules.sops];
             }
           ]
           ++ commonModules;
