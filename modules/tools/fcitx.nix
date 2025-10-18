@@ -15,21 +15,11 @@
         waylandFrontend = true;
 
         settings = {
-          #globalOptions = {
-          #"Vertical Candidate List" = true;
-
-          #WheelForPaging = true;
-
-          #"Font" = "JetBrainsMono Nerd Font Demi-Bold 10";
-          #MenuFont = "JetBrainsMono Nerd Font Demi-Bold 10";
-          #TrayFont = "JetBrainsMono Nerd Font Demi-Bold 10";
-
-          #PreferTextIcon = true;
-
-          #UseInputMethodLanguageToDisplayText = true;
-
-          #Theme = "Material-Color-black";
-          #};
+          globalOptions = {
+            "Hotkey/TriggerKeys" = {
+              "0" = "Shift+space";
+            };
+          };
 
           inputMethod = {
             "Groups/0" = {
