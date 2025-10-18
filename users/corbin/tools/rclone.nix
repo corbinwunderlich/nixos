@@ -42,7 +42,7 @@
         };
       };
 
-      systemd.user.services."rclone-siarnaq-dav-corbin/projects" = {
+      systemd.user.services."rclone-siarnaq-dav-corbin-projects" = {
         Service = {
           ExecStart = "${rclone-project-script}/bin/rclone-script";
           Restart = "always";
