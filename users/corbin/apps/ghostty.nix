@@ -41,7 +41,7 @@
         focus-follows-mouse = true;
 
         window-padding-x = 5;
-        window-padding-y = 5;
+        window-padding-y = "5,0";
         window-padding-color = "extend";
       };
     };
