@@ -109,6 +109,7 @@
               };
               home-manager.useGlobalPkgs = true;
               home-manager.users.corbin = import ./users/corbin/nixvm/home.nix;
+              home-manager.sharedModules = [sops-nix.homeManagerModules.sops];
             }
           ]
           ++ commonModules;
@@ -134,6 +135,7 @@
               };
               home-manager.useGlobalPkgs = true;
               home-manager.users.corbin = import ./users/corbin/nixpad/home.nix;
+              home-manager.sharedModules = [sops-nix.homeManagerModules.sops];
             }
 
             nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen5
