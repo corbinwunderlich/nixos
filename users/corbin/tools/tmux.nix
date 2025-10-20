@@ -78,5 +78,64 @@
     };
 
     home.packages = with pkgs; [sesh];
+
+    systemd.user.services.tmux = {
+      Unit = {
+        Description = "tmux default session (detached)";
+        Documentation = "man:tmux(1)";
+      };
+
+      Service = {
+        Environment = [
+          "DISPLAY=:0"
+          "PATH=${lib.makeBinPath (with pkgs; [coreutils tmux hostname gnused gnutar gzip gawk gnugrep diffutils] ++ config.home.packages ++ ["/run/current-system/sw" "/home/corbin/.nix-profile/bin"])}:$PATH"
+          "TMUX=/run/user/1000/tmux-1000/default"
+        ];
+
+        Type = "forking";
+
+        ExecStart = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-1000/default new-session -s 0 -d";
+        ExecStartPost = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
+        ExecStop = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
+        ExecStopPost = "${pkgs.tmux}/bin/tmux kill-server";
+
+        WorkingDirectory = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts";
+
+        RestartSec = 2;
+      };
+
+      Install = {
+        WantedBy = ["default.target"];
+      };
+    };
+
+    systemd.user.services.tmux-autosave = {
+      Unit = {
+        Description = "Run tmux_resurrect save script every 5 minutes";
+        OnFailure = "error@%n.service";
+        After = ["tmux.service"];
+      };
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
+      };
+    };
+
+    systemd.user.timers.tmux-autosave = {
+      Unit = {
+        Description = "Run tmux_resurrect save script every 5 minutes";
+      };
+
+      Timer = {
+        OnBootSec = "5min";
+        OnUnitActiveSec = "5min";
+        Unit = "tmux-autosave.service";
+      };
+
+      Install = {
+        WantedBy = ["timers.target"];
+      };
+    };
   };
 }
