@@ -7,7 +7,12 @@
   options.thunar.enable = lib.mkEnableOption "Enables Thunar";
 
   config = lib.mkIf config.thunar.enable {
-    programs.thunar.enable = true;
+    programs.thunar = {
+      enable = true;
+      plugins = with pkgs.xfce; [thunar-archive-plugin];
+    };
+
+    services.gvfs.enable = true;
     services.tumbler.enable = true;
 
     environment.systemPackages = with pkgs; [oculante vlc];
