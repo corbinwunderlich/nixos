@@ -60,6 +60,9 @@
 
         set-option -g status-position top
 
+        set-option -g display-time 2000
+        set-option -g message-style "bg=#000000,fg=yellow"
+
         bind-key "T" run-shell "sesh connect \"$(
           sesh list --icons | fzf-tmux -p 80%,70% \
             --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
