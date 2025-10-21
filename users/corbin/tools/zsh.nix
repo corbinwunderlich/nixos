@@ -8,7 +8,7 @@
     bindkey "''${key[Up]}" up-line-or-search
     PROMPT="%~ at %T"$'\n'"❯ "
 
-    ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_UNDERLINE
+    print -n '\033[4 q'
 
     export PAGER=bat
 
@@ -76,11 +76,6 @@ in {
           name = "zsh-autosuggestions";
           src = pkgs.zsh-autosuggestions;
           file = "share/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh";
-        }
-        {
-          name = "zsh-vi-mode";
-          src = pkgs.zsh-vi-mode;
-          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
         }
       ];
 
