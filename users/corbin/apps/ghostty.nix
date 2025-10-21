@@ -35,6 +35,8 @@
 
         adjust-cursor-thickness = "50%";
         adjust-underline-thickness = "100%";
+        cursor-style = "underline";
+        cursor-style-blink = false;
 
         focus-follows-mouse = true;
 
