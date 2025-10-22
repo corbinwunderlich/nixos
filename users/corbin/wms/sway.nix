@@ -296,7 +296,7 @@
             "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
             "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
             "${modifier}+c" = "exec ${pkgs.hyprpicker}/bin/hyprpicker -a";
-            "${modifier}+o" = "exec swaynag -t warning -m 'Power menu' -b 'Shutdown' 'systemctl poweroff' -b 'Reboot' 'systemctl reboot' -b 'Sleep' 'systemctl suspend'";
+            "${modifier}+o" = "exec ${pkgs.wlogout}/bin/wlogout";
           }
           else {
             "${modifier}+Shift+r" = "restart";
@@ -347,7 +347,7 @@
             "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
             "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
             "${modifier}+c" = "exec ${pkgs.hyprpicker}/bin/hyprpicker -a";
-            "${modifier}+o" = "exec swaynag -t warning -m 'Power menu' -b 'Shutdown' 'systemctl poweroff' -b 'Reboot' 'systemctl reboot' -b 'Sleep' 'systemctl suspend'";
+            "${modifier}+o" = "exec ${pkgs.wlogout}/bin/wlogout";
 
             "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
             "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
