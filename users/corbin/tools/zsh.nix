@@ -17,6 +17,15 @@
 
     export PAGER=bat
 
+    # Add the Nix functions dir only if it exists
+    if [[ -d ''${HOME}/.nix-profile/share/zsh/5.9/functions ]]; then
+      fpath=(''${HOME}/.nix-profile/share/zsh/5.9/functions $fpath)
+    fi
+
+    # Now initialise completion
+    autoload -Uz compinit
+    compinit -u -i   # `-u`=uncompress, `-i`=ignore missing files
+
     eval "$(direnv hook zsh)"
   '';
 in {

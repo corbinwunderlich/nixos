@@ -88,14 +88,14 @@
       Service = {
         Environment = [
           "DISPLAY=:0"
-          "PATH=${lib.makeBinPath (with pkgs; [coreutils tmux hostname gnused gnutar gzip gawk gnugrep diffutils] ++ config.home.packages ++ ["/run/current-system/sw" "/home/corbin/.nix-profile/bin"])}:$PATH"
+          "PATH=${lib.makeBinPath (with pkgs; [coreutils tmux hostname gnused gnutar gzip gawk gnugrep diffutils zsh zsh-completions] ++ config.home.packages ++ ["/run/current-system/sw" "/home/corbin/.nix-profile/bin"])}:$PATH"
           "TMUX=/run/user/1000/tmux-1000/default"
         ];
 
         Type = "forking";
 
         ExecStart = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-1000/default new-session -s 0 -d";
-        ExecStartPost = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
+        ExecStartPost = "${pkgs.zsh}/bin/zsh -c ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
         ExecStop = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
         ExecStopPost = "${pkgs.tmux}/bin/tmux kill-server";
 
