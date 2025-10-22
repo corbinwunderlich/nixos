@@ -6,144 +6,136 @@
 }: {
   options.tmux.enable = lib.mkEnableOption "Enables rclone";
 
-  config = let
-    sesh-picker = pkgs.writeShellScriptBin "tpick" ''
-      ${pkgs.sesh}/bin/sesh connect \"$(
-        ${pkgs.sesh}/bin/sesh list --icons | ${pkgs.fzf}/bin/fzf-tmux -p 80%,70% \
-          --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
-          --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
-          --bind 'tab:down,btab:up' \
-          --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
-          --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
-          --bind 'ctrl-g:change-prompt(⚙<fe0f>  )+reload(sesh list -c --icons)' \
-          --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
-          --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
-          --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
-          --preview-window 'right:55%' \
-          --preview 'sesh preview {}'
-      )\"
-    '';
-  in
-    lib.mkIf config.tmux.enable {
-      programs.tmux = {
-        enable = true;
+  config = lib.mkIf config.tmux.enable {
+    programs.tmux = {
+      enable = true;
 
-        clock24 = true;
+      clock24 = true;
 
-        keyMode = "vi";
+      keyMode = "vi";
 
-        shell = "${pkgs.zsh}/bin/zsh";
+      shell = "${pkgs.zsh}/bin/zsh";
 
-        shortcut = "Space";
+      shortcut = "Space";
 
-        mouse = true;
+      mouse = true;
 
-        plugins = with pkgs.tmuxPlugins; [
-          sensible
-          better-mouse-mode
+      plugins = with pkgs.tmuxPlugins; [
+        sensible
+        better-mouse-mode
 
-          {
-            plugin = resurrect;
-            extraConfig = ''
-              resurrect_dir="$HOME/.tmux/resurrect"
-              set -g @resurrect-dir $resurrect_dir
-              set -g @resurrect-hook-post-save-all "sed -i 's/--cmd lua.*--cmd set packpath/--cmd \"lua/g; s/--cmd set rtp.*\$/\"/' $resurrect_dir/last"
-              set -g @resurrect-capture-pane-contents 'on'
-              set -g @resurrect-processes '"~nvim"'
-            '';
-          }
+        {
+          plugin = resurrect;
+          extraConfig = ''
+            resurrect_dir="$HOME/.tmux/resurrect"
+            set -g @resurrect-dir $resurrect_dir
+            set -g @resurrect-hook-post-save-all "sed -i 's/--cmd lua.*--cmd set packpath/--cmd \"lua/g; s/--cmd set rtp.*\$/\"/' $resurrect_dir/last"
+            set -g @resurrect-capture-pane-contents 'on'
+            set -g @resurrect-processes '"~nvim"'
+          '';
+        }
+      ];
+
+      extraConfig = ''
+        set -g base-index 1
+        set -g pane-base-index 1
+        set-window-option -g pane-base-index 1
+        set-option -g renumber-windows on
+
+        bind '"' split-window -v -c "#{pane_current_path}"
+        bind % split-window -h -c "#{pane_current_path}"
+
+        bind-key x kill-pane
+        set -g detach-on-destroy off
+
+        set -g status-bg "#000000"
+        set -g status-fg "#ffffff"
+
+        set -g status-right "@#H - #(pwd)"
+        set -g status-left "#S"
+        set -g status-left-length 100
+        set -g status-justify centre
+        set -g window-status-format "#[fg=#ffffff]#I: #W"
+        set -g window-status-current-format "#[fg=blue,bold]#I: #W"
+
+        set-option -g status-position top
+
+        set-option -g display-time 2000
+        set-option -g message-style "bg=#000000,fg=yellow"
+      '';
+    };
+
+    programs.sesh = {
+      enable = true;
+      tmuxKey = "T";
+      icons = false;
+    };
+
+    programs.fzf = {
+      enable = true;
+
+      enableZshIntegration = true;
+
+      tmux.enableShellIntegration = true;
+    };
+
+    systemd.user.services.tmux = {
+      Unit = {
+        Description = "tmux default session (detached)";
+        Documentation = "man:tmux(1)";
+      };
+
+      Service = {
+        Environment = [
+          "DISPLAY=:0"
+          "PATH=${lib.makeBinPath (with pkgs; [coreutils tmux hostname gnused gnutar gzip gawk gnugrep diffutils] ++ config.home.packages ++ ["/run/current-system/sw" "/home/corbin/.nix-profile/bin"])}:$PATH"
+          "TMUX=/run/user/1000/tmux-1000/default"
         ];
 
-        extraConfig = ''
-          set -g base-index 1
-          set -g pane-base-index 1
-          set-window-option -g pane-base-index 1
-          set-option -g renumber-windows on
+        Type = "forking";
 
-          bind '"' split-window -v -c "#{pane_current_path}"
-          bind % split-window -h -c "#{pane_current_path}"
+        ExecStart = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-1000/default new-session -s 0 -d";
+        ExecStartPost = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
+        ExecStop = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
+        ExecStopPost = "${pkgs.tmux}/bin/tmux kill-server";
 
-          bind-key x kill-pane
-          set -g detach-on-destroy off
+        WorkingDirectory = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts";
 
-          set -g status-bg "#000000"
-          set -g status-fg "#ffffff"
-
-          set -g status-right "@#H - #(pwd)"
-          set -g status-left "#S"
-          set -g status-left-length 100
-          set -g status-justify centre
-          set -g window-status-format "#[fg=#ffffff]#I: #W"
-          set -g window-status-current-format "#[fg=blue,bold]#I: #W"
-
-          set-option -g status-position top
-
-          set-option -g display-time 2000
-          set-option -g message-style "bg=#000000,fg=yellow"
-
-          bind-key "T" run-shell "${sesh-picker}/bin/tpick"
-        '';
+        RestartSec = 2;
       };
 
-      home.packages = with pkgs; [sesh sesh-picker];
-
-      systemd.user.services.tmux = {
-        Unit = {
-          Description = "tmux default session (detached)";
-          Documentation = "man:tmux(1)";
-        };
-
-        Service = {
-          Environment = [
-            "DISPLAY=:0"
-            "PATH=${lib.makeBinPath (with pkgs; [coreutils tmux hostname gnused gnutar gzip gawk gnugrep diffutils] ++ config.home.packages ++ ["/run/current-system/sw" "/home/corbin/.nix-profile/bin"])}:$PATH"
-            "TMUX=/run/user/1000/tmux-1000/default"
-          ];
-
-          Type = "forking";
-
-          ExecStart = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-1000/default new-session -s 0 -d";
-          ExecStartPost = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
-          ExecStop = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
-          ExecStopPost = "${pkgs.tmux}/bin/tmux kill-server";
-
-          WorkingDirectory = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts";
-
-          RestartSec = 2;
-        };
-
-        Install = {
-          WantedBy = ["default.target"];
-        };
-      };
-
-      systemd.user.services.tmux-autosave = {
-        Unit = {
-          Description = "Run tmux_resurrect save script every 5 minutes";
-          OnFailure = "error@%n.service";
-          After = ["tmux.service"];
-        };
-
-        Service = {
-          Type = "oneshot";
-          ExecStart = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
-        };
-      };
-
-      systemd.user.timers.tmux-autosave = {
-        Unit = {
-          Description = "Run tmux_resurrect save script every 5 minutes";
-        };
-
-        Timer = {
-          OnBootSec = "5min";
-          OnUnitActiveSec = "5min";
-          Unit = "tmux-autosave.service";
-        };
-
-        Install = {
-          WantedBy = ["timers.target"];
-        };
+      Install = {
+        WantedBy = ["default.target"];
       };
     };
+
+    systemd.user.services.tmux-autosave = {
+      Unit = {
+        Description = "Run tmux_resurrect save script every 5 minutes";
+        OnFailure = "error@%n.service";
+        After = ["tmux.service"];
+      };
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
+      };
+    };
+
+    systemd.user.timers.tmux-autosave = {
+      Unit = {
+        Description = "Run tmux_resurrect save script every 5 minutes";
+      };
+
+      Timer = {
+        OnBootSec = "5min";
+        OnUnitActiveSec = "5min";
+        Unit = "tmux-autosave.service";
+      };
+
+      Install = {
+        WantedBy = ["timers.target"];
+      };
+    };
+  };
 }
