@@ -14,10 +14,13 @@
     programs.steam.gamescopeSession.enable = true;
 
     environment.systemPackages = with pkgs; [
-      heroic
-      lutris
       mangohud
       protonup
+    ];
+
+    services.flatpak.packages = [
+      "net.lutris.Lutris"
+      "com.heroicgameslauncher.hgl"
     ];
 
     environment.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/corbin/.steam/root/compatibilitytools.d";
