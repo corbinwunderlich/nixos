@@ -37,6 +37,8 @@
       ];
 
       extraConfig = ''
+        set -g allow-passthrough on
+
         set -g base-index 1
         set -g pane-base-index 1
         set-window-option -g pane-base-index 1
@@ -113,7 +115,7 @@
       Unit = {
         Description = "Run tmux_resurrect save script every 5 minutes";
         OnFailure = "error@%n.service";
-        After = ["tmux.service"];
+        BindsTo = ["tmux.service"];
       };
 
       Service = {
