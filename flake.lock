@@ -1223,11 +1223,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1760992098,
-        "narHash": "sha256-bqEcgtd+jshrLY46fmyXhWhkRSa+xdcNp2066PzxkVM=",
+        "lastModified": 1761360766,
+        "narHash": "sha256-HyXV2yrXJELYXSWdUpEmP6BZcC2cI8ISAYFHkAd7J7k=",
         "owner": "CorbinWunderlich",
         "repo": "neovim",
-        "rev": "7d806714e58c7c4c321cb18592c8dd91d2006709",
+        "rev": "32a1b2e8cc62710778e60a26ba68c91aa529a2d8",
         "type": "github"
       },
       "original": {
