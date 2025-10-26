@@ -96,8 +96,8 @@
 
         Type = "forking";
 
+        ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p /run/user/1000/tmux-1000";
         ExecStart = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-1000/default new-session -s 0 -d";
-        ExecStartPost = "${pkgs.zsh}/bin/zsh -c ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh";
         ExecStop = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
         ExecStopPost = "${pkgs.tmux}/bin/tmux kill-server";
 
