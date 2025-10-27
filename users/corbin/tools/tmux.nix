@@ -96,7 +96,12 @@
 
         Type = "forking";
 
-        ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p /run/user/1000/tmux-1000";
+        ExecStartPre = let
+          setup = pkgs.writeShellScriptBin "tmux-setup" ''
+            ${pkgs.coreutils}/bin/mkdir -p /run/user/1000/tmux-1000
+            ${pkgs.coreutils}/bin/chmod 700 /run/user/1000/tmux-1000
+          '';
+        in "${setup}/bin/tmux-setup";
         ExecStart = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-1000/default new-session -s 0 -d";
         ExecStop = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
         ExecStopPost = "${pkgs.tmux}/bin/tmux kill-server";
