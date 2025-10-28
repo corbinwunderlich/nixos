@@ -21,10 +21,19 @@
       ];
     };
 
-    system.userActivationScripts.linkprojects.text = ''
-      if [[ ! -h "$HOME/Projects" ]]; then
-        ln -s "/mnt/siarnaq-home/Projects" "$HOME/Projects"
-      fi
-    '';
+    system.userActivationScripts.linksmbmount.text = let
+      link = {
+        mount,
+        target,
+      }: ''
+        if [[ ! -h "${target}" ]]; then
+          ln -s "${mount}" "${target}"
+        fi
+      '';
+    in
+      link {
+        mount = "/mnt/siarnaq-home/Projects";
+        target = "$HOME/Projects";
+      };
   };
 }
