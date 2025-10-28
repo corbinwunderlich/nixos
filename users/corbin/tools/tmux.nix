@@ -96,12 +96,44 @@
 
         Type = "forking";
 
-        ExecStartPre = let
-          setup = pkgs.writeShellScriptBin "tmux-setup" ''
-            ${pkgs.coreutils}/bin/mkdir -p /run/user/1000/tmux-1000
-            ${pkgs.coreutils}/bin/chmod 700 /run/user/1000/tmux-1000
-          '';
-        in "${setup}/bin/tmux-setup";
+        ExecStartPre = pkgs.writeShellScript "tmux-setup" ''
+          export PATH=${lib.makeBinPath (with pkgs; [coreutils])}
+
+          mkdir -p /run/user/1000/tmux-1000
+          chmod 700 /run/user/1000/tmux-1000
+
+          NEWEST_FILE=$(ls -1 /home/corbin/.tmux/resurrect/tmux_resurrect_*.txt 2>/dev/null |
+            sort -V |
+            tail -n 1)
+
+          if [[ -z $NEWEST_FILE ]]; then
+            echo "No tmux_resurrect files found" >&2
+            exit 1
+          fi
+
+          if [[ ! -s $NEWEST_FILE ]]; then
+            echo "''${NEWEST_FILE} is empty, deleting..."
+            rm -f "$NEWEST_FILE"
+
+            # Find the next newest file (if any)
+            NEWEST_FILE=$(ls -1 "/home/corbin/.tmux/resurrect/tmux_resurrect_*.txt" 2>/dev/null |
+              sort -V |
+              tail -n 1)
+
+            if [[ -z $NEWEST_FILE ]]; then
+              echo "No non‑empty tmux_resurrect files left after deletion" >&2
+              exit 1
+            fi
+          fi
+
+          SYMLINK="/home/corbin/.tmux/resurrect/last"
+
+          rm -f "$SYMLINK"
+
+          ln -s "$(basename "$NEWEST_FILE")" "$SYMLINK"
+
+          echo "last now points at ''${NEWEST_FILE}"
+        '';
         ExecStart = "${pkgs.tmux}/bin/tmux -S /run/user/1000/tmux-1000/default new-session -s 0 -d";
         ExecStop = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
         ExecStopPost = "${pkgs.tmux}/bin/tmux kill-server";
@@ -126,6 +158,39 @@
       Service = {
         Type = "oneshot";
         ExecStart = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh";
+        ExecStartPost = pkgs.writeShellScript "tmux-resurrect-cleanup" ''
+          NEWEST_FILE=$(ls -1 /home/corbin/.tmux/resurrect/tmux_resurrect_*.txt 2>/dev/null |
+            sort -V |
+            tail -n 1)
+
+          if [[ -z $NEWEST_FILE ]]; then
+            echo "No tmux_resurrect files found" >&2
+            exit 1
+          fi
+
+          if [[ ! -s $NEWEST_FILE ]]; then
+            echo "''${NEWEST_FILE} is empty, deleting..."
+            rm -f "$NEWEST_FILE"
+
+            # Find the next newest file (if any)
+            NEWEST_FILE=$(ls -1 "/home/corbin/.tmux/resurrect/tmux_resurrect_*.txt" 2>/dev/null |
+              sort -V |
+              tail -n 1)
+
+            if [[ -z $NEWEST_FILE ]]; then
+              echo "No non‑empty tmux_resurrect files left after deletion" >&2
+              exit 1
+            fi
+          fi
+
+          SYMLINK="/home/corbin/.tmux/resurrect/last"
+
+          rm -f "$SYMLINK"
+
+          ln -s "$(basename "$NEWEST_FILE")" "$SYMLINK"
+
+          echo "last now points at ''${NEWEST_FILE}"
+        '';
       };
     };
 
