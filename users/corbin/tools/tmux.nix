@@ -51,6 +51,8 @@
         bind-key x kill-pane
         set -g detach-on-destroy off
 
+        set -g pane-active-border-style "fg=blue"
+
         set -g status-bg "#000000"
         set -g status-fg "#ffffff"
 
