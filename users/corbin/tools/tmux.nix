@@ -23,6 +23,7 @@
       plugins = with pkgs.tmuxPlugins; [
         sensible
         better-mouse-mode
+        vim-tmux-navigator
 
         {
           plugin = resurrect;
