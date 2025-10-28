@@ -20,5 +20,11 @@
         "${automount_opts},credentials=/var/lib/samba-credentials/samba-credentials,uid=1000,gid=100"
       ];
     };
+
+    system.userActivationScripts.linkprojects.text = ''
+      if [[ ! -h "$HOME/Projects" ]]; then
+        ln -s "/mnt/siarnaq-home/Projects" "$HOME/Projects"
+      fi
+    '';
   };
 }

@@ -7,8 +7,6 @@
 }: {
   imports = [./hardware-configuration.nix ./lact.nix ./../modules/modules.nix];
 
-  samba.enable = false;
-
   hyprland.enable = false;
 
   # Use the systemd-boot EFI boot loader.
