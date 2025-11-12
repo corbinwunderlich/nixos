@@ -10,18 +10,7 @@
   config = lib.mkIf config.samba.enable {
     environment.systemPackages = [pkgs.cifs-utils];
 
-    fileSystems."/mnt/siarnaq-home" = {
-      device = "//siarnaq.ridgewood/home";
-      fsType = "cifs";
-      options = let
-        # this line prevents hanging on network split
-        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=3,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-      in [
-        "${automount_opts},credentials=/var/lib/samba-credentials/samba-credentials,uid=1000,gid=100,mfsymlinks,file_mode=0644,dir_mode=0755"
-      ];
-    };
-
-    system.userActivationScripts.linksmbmount.text = let
+    system.userActivationScripts.linknfsmount.text = let
       link = {
         mount,
         target,
@@ -35,5 +24,26 @@
         mount = "/mnt/siarnaq-home/Projects";
         target = "$HOME/Projects";
       };
+
+    boot.supportedFilesystems = ["nfs"];
+
+    fileSystems."/mnt/siarnaq-home" = {
+      device = "siarnaq.ridgewood:/volume1/homes/corbin";
+      fsType = "nfs";
+      options = ["nfsvers=4.1" "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600"];
+    };
+
+    services.nfs = {
+      idmapd.settings = {
+        General = {
+          Domain = "ridgewood";
+        };
+      };
+    };
+
+    boot.extraModprobeConfig = ''
+      options nfs nfs4_disable_idmapping=0
+      options nfsd nfs4_disable_idmapping=0
+    '';
   };
 }
