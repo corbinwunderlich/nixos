@@ -37,7 +37,8 @@
 
     nixvim.url = "github:CorbinWunderlich/neovim";
 
-    affinity-nix.url = "github:mrshmllow/affinity-nix";
+    affinity-nix.url = "github:corbinwunderlich/affinity-nix";
+    affinity-nix.inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=1925c603f17fc89f4c8f6bf6f631a802ad85d784";
 
     home-manager = {
       url = "github:nix-community/home-manager?ref=release-25.05";
@@ -84,11 +85,21 @@
 
         system = "x86_64-linux";
 
-        modules = commonModules {
-          configuration = ./desktop/configuration.nix;
-          home = ./users/corbin/desktop/home.nix;
-          machine = "desktop";
-        };
+        modules =
+          commonModules {
+            configuration = ./desktop/configuration.nix;
+            home = ./users/corbin/desktop/home.nix;
+            machine = "desktop";
+          }
+          ++ (with nixos-hardware.nixosModules; [
+            common-cpu-amd
+            common-cpu-amd-pstate
+            common-cpu-amd-raphael-igpu
+            common-gpu-amd
+            common-pc
+            common-pc-ssd
+            common-hidpi
+          ]);
       };
 
       nixvm = nixpkgs.lib.nixosSystem {
