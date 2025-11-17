@@ -14,7 +14,6 @@
 
     environment.sessionVariables = {
       GLFW_IM_MODULE = "ibus";
-      DISPLAY = ":0";
     };
   };
 }

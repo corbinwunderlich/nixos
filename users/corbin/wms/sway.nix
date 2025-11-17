@@ -45,6 +45,13 @@
       "theme-name" = "Black-Theme";
     });
 
+    home.sessionVariables = {
+      DISPLAY =
+        if machine == "vm"
+        then ":0"
+        else ":1";
+    };
+
     home.pointerCursor = {
       name = "Adwaita";
       package = pkgs.adwaita-icon-theme;
