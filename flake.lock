@@ -1022,11 +1022,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1763686131,
-        "narHash": "sha256-SBNKntSpyeNgPm/isqeEw5l4qzNaQ7ObdvdMCQP/U68=",
+        "lastModified": 1763864525,
+        "narHash": "sha256-8dVDGMPP2d24fCO3hu8j8+PP7YlvXz7LG+CUlSinM5Y=",
         "owner": "CorbinWunderlich",
         "repo": "neovim",
-        "rev": "9ec8af72140ff6fa764263b085f21506830aaefe",
+        "rev": "b33ac382f536bcea22cc4127815cdc15716269a4",
         "type": "github"
       },
       "original": {
