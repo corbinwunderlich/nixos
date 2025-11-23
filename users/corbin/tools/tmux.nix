@@ -30,9 +30,10 @@
           extraConfig = ''
             resurrect_dir="$HOME/.tmux/resurrect"
             set -g @resurrect-dir $resurrect_dir
-            set -g @resurrect-hook-post-save-all "sed -i 's/--cmd lua.*--cmd set packpath/--cmd \"lua/g; s/--cmd set rtp.*\$/\"/' $resurrect_dir/last"
+            set -g @resurrect-strategy-nvim "session"
             set -g @resurrect-capture-pane-contents 'on'
-            set -g @resurrect-processes '"~nvim"'
+            set -g @resurrect-processes 'ssh sqlite3 mprocs nix litecli sudo nvim'
+            set -g @resurrect-hook-post-save-all "sed -i 's| --cmd .*-vim-pack-dir||g; s|/etc/profiles/per-user/$USER/bin/||g; s|/nix/store/.*/bin/||g' $(readlink -f $resurrect_dir/last)"
           '';
         }
       ];
