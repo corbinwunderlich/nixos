@@ -14,6 +14,7 @@
     ./tools/direnv.nix
     ./tools/rclone.nix
     ./tools/tmux.nix
+    ./tools/nushell.nix
 
     ./wms/i3.nix
     ./wms/sway.nix
@@ -35,6 +36,7 @@
   fcitx.enable = lib.mkDefault true;
   rclone.enable = lib.mkDefault true;
   tmux.enable = lib.mkDefault true;
+  nu.enable = lib.mkDefault true;
 
   hyprland.enable = lib.mkDefault true;
   hyprlock.enable = lib.mkDefault true;

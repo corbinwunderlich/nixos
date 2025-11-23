@@ -35,12 +35,13 @@ in {
     home.packages = with pkgs; [
       fd
       bat
-      eza
       xh
       dust
       delta
       fzf
     ];
+
+    programs.eza.enable = true;
 
     programs.zsh = {
       enable = true;
