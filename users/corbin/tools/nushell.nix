@@ -35,11 +35,7 @@
 
       envFile.text = ''
         $env.PROMPT_COMMAND = {
-            let cwd = if (($env.HOME | into string) == (pwd | into string)) {
-                $"~/(pwd | path relative-to $env.HOME)"
-            } else {
-                $"(pwd)"
-            }
+            let cwd = (pwd | str replace $env.HOME "~")
 
             let time = $env.CMD_DURATION_MS
             let elapsed = if ($time | is-not-empty) {
