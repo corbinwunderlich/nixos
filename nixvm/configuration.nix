@@ -113,7 +113,7 @@
     /run/current-system/sw/bin/depmod -a ${pkgs.linux_6_12.modDirVersion}
   '';
 
-  users.users.corbin = import ./../users/corbin/corbin.nix;
+  users.users.corbin = import ./../users/corbin/corbin.nix {inherit pkgs inputs;};
   users.defaultUserShell = pkgs.zsh;
 
   services.openssh = {

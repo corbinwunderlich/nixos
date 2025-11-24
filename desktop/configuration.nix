@@ -49,7 +49,7 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  users.users.corbin = import ./../users/corbin/corbin.nix;
+  users.users.corbin = import ./../users/corbin/corbin.nix {inherit pkgs inputs;};
   users.defaultUserShell = pkgs.zsh;
 
   environment.systemPackages = [

@@ -44,7 +44,7 @@
 
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_17;
 
-  users.users.corbin = import ./../users/corbin/corbin.nix;
+  users.users.corbin = import ./../users/corbin/corbin.nix {inherit pkgs;};
   users.defaultUserShell = pkgs.zsh;
 
   services.btrfs.autoScrub.enable = true;
