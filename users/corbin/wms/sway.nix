@@ -102,6 +102,27 @@
       ];
     };
 
+    systemd.user.services.xwayland-satellite = lib.mkIf (machine != "vm") {
+      Unit = {
+        Description = "Xwayland outside your Wayland";
+        BindsTo = ["wayland-session@sway.target"];
+        PartOf = ["wayland-session@sway.target"];
+        After = ["wayland-session@sway.target"];
+        Requisite = ["wayland-session@sway.target"];
+      };
+
+      Service = {
+        Type = "notify";
+        NotifyAccess = "all";
+        ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :1";
+        StandardOutput = "journal";
+      };
+
+      Install = {
+        WantedBy = ["wayland-session@sway.target"];
+      };
+    };
+
     wayland.windowManager.sway = {
       enable = true;
 
@@ -230,11 +251,6 @@
             command = "${pkgs.wl-clipboard}/bin/wl-paste --watch cliphist store";
             always = true;
           }
-          (lib.mkIf (machine != "vm")
-            {
-              command = "sleep 2 && ${pkgs.xwayland-satellite}/bin/xwayland-satellite :1";
-              always = true;
-            })
         ];
 
         defaultWorkspace = "workspace number 1";
