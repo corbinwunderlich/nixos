@@ -12,6 +12,8 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
+    xwayland-satellite.url = "github:supreeeme/xwayland-satellite";
+
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
     split-monitor-workspaces = {

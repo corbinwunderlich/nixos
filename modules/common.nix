@@ -30,5 +30,9 @@
         propagatedBuildInputs = prev.ulauncher.propagatedBuildInputs ++ [pkgs.python3Packages.pytz];
       };
     })
+
+    (final: prev: {
+      xwayland-satellite = inputs.xwayland-satellite.packages.x86_64-linux.default;
+    })
   ];
 }
