@@ -68,8 +68,6 @@
         cat = "bat";
         du = "dust";
 
-        s = "sesh connect ...(sesh list | fzf)";
-
         sudo = "/run/wrappers/bin/sudo";
       };
     };
@@ -77,8 +75,6 @@
     programs.carapace.enable = true;
 
     programs.direnv.enableNushellIntegration = true;
-
-    programs.sesh.enableAlias = false;
 
     programs.ghostty.settings.command = lib.mkForce "${pkgs.nushell}/bin/nu";
     programs.tmux.shell = lib.mkForce "${pkgs.nushell}/bin/nu";

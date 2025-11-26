@@ -7,6 +7,12 @@
   options.tmux.enable = lib.mkEnableOption "Enables rclone";
 
   config = lib.mkIf config.tmux.enable {
+    home.packages = [
+      (pkgs.writeShellScriptBin "s" ''
+        ${pkgs.sesh}/bin/sesh connect $(${pkgs.sesh}/bin/sesh list | ${pkgs.fzf}/bin/fzf)
+      '')
+    ];
+
     programs.tmux = {
       enable = true;
 
@@ -75,6 +81,7 @@
       enable = true;
       tmuxKey = "T";
       icons = false;
+      enableAlias = false;
     };
 
     programs.fzf = {
@@ -145,6 +152,7 @@
         WorkingDirectory = "${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts";
 
         RestartSec = 2;
+        Restart = "always";
       };
 
       Install = {
