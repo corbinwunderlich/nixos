@@ -1056,11 +1056,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1764026045,
-        "narHash": "sha256-uWCRBlaF4/KQzL5focy6fpxk9Wme7QZA/m7ChSd1x0s=",
+        "lastModified": 1764128371,
+        "narHash": "sha256-YVqQ6R2L0CgKtcKgjBt9iDP+hs6k3CdEmROhdXyEwMA=",
         "owner": "CorbinWunderlich",
         "repo": "neovim",
-        "rev": "eb77dfa46dadded4b3d3961e0ff96cf6c9da22c4",
+        "rev": "fef579c67c6470c7861cc3c747e30adf099dccad",
         "type": "github"
       },
       "original": {
