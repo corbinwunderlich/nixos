@@ -9,7 +9,7 @@
   config = lib.mkIf config.tmux.enable {
     home.packages = [
       (pkgs.writeShellScriptBin "s" ''
-        ${pkgs.sesh}/bin/sesh connect $(${pkgs.sesh}/bin/sesh list | ${pkgs.fzf}/bin/fzf)
+        ${pkgs.tmux}/bin/tmux attach -t $(${pkgs.sesh}/bin/sesh list | ${pkgs.fzf}/bin/fzf)
       '')
     ];
 

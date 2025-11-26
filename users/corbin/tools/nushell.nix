@@ -52,6 +52,8 @@
         $env.PROMPT_INDICATOR_VI_INSERT = $"(ansi "#ffffff")❯ (ansi reset)(ansi -e '4 q')"
         $env.PROMPT_INDICATOR_VI_NORMAL = $"(ansi "#ffffff"): (ansi reset)(ansi -e '2 q')"
         $env.PROMPT_MULTILINE_INDICATOR = $"(ansi "#ffffff")::: (ansi reset)"
+
+        $env.TMUX = "/run/user/1000/tmux-1000/default"
       '';
 
       configFile.text = ''
