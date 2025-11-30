@@ -71,7 +71,7 @@
   security.pam.services.gtklock.fprintAuth = true;
   security.pam.services.sudo.fprintAuth = true;
 
-  services.logind = {
+  services.logind.settings.Login = {
     lidSwitch = "suspend";
     lidSwitchDocked = "suspend";
     lidSwitchExternalPower = "suspend";

@@ -2,7 +2,7 @@
   description = "A NixOS configuration for my personal computers";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -43,7 +43,7 @@
     affinity-nix.inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=1925c603f17fc89f4c8f6bf6f631a802ad85d784";
 
     home-manager = {
-      url = "github:nix-community/home-manager?ref=release-25.05";
+      url = "github:nix-community/home-manager?ref=release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

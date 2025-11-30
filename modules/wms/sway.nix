@@ -68,11 +68,6 @@
     security.polkit.enable = true;
 
     services.xserver.displayManager = {
-      autoLogin = lib.mkIf (machine == "desktop") {
-        enable = false;
-        user = "corbin";
-      };
-
       lightdm = {
         enable = true;
 
@@ -103,8 +98,15 @@
           '';
         in "session-wrapper=${lightdmSession}/bin/lightdm-session";
       };
+    };
 
+    services.displayManager = {
       defaultSession = "sway-uwsm";
+
+      autoLogin = lib.mkIf (machine == "desktop") {
+        enable = false;
+        user = "corbin";
+      };
     };
 
     programs.gtklock.enable = true;

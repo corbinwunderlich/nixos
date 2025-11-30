@@ -13,7 +13,7 @@
     ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &
     ${pkgs._1password-gui}/bin/1password --silent &
     ${
-      inputs.hyprland.packages.${pkgs.system}.hyprland
+      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland
     }/bin/hyprctl setcursor rose-pine-hyprcursor 24 &
     fcitx5 -dr &
     fcitx5-remote -r &
@@ -30,11 +30,11 @@ in {
       pkgs.rose-pine-cursor
       pkgs.kora-icon-theme
       pkgs.nwg-look
-      inputs.hyprland-contrib.packages.${pkgs.system}.grimblast
+      inputs.hyprland-contrib.packages.${pkgs.stdenv.hostPlatform.system}.grimblast
       pkgs.slurp
       pkgs.wl-clipboard
       pkgs.xorg.xrandr
-      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
       pkgs.hyprpicker
       pkgs.libnotify
     ];
@@ -83,13 +83,13 @@ in {
           xdg-desktop-portal-gtk
           kdePackages.xdg-desktop-portal-kde
         ]
-        ++ [inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland];
+        ++ [inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland];
     };
 
     wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-      portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       settings = {
         exec-once = "${startupScript}/bin/start";
 
@@ -314,7 +314,7 @@ in {
       '';
 
       plugins = [
-        inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+        inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
       ];
     };
 

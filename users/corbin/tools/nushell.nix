@@ -78,6 +78,11 @@
 
     programs.direnv.enableNushellIntegration = true;
 
+    programs.delta = {
+      enable = true;
+      enableGitIntegration = true;
+    };
+
     programs.ghostty.settings.command = lib.mkForce "${pkgs.nushell}/bin/nu";
     programs.tmux.shell = lib.mkForce "${pkgs.nushell}/bin/nu";
   };

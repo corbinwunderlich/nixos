@@ -9,16 +9,18 @@
 
   hyprland.enable = false;
 
+  bluetooth.enable = false;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  services.logind.extraConfig = ''
-    HandlePowerKey=suspend
-    HandlePowerKeyLongPress=shutdown
-  '';
+  services.logind.settings.Login = {
+    HandlePowerKey = "suspend";
+    HandlePowerKeyLongPress = "shutdown";
+  };
 
   security.sudo.extraConfig = "Defaults env_reset,pwfeedback";
 
@@ -53,7 +55,7 @@
   users.defaultUserShell = pkgs.zsh;
 
   environment.systemPackages = [
-    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
     pkgs.rose-pine-cursor
     pkgs.gh
 

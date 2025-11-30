@@ -19,7 +19,7 @@
 
         cursor-color = "#ffffff";
 
-        theme = "arcoiris";
+        theme = "Arcoiris";
 
         font-family = "JetBrainsMono Nerd Font";
         font-family-bold = "JetBrainsMono Nerd Font";

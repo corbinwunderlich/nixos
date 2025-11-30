@@ -19,6 +19,8 @@
     programs.ssh = {
       enable = true;
 
+      enableDefaultConfig = false;
+
       extraConfig = ''
         IdentityAgent ~/.1password/agent.sock
 
@@ -46,9 +48,11 @@
         "nixpi*" = {
           user = "root";
         };
-      };
 
-      forwardAgent = true;
+        "*" = {
+          forwardAgent = true;
+        };
+      };
     };
 
     xdg.configFile."1Password/ssh/agent.toml".text = ''
