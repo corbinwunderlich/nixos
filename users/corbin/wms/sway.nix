@@ -133,10 +133,12 @@
       config = let
         modifier = config.wayland.windowManager.sway.config.modifier;
         terminal = config.wayland.windowManager.sway.config.terminal;
-        launcher =
+        display =
           if machine == "vm"
-          then "DISPLAY=:0 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow"
-          else "DISPLAY=:1 ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
+          then ":0"
+          else ":1";
+
+        launcher = "DISPLAY=${display} ${pkgs.ulauncher}/bin/ulauncher --no-window-shadow";
         swaysome = "${pkgs.swaysome}/bin/swaysome";
       in {
         output =
