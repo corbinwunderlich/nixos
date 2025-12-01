@@ -74,7 +74,10 @@
       };
     };
 
-    programs.carapace.enable = true;
+    programs.carapace = {
+      enable = true;
+      package = pkgs.unstable.carapace;
+    };
 
     programs.direnv.enableNushellIntegration = true;
 
