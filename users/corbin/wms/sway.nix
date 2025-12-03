@@ -116,6 +116,8 @@
         NotifyAccess = "all";
         ExecStart = "${pkgs.xwayland-satellite}/bin/xwayland-satellite :1";
         StandardOutput = "journal";
+        Restart = "always";
+        RestartSec = 1;
       };
 
       Install = {
