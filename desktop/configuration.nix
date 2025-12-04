@@ -66,6 +66,8 @@
     pkgs.wine
   ];
 
+  services.flatpak.packages = ["io.github.peazip.PeaZip"];
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
