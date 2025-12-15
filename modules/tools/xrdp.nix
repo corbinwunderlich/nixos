@@ -14,9 +14,6 @@
   });
 
   xpra = xpraOverride.override {
-    nvidia_x11 = config.hardware.nvidia.package;
-    nv-codec-headers-10 = pkgs.nv-codec-headers-12;
-    withNvenc = true;
     withHtml = false;
   };
 
@@ -199,7 +196,7 @@ in {
       in ''
         export PATH="''${XDG_BIN_HOME}:$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
 
-        WAYLAND_DISPLAY=wayland-1 wayvnc -f 60 -p -v
+        WAYLAND_DISPLAY=wayland-1 wayvnc -f 60 -p --gpu --log-level=debug -v
         #WAYLAND_DISPLAY=wayland-1 wayvnc -f 60 -C ${wayvncConfig} -p -v
       '';
     };

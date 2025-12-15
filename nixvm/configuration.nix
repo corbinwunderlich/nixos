@@ -69,49 +69,13 @@
     ];
   };
 
-  services.xserver.videoDrivers = ["nvidia"];
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_17;
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_12;
+  boot.kernelParams = ["xe.force_probe=0x4680" "module_blacklist=i915"];
 
-  hardware.nvidia = {
-    open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.grid_18_0.override {
-      stdenv = pkgs.overrideCC pkgs.stdenv pkgs.gcc14;
-    };
-    gsp.enable = false;
-    vgpu.griddUnlock = {
-      enable = true;
-      rootCaFile =
-        (pkgs.fetchurl {
-          url = "https://siarnaq.ridgewood:7070/-/config/root-certificate";
-          hash = "sha256-SfCKzvwNSYva17j+lD9E0aTRfbgaj73GegUH0GCu8Cw=";
-          curlOpts = "--insecure";
-        }).outPath;
-    };
-  };
+  boot.extraModulePackages = with pkgs; [xe-sriov];
 
-  hardware.nvidia-container-toolkit.enable = true;
-
-  boot.kernelParams = ["i915-sriov.enable_guc=3" "module_blacklist=xe" "module_blacklist=i915"];
-
-  boot.kernelModules = ["i915-sriov"];
-  boot.initrd.kernelModules = ["i915-sriov"];
-
-  boot.extraModulePackages = [
-    (pkgs.i915-sriov.overrideAttrs {
-      installPhase = ''
-        mkdir -p $out/lib/modules/${pkgs.linux_6_12.modDirVersion}/extra
-
-        ${pkgs.xz}/bin/xz -z -f i915.ko
-
-        cp i915.ko.xz $out/lib/modules/${pkgs.linux_6_12.modDirVersion}/extra/i915-sriov.ko.xz
-      '';
-    })
-  ];
-
-  boot.postBootCommands = ''
-    /run/current-system/sw/bin/depmod -a ${pkgs.linux_6_12.modDirVersion}
-  '';
+  services.xserver.videoDrivers = ["modesetting"];
 
   users.users.corbin = import ./../users/corbin/corbin.nix {inherit pkgs inputs;};
   users.defaultUserShell = pkgs.zsh;
@@ -132,8 +96,6 @@
     westonLite
     cage
     xwayland
-
-    nvidia-container-toolkit
   ];
 
   environment.etc."weston.ini".source = (pkgs.formats.ini {}).generate "weston.ini" {
