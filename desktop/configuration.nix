@@ -77,7 +77,7 @@
 
   hardware.amdgpu.initrd.enable = true;
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_17;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
 
   programs.coolercontrol.enable = true;
 

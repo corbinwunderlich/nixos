@@ -5,8 +5,8 @@
   };
 
   hardware.graphics = {
-    package = pkgs.unstable.mesa.drivers;
-    package32 = pkgs.unstable.pkgsi686Linux.mesa.drivers;
+    package = pkgs.unstable.mesa;
+    package32 = pkgs.unstable.pkgsi686Linux.mesa;
   };
 
   boot.kernelParams = ["amdgpu.sg_display=0" "amdgpu.gfx_off=0" "amdgpu.runtime_pm=0" "amdgpu.gpu_recovery=1"];
