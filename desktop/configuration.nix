@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   inputs,
   ...
@@ -18,7 +16,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   services.logind.settings.Login = {
-    HandlePowerKey = "suspend";
+    HandlePowerKey = "hibernate";
     HandlePowerKeyLongPress = "shutdown";
   };
 
@@ -29,6 +27,25 @@
   '';
 
   services.btrfs.autoScrub.enable = true;
+
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 64 * 1024; # 64 GB for hibernation
+    }
+  ];
+
+  systemd.tmpfiles.rules = ["w /sys/power/image_size - - - - 1073741824"];
+
+  boot.resumeDevice = "/dev/disk/by-uuid/2721e962-d3ce-4f8e-a6eb-f6d2b4081dbf";
+
+  powerManagement.enable = true;
+
+  boot.initrd.availableKernelModules = ["nvme" "btrfs"];
+
+  systemd.services.systemd-logind.environment = {
+    SYSTEMD_BYPASS_HIBERNATION_MEMORY_CHECK = "1";
+  };
 
   networking = {
     hostName = "desktop";
@@ -73,7 +90,7 @@
     enable32Bit = true;
   };
 
-  boot.kernelParams = ["video=DP-1:3840x2160@120" "video=DP-2:3840x2160@150"];
+  boot.kernelParams = ["video=DP-1:3840x2160@120" "video=DP-2:3840x2160@150" "resume_offset=318583227" "hibernate.compressor=lzo"];
 
   hardware.amdgpu.initrd.enable = true;
 
