@@ -9,9 +9,13 @@
 
   bluetooth.enable = false;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    # Use the systemd-boot EFI boot loader.
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+
+    timeout = 1;
+  };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
