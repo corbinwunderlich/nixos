@@ -67,13 +67,12 @@
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
       intel-vaapi-driver # LIBVA_DRIVER_NAME=i965
     ];
+
+    package = pkgs.unstable.mesa;
+    package32 = pkgs.unstable.pkgsi686Linux.mesa;
   };
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_17;
-
-  boot.kernelParams = ["xe.force_probe=0x4680" "module_blacklist=i915"];
-
-  boot.extraModulePackages = with pkgs; [xe-sriov];
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
 
   services.xserver.videoDrivers = ["modesetting"];
 

@@ -6,11 +6,6 @@
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    xe-sriov = {
-      url = "github:strongtz/i915-sriov-dkms";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     nvidia-vgpu.url = "github:mrzenc/vgpu4nixos";
@@ -64,7 +59,6 @@
     sops-nix,
     nvidia-vgpu,
     nixos-hardware,
-    xe-sriov,
     ...
   }: {
     nixosConfigurations = let
@@ -128,7 +122,6 @@
           }
           ++ [
             nvidia-vgpu.nixosModules.guest
-            xe-sriov.nixosModules.default
           ];
       };
 
