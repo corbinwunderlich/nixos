@@ -8,8 +8,6 @@
 
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
-    nvidia-vgpu.url = "github:mrzenc/vgpu4nixos";
-
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
     sops-nix.url = "github:Mic92/sops-nix";
@@ -57,7 +55,6 @@
     home-manager,
     nix-flatpak,
     sops-nix,
-    nvidia-vgpu,
     nixos-hardware,
     ...
   }: {
@@ -114,15 +111,11 @@
 
         system = "x86_64-linux";
 
-        modules =
-          commonModules {
-            configuration = ./nixvm/configuration.nix;
-            home = ./users/corbin/nixvm/home.nix;
-            machine = "vm";
-          }
-          ++ [
-            nvidia-vgpu.nixosModules.guest
-          ];
+        modules = commonModules {
+          configuration = ./nixvm/configuration.nix;
+          home = ./users/corbin/nixvm/home.nix;
+          machine = "vm";
+        };
       };
 
       nixpad = nixpkgs.lib.nixosSystem {
