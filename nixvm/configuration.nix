@@ -72,7 +72,7 @@
     package32 = pkgs.unstable.pkgsi686Linux.mesa;
   };
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
 
   services.xserver.videoDrivers = ["modesetting"];
 

@@ -1344,7 +1344,6 @@
         "rose-pine-hyprcursor": "rose-pine-hyprcursor",
         "sops-nix": "sops-nix",
         "split-monitor-workspaces": "split-monitor-workspaces",
-        "xe-sriov": "xe-sriov",
         "xwayland-satellite": "xwayland-satellite"
       }
     },
@@ -1619,26 +1618,6 @@
       "original": {
         "owner": "hyprwm",
         "repo": "xdg-desktop-portal-hyprland",
-        "type": "github"
-      }
-    },
-    "xe-sriov": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1765365658,
-        "narHash": "sha256-0ScqO5ADh2f9qsvlNixiOk0rflDehNW1LVzcN96SGBo=",
-        "owner": "strongtz",
-        "repo": "i915-sriov-dkms",
-        "rev": "2482f8fa4b1aabf10c5c9e5c1d4e37a84f2cdf57",
-        "type": "github"
-      },
-      "original": {
-        "owner": "strongtz",
-        "repo": "i915-sriov-dkms",
         "type": "github"
       }
     },
