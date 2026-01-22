@@ -49,6 +49,11 @@
           user = "root";
         };
 
+        "idrac*" = {
+          user = "root";
+          setEnv.TERM = "xterm-256color";
+        };
+
         "*" = {
           forwardAgent = true;
         };
