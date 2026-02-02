@@ -13,6 +13,16 @@
     programs.steam.package = pkgs.steam.override {extraLibraries = pkgs: [pkgs.util-linux];};
     programs.steam.gamescopeSession.enable = true;
 
+    programs.steam.extraCompatPackages = with pkgs; [
+      proton-ge-bin
+    ];
+
+    programs.steam.extraPackages = with pkgs; [
+      gamescope
+      mono
+      mangohud
+    ];
+
     environment.systemPackages = with pkgs; [
       mangohud
       protonup-ng

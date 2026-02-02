@@ -23,6 +23,7 @@
     ./tools/syncthing.nix
     ./tools/ventoy.nix
     ./tools/calculator.nix
+    ./tools/localsend.nix
 
     ./apps/ghostty.nix
     ./apps/steam.nix
@@ -82,6 +83,8 @@
   ventoy.enable = lib.mkDefault true;
 
   calculator.enable = lib.mkDefault true;
+
+  localsend.enable = lib.mkDefault true;
 
   ghostty.enable = lib.mkDefault true;
 

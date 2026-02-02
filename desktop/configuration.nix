@@ -7,8 +7,6 @@
 
   hyprland.enable = false;
 
-  bluetooth.enable = false;
-
   boot.loader = {
     # Use the systemd-boot EFI boot loader.
     systemd-boot.enable = true;
