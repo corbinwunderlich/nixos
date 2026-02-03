@@ -2,6 +2,8 @@
   description = "A NixOS configuration for my personal computers";
 
   inputs = {
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -56,6 +58,7 @@
     nix-flatpak,
     sops-nix,
     nixos-hardware,
+    determinate,
     ...
   }: {
     nixosConfigurations = let
@@ -67,6 +70,8 @@
         configuration
 
         nix-flatpak.nixosModules.nix-flatpak
+
+        determinate.nixosModules.default
 
         home-manager.nixosModules.home-manager
         {
