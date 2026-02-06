@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs,
+  machine,
   ...
 }: {
   options.kicad.enable = lib.mkEnableOption "Enables kicad";
@@ -12,5 +12,14 @@
     services.flatpak.packages = [
       "org.kicad.KiCad"
     ];
+
+    services.flatpak.overrides."org.kicad.KiCad" = {
+      Environment.DISPLAY =
+        if machine == "vm"
+        then ":0"
+        else ":1";
+
+      Context.sockets = ["x11"];
+    };
   };
 }
