@@ -42,7 +42,7 @@
     enable32Bit = true;
   };
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_17;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-zen4;
 
   users.users.corbin = import ./../users/corbin/corbin.nix {inherit pkgs;};
   users.defaultUserShell = pkgs.zsh;
