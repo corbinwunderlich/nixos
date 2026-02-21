@@ -100,7 +100,7 @@
 
   hardware.amdgpu.initrd.enable = true;
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
+  boot.kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-zen4;
 
   programs.coolercontrol.enable = true;
 
