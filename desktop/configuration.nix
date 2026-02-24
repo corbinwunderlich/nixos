@@ -73,20 +73,6 @@
   users.users.corbin = import ./../users/corbin/corbin.nix {inherit pkgs inputs;};
   users.defaultUserShell = pkgs.zsh;
 
-  environment.systemPackages = [
-    inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
-    pkgs.rose-pine-cursor
-    pkgs.gh
-
-    pkgs.winetricks
-    pkgs.p7zip
-    pkgs.cabextract
-    pkgs.ppp
-    pkgs.wine
-  ];
-
-  services.flatpak.packages = ["io.github.peazip.PeaZip"];
-
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
