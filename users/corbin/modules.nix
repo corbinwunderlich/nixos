@@ -36,13 +36,13 @@
 
   zsh.enable = lib.mkDefault true;
   fcitx.enable = lib.mkDefault true;
-  rclone.enable = lib.mkDefault true;
+  rclone.enable = lib.mkDefault false;
   tmux.enable = lib.mkDefault true;
   nu.enable = lib.mkDefault true;
 
-  hyprland.enable = lib.mkDefault true;
-  hyprlock.enable = lib.mkDefault true;
-  hyprpaper.enable = lib.mkDefault true;
+  hyprland.enable = lib.mkDefault false;
+  hyprlock.enable = lib.mkDefault config.hyprland.enable;
+  hyprpaper.enable = lib.mkDefault config.hyprland.enable;
   sway.enable = lib.mkDefault true;
   i3.enable = lib.mkDefault false;
   ags.enable = lib.mkDefault config.hyprland.enable;
