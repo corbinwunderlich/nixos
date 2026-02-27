@@ -30,6 +30,18 @@
       SUDO_EDITOR = "nvim";
     };
 
+    programs.bash.bashrcExtra = ''
+      export OLLAMA_API_KEY="$(cat ${config.sops.secrets."ollama/key".path})"
+    '';
+
+    programs.zsh.initContent = ''
+      export OLLAMA_API_KEY="$(cat ${config.sops.secrets."ollama/key".path})"
+    '';
+
+    programs.nushell.extraEnv = ''
+      $env.OLLAMA_API_KEY = (cat ${config.sops.secrets."ollama/key".path})
+    '';
+
     home.packages = with pkgs; [
       alejandra
       ripgrep
