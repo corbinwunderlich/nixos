@@ -78,7 +78,7 @@
 
   arduino.enable = lib.mkDefault true;
 
-  syncthing.enable = lib.mkDefault true;
+  syncthing.enable = lib.mkDefault false;
 
   ventoy.enable = lib.mkDefault true;
 
