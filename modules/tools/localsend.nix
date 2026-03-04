@@ -14,5 +14,8 @@
     ];
 
     environment.systemPackages = with pkgs; [opendrop];
+
+    networking.firewall.allowedUDPPorts = [53317];
+    networking.firewall.allowedTCPPorts = [53317];
   };
 }
