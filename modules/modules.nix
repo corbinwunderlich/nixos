@@ -24,6 +24,7 @@
     ./tools/ventoy.nix
     ./tools/calculator.nix
     ./tools/localsend.nix
+    ./tools/winboat.nix
 
     ./apps/ghostty.nix
     ./apps/steam.nix
@@ -85,6 +86,8 @@
   calculator.enable = lib.mkDefault true;
 
   localsend.enable = lib.mkDefault true;
+
+  winboat.enable = lib.mkDefault false;
 
   ghostty.enable = lib.mkDefault true;
 
