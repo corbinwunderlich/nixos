@@ -8,6 +8,11 @@
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
@@ -59,6 +64,7 @@
     sops-nix,
     nixos-hardware,
     determinate,
+    nix-index-database,
     ...
   }: {
     nixosConfigurations = let
@@ -72,6 +78,8 @@
         nix-flatpak.nixosModules.nix-flatpak
 
         determinate.nixosModules.default
+
+        nix-index-database.nixosModules.default
 
         home-manager.nixosModules.home-manager
         {

@@ -25,6 +25,7 @@
     ./tools/calculator.nix
     ./tools/localsend.nix
     ./tools/winboat.nix
+    ./tools/nix-utils.nix
 
     ./apps/ghostty.nix
     ./apps/steam.nix
@@ -88,6 +89,8 @@
   localsend.enable = lib.mkDefault true;
 
   winboat.enable = lib.mkDefault false;
+
+  nix-utils.enable = lib.mkDefault true;
 
   ghostty.enable = lib.mkDefault true;
 
