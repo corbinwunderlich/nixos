@@ -16,14 +16,7 @@
       fzf
     ];
 
-    programs.nushell = let
-      nu_scripts = pkgs.fetchFromGitHub {
-        owner = "nushell";
-        repo = "nu_scripts";
-        rev = "ff8092707054ad091d67bd408374a39977e33c1b";
-        hash = "sha256-oxnXzxQkNccCs36j+aMzg4QGHDcX7niJruqxCkeg0LM=";
-      };
-    in {
+    programs.nushell = {
       enable = true;
 
       settings = {
@@ -57,7 +50,7 @@
       '';
 
       configFile.text = ''
-        use ${nu_scripts}/themes/nu-themes/tokyo-night.nu
+        use ${pkgs.nu_scripts}/share/nu_scripts/themes/nu-themes/tokyo-night.nu
         tokyo-night set color_config
       '';
 
