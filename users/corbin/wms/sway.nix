@@ -18,6 +18,8 @@
       nwg-displays
 
       (pkgs.callPackage ../../../packages/sw_swaybar.nix {sw = pkgs.callPackage ../../../packages/sw.nix {};})
+
+      (pkgs.callPackage ../../../packages/swayrst.nix {})
     ];
 
     xdg.configFile."ulauncher/user-themes/black" = {
