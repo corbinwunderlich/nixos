@@ -6,7 +6,7 @@
   environment.shells = with pkgs; [zsh];
   programs.zsh.enable = true;
 
-  environment.systemPackages = with pkgs; [wget inputs.nixvim.packages.x86_64-linux.default git gh lazygit htop btop unzip python3 pciutils usbutils mesa-demos libva-utils];
+  environment.systemPackages = with pkgs; [wget inputs.nixvim.packages.x86_64-linux.default git forgejo-cli gh lazygit htop btop unzip python3 pciutils usbutils mesa-demos libva-utils];
 
   networking.firewall.allowedTCPPorts = [8080];
 
