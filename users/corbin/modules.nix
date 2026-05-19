@@ -16,6 +16,7 @@
     ./tools/rclone.nix
     ./tools/tmux.nix
     ./tools/nushell.nix
+    ./tools/git.nix
 
     ./wms/i3.nix
     ./wms/sway.nix
