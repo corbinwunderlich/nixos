@@ -1345,11 +1345,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1777650149,
-        "narHash": "sha256-/TH2pSZRJSa+ecY2xPYJRDWmckdOaZP+sey9P+/BjOY=",
+        "lastModified": 1779475794,
+        "narHash": "sha256-ApDFP4+3eksYDkTqJhXSidHRapLcdybojOp213e37+8=",
         "owner": "CorbinWunderlich",
         "repo": "neovim",
-        "rev": "76a7608d3a80c6d062ae7edc7efe641094b097d7",
+        "rev": "d2b4340875c9fd90bb76568e6a8fc62734dae0d3",
         "type": "github"
       },
       "original": {
