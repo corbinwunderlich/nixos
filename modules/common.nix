@@ -10,6 +10,8 @@
 
   networking.firewall.allowedTCPPorts = [8080];
 
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
   nixpkgs.overlays = [
     (final: prev: {
       ulauncher = prev.ulauncher.overrideAttrs {
