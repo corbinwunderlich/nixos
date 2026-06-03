@@ -9,7 +9,7 @@
   config = lib.mkIf config.thunar.enable {
     programs.thunar = {
       enable = true;
-      plugins = with pkgs.xfce; [thunar-archive-plugin];
+      plugins = with pkgs; [thunar-archive-plugin];
     };
 
     services.gvfs.enable = true;

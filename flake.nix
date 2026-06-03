@@ -4,7 +4,7 @@
   inputs = {
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
@@ -38,19 +38,30 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    ags.url = "github:Aylur/ags/v1";
+    ags = {
+      url = "github:Aylur/ags/v1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
+    rose-pine-hyprcursor = {
+      url = "github:ndom91/rose-pine-hyprcursor";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixvim.url = "github:CorbinWunderlich/neovim";
 
-    affinity-nix.url = "github:corbinwunderlich/affinity-nix";
-    affinity-nix.inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=1925c603f17fc89f4c8f6bf6f631a802ad85d784";
+    affinity-nix = {
+      url = "github:corbinwunderlich/affinity-nix";
+      inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=1925c603f17fc89f4c8f6bf6f631a802ad85d784";
+    };
 
     home-manager = {
-      url = "github:nix-community/home-manager?ref=release-25.11";
+      url = "github:nix-community/home-manager?ref=release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

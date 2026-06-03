@@ -91,17 +91,14 @@
           command = "${pkgs.systemd}/bin/systemctl suspend";
         });
 
-      events = [
-        {
-          event = "before-sleep";
-          command =
-            if machine == "laptop"
-            then "${pkgs.gtklock}/bin/gtklock -M eDP-1"
-            else if machine == "desktop"
-            then "${pkgs.gtklock}/bin/gtklock -M DP-1"
-            else "${pkgs.gtklock}/bin/gtklock";
-        }
-      ];
+      events = {
+        "before-sleep" =
+          if machine == "laptop"
+          then "${pkgs.gtklock}/bin/gtklock -M eDP-1"
+          else if machine == "desktop"
+          then "${pkgs.gtklock}/bin/gtklock -M DP-1"
+          else "${pkgs.gtklock}/bin/gtklock";
+      };
     };
 
     systemd.user.services.xwayland-satellite = lib.mkIf (machine != "vm") {
@@ -453,6 +450,8 @@
         name = "Adwaita-dark";
         package = pkgs.gnome-themes-extra;
       };
+
+      gtk4.theme = config.gtk.theme;
 
       font = {
         name = "Inter SemiBold";

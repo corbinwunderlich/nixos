@@ -41,39 +41,46 @@
 
         extraConfig = ''
           IdentityAgent ~/.1password/agent.sock
-
-          Match Originalhost siarnaq Exec "host siarnaq.ridgewood"
-            HostName siarnaq.ridgewood
-            ProxyJump none
-          Host siarnaq
-            User corbin
-            HostName ridgewood.wcopy.net
-            ProxyJump ampere
-            SetEnv TERM=xterm-256color
         '';
 
-        matchBlocks = {
-          "instance-1.wcopy.net" = {
-            hostname = "instance-1.wcopy.net";
-            user = "opc";
+        settings = {
+          "tethys" = {
+            Hostname = "tethys.ridgewood";
+            User = "root";
+            SetEnv = {
+              TERM = "xterm-256color";
+            };
           };
 
-          "tethys" = {
-            hostname = "tethys.ridgewood";
-            user = "root";
+          "Match Originalhost siarnaq Exec \"host siarnaq.ridgewood\" " = {
+            HostName = "siarnaq.ridgewood";
+            ProxyJump = "none";
+          };
+
+          "Host siarnaq" = {
+            HostName = "ridgewood.wcopy.net";
+            ProxyJump = "ampere";
+            SetEnv = {
+              TERM = "xterm-256color";
+            };
           };
 
           "nixpi*" = {
-            user = "root";
+            User = "root";
+            SetEnv = {
+              TERM = "xterm-256color";
+            };
           };
 
           "idrac*" = {
-            user = "root";
-            setEnv.TERM = "xterm-256color";
+            User = "root";
+            SetEnv = {
+              TERM = "xterm-256color";
+            };
           };
 
           "*" = {
-            forwardAgent = true;
+            ForwardAgent = true;
           };
         };
       };
