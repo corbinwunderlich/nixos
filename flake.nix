@@ -17,9 +17,18 @@
 
     nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    xwayland-satellite.url = "github:supreeeme/xwayland-satellite";
+    xwayland-satellite = {
+      url = "github:supreeeme/xwayland-satellite";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        rust-overlay.follows = "";
+      };
+    };
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
@@ -65,7 +74,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    _1password-shell-plugins.url = "github:1Password/shell-plugins";
+    _1password-shell-plugins = {
+      url = "github:1Password/shell-plugins";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
