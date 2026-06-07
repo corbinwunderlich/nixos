@@ -1274,11 +1274,11 @@
         "nixvim": "nixvim_2"
       },
       "locked": {
-        "lastModified": 1779475794,
-        "narHash": "sha256-ApDFP4+3eksYDkTqJhXSidHRapLcdybojOp213e37+8=",
+        "lastModified": 1780846890,
+        "narHash": "sha256-aMvzCYX8ih3y5NOAdmY6JdIHjEhO93yIsREnRGMVX9A=",
         "owner": "CorbinWunderlich",
         "repo": "neovim",
-        "rev": "d2b4340875c9fd90bb76568e6a8fc62734dae0d3",
+        "rev": "91d88eeee9305336045674e2a777cd212a531d58",
         "type": "github"
       },
       "original": {
