@@ -16,60 +16,6 @@
   xpra = xpraOverride.override {
     withHtml = false;
   };
-
-  novnc =
-    pkgs.novnc.overrideAttrs
-    (old: rec {
-      pname = "novnc-pointer-lock";
-
-      src = pkgs.fetchFromGitHub {
-        owner = "happylabdab2";
-        repo = "noVNC";
-        rev = "master";
-        hash = "sha256-9WRBDj2Z6L9dYPqsLe2BuCMLp4B7D9M51rMIDkhQaHM=";
-      };
-
-      nativeBuildInputs = [pkgs.gnused pkgs.makeWrapper];
-
-      propagatedBuildInputs = with pkgs;
-        [
-          socat
-          coreutils-full
-        ]
-        ++ (with pkgs.gst_all_1; [
-          gstreamer
-          gst-plugins-bad
-          gst-plugins-good
-          gst-plugins-base
-          gst-plugins-ugly
-        ]);
-
-      postInstall = let
-        audioPlugin = pkgs.fetchFromGitHub {
-          owner = "me-asri";
-          repo = "noVNC-audio-plugin";
-          rev = "main";
-          hash = "sha256-UmAPTroUYmhL6kizXmtoTVWjHrIKpg4EBh6hn6ldB4E=";
-        };
-
-        gstLibPath = path: path + "/lib/gstreamer-1.0";
-      in ''
-        cp ${audioPlugin}/audio-plugin.js $out/share/webapps/novnc/
-        cp ${audioPlugin}/audio-proxy.sh $out/bin/audio-proxy
-
-        wrapProgram $out/bin/audio-proxy \
-          --prefix PATH : ${lib.makeBinPath propagatedBuildInputs} \
-          --prefix GST_PLUGIN_PATH : ${gstLibPath pkgs.gst_all_1.gstreamer}:${gstLibPath pkgs.gst_all_1.gst-plugins-good}:${gstLibPath pkgs.gst_all_1.gst-plugins-base}:${gstLibPath pkgs.gst_all_1.gst-plugins-bad}:${gstLibPath pkgs.gst_all_1.gst-plugins-ugly}
-
-        sed -i \
-          '48a\
-          <script type="module" crossorigin="anonymous" src="audio-plugin.js"></script>;
-
-          s/websockify/websockify?token=vnc/g;
-
-          s/value="remote"/value="remote" selected/g' $out/share/webapps/novnc/vnc.html
-      '';
-    });
 in {
   imports = [inputs.sops-nix.nixosModules.sops];
 
@@ -79,45 +25,9 @@ in {
     environment.systemPackages =
       [xpra xpra-html5]
       ++ [
-        pkgs.python313Packages.websockify
-        novnc
+        pkgs.novnc
         pkgs.wayvnc
       ];
-
-    services.pulseaudio = {
-      systemWide = true;
-      extraConfig = ''
-        load-module module-null-sink sink_name=novnc_sink sink_properties=device.description="NoVNC_OGG_Stream_Output"
-      '';
-    };
-
-    systemd.user.services."audio-proxy" = {
-      enable = true;
-      after = ["network.target"];
-      bindsTo = ["websockify.service"];
-      wantedBy = ["default.target"];
-
-      serviceConfig = {
-        RestartSec = 5;
-        Restart = "always";
-      };
-
-      unitConfig.ConditionUser = "corbin";
-
-      path = with pkgs; [(ffmpeg-full.override {withUnfree = true;}) pulseaudioFull libvorbis netcat-openbsd libopus libopusenc libwebm socat];
-
-      environment.GST_PLUGIN_PATH = let
-        gstLibPath = path: path + "/lib/gstreamer-1.0";
-      in "${gstLibPath pkgs.gst_all_1.gstreamer}:${gstLibPath pkgs.gst_all_1.gst-plugins-good}:${gstLibPath pkgs.gst_all_1.gst-plugins-base}:${gstLibPath pkgs.gst_all_1.gst-plugins-bad}:${gstLibPath pkgs.gst_all_1.gst-plugins-ugly}";
-
-      script = ''
-        ffmpeg \
-          -fflags nobuffer -f pulse -i novnc_sink.monitor \
-          -vn -c:a libfdk_aac -ac 2 -ar 44100 -bitrate 8000 \
-          -async 1 -hls_time 0.5 -hls_list_size 5 -hls_flags delete_segments+split_by_time \
-          -f hls /home/corbin/noVNC/stream/index.m3u8
-      '';
-    };
 
     systemd.user.services."websockify" = {
       enable = true;
@@ -137,7 +47,6 @@ in {
       script = let
         tokenFile = pkgs.writeText "websockify-token" ''
           vnc: 127.0.0.1:5900
-          audio: 127.0.0.1:5711
         '';
       in ''
         websockify \
