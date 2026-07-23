@@ -3,6 +3,7 @@
   lib,
   pkgs,
   machine,
+  inputs,
   ...
 }: {
   options.sway.enable = lib.mkEnableOption "Enables swaywm";
@@ -17,7 +18,7 @@
 
       nwg-displays
 
-      (pkgs.callPackage ../../../packages/sw_swaybar.nix {sw = pkgs.callPackage ../../../packages/sw.nix {};})
+      inputs.self.packages.x86_64-linux.sw_swaybar
 
       (pkgs.callPackage ../../../packages/swayrst.nix {})
     ];

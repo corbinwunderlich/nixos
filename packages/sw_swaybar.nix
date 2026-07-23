@@ -2,59 +2,56 @@
   stdenv,
   fetchFromGitHub,
   pkg-config,
-  wayland-scanner,
-  gnused,
-  systemd,
-  openlibm,
-  wayland-protocols,
-  wlroots,
-  wayland,
-  pixman,
-  fcft,
-  resvg,
   sw,
+  systemd,
+  resvg,
+  freetype,
+  harfbuzz,
+  wayland,
+  libxkbcommon,
+  fontconfig,
+  wayland-protocols,
 }:
 stdenv.mkDerivation rec {
   pname = "sw_swaybar";
-  version = "16540ec6c0be4301022f70e85799afb4f32736ec";
+  version = "fe226c9de2c5034eb13aa0d76ecf73d81fabdec0";
 
   src = fetchFromGitHub {
     owner = "pd2s";
     repo = "sw";
     rev = version;
-    hash = "sha256-JlijxKJPojmeyq17reOG36V6I2qXnDoWzMxW6EwMlEI=";
+    hash = "sha256-uWKJfJXVfUQrdThnBURloTLDQpn138wpIOHXKQg2E7c=";
   };
 
-  nativeBuildInputs = [pkg-config wayland-scanner gnused];
+  sourceRoot = "/build/source/examples/sw_swaybar";
+
+  nativeBuildInputs = [pkg-config];
 
   buildInputs = [
-    systemd
-
-    openlibm
-    wayland-scanner
-    wayland-protocols
-    wlroots
-    wayland
-    pixman
-    fcft
-
-    resvg
-
     sw
+    systemd
+    freetype
+    harfbuzz
+    resvg
+    wayland
+    libxkbcommon
+    fontconfig
+    wayland-protocols
   ];
 
+  NIX_CFLAGS_COMPILE = "-I${fontconfig.dev}/include/fontconfig";
+  NIX_LDFLAGS = "-lfreetype -lwayland-client -lresvg -lharfbuzz";
+
   buildPhase = ''
+    runHook preBuild
+
     mkdir -p $out/bin
 
-    cd $src/examples/sw_swaybar
+    chmod -R +w .
+    ./build.sh .
 
-    sed -E \
-      -e 's|^ROOT_PATH=.*$|ROOT_PATH=$src/examples/sw_swaybar|' \
-      -e 's|(\-o\s+)(\$\{ROOT_PATH\}/sw_swaybar)$|\1${"$out"}/bin/sw_swaybar|' \
-      ./build.sh > /build/build.sh
+    cp -ar sw_swaybar $out/bin
 
-    cat /build/build.sh
-    chmod +x /build/build.sh
-    CFLAGS="-lwayland-client -lpixman-1 -lfcft -lresvg" /build/build.sh
+    runHook postBuild
   '';
 }

@@ -12,13 +12,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "sw";
-  version = "16540ec6c0be4301022f70e85799afb4f32736ec";
+  version = "fe226c9de2c5034eb13aa0d76ecf73d81fabdec0";
 
   src = fetchFromGitHub {
     owner = "pd2s";
     repo = "sw";
     rev = version;
-    hash = "sha256-JlijxKJPojmeyq17reOG36V6I2qXnDoWzMxW6EwMlEI=";
+    hash = "sha256-uWKJfJXVfUQrdThnBURloTLDQpn138wpIOHXKQg2E7c=";
   };
 
   nativeBuildInputs = [pkg-config];

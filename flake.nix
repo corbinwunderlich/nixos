@@ -85,8 +85,16 @@
     nixos-hardware,
     determinate,
     nix-index-database,
+    self,
     ...
   }: {
+    packages.x86_64-linux = let
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+    in {
+      sw = pkgs.callPackage ./packages/sw.nix {};
+      sw_swaybar = pkgs.callPackage ./packages/sw_swaybar.nix {inherit (self.packages.x86_64-linux) sw;};
+    };
+
     nixosConfigurations = let
       commonModules = {
         configuration,
