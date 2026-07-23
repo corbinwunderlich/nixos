@@ -8,7 +8,6 @@
     ./apps/ghostty.nix
     ./apps/neovim.nix
     ./apps/game-mods.nix
-    ./apps/affinity.nix
 
     ./tools/zsh.nix
     ./tools/fcitx.nix
@@ -33,7 +32,6 @@
   ghostty.enable = lib.mkDefault true;
   neovim.enable = lib.mkDefault true;
   mods.enable = lib.mkDefault true;
-  affinity.enable = lib.mkDefault true;
 
   zsh.enable = lib.mkDefault true;
   fcitx.enable = lib.mkDefault true;

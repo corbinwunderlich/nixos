@@ -64,10 +64,7 @@
 
     nixvim.url = "github:CorbinWunderlich/neovim";
 
-    affinity-nix = {
-      url = "github:corbinwunderlich/affinity-nix";
-      inputs.nixpkgs.url = "github:nixos/nixpkgs?ref=1925c603f17fc89f4c8f6bf6f631a802ad85d784";
-    };
+    affinity-nix.url = "github:mrshmllow/affinity-nix";
 
     home-manager = {
       url = "github:nix-community/home-manager?ref=release-26.05";

@@ -43,6 +43,7 @@
     ./apps/jetbrains.nix
     ./apps/kicad.nix
     ./apps/openbubbles.nix
+    ./apps/affinity.nix
 
     ./common.nix
   ];
@@ -123,4 +124,6 @@
   kicad.enable = lib.mkDefault true;
 
   openbubbles.enable = lib.mkDefault true;
+
+  affinity.enable = lib.mkDefault true;
 }
