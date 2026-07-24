@@ -26,6 +26,7 @@
     ./tools/localsend.nix
     ./tools/winboat.nix
     ./tools/nix-utils.nix
+    ./tools/podman.nix
 
     ./apps/ghostty.nix
     ./apps/steam.nix
@@ -92,6 +93,8 @@
   winboat.enable = lib.mkDefault false;
 
   nix-utils.enable = lib.mkDefault true;
+
+  podman.enable = lib.mkDefault true;
 
   ghostty.enable = lib.mkDefault true;
 

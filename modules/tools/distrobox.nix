@@ -4,11 +4,10 @@
   pkgs,
   ...
 }: {
-  options.distrobox.enable = lib.mkEnableOption "Enables Distrobox and Docker";
+  options.distrobox.enable = lib.mkEnableOption "Enables Distrobox";
 
   config = lib.mkIf config.distrobox.enable {
-    virtualisation.docker.enable = true;
-    virtualisation.docker.package = pkgs.docker_25;
+    podman.enable = true;
 
     environment.systemPackages = with pkgs; [distrobox];
   };
