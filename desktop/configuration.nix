@@ -5,8 +5,6 @@
 }: {
   imports = [./hardware-configuration.nix ./lact.nix ./../modules/modules.nix];
 
-  hyprland.enable = false;
-
   boot.loader = {
     # Use the systemd-boot EFI boot loader.
     systemd-boot.enable = true;

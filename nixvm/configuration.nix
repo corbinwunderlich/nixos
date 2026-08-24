@@ -7,8 +7,6 @@
 }: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
-  hyprland.enable = false;
-
   sway.enable = true;
   i3.enable = false;
 

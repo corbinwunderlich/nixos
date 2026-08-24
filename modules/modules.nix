@@ -1,7 +1,6 @@
 {lib, ...}: {
   imports = [
     ./wms/i3.nix
-    ./wms/hyprland.nix
     ./wms/kde.nix
     ./wms/sway.nix
 
@@ -50,7 +49,6 @@
   ];
 
   i3.enable = lib.mkDefault false;
-  hyprland.enable = lib.mkDefault true;
   kde.enable = lib.mkDefault false;
 
   sway.enable = lib.mkDefault true;

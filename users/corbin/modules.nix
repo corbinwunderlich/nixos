@@ -1,8 +1,4 @@
-{
-  lib,
-  config,
-  ...
-}: {
+{lib, ...}: {
   imports = [
     ./apps/1password.nix
     ./apps/ghostty.nix
@@ -19,10 +15,6 @@
 
     ./wms/i3.nix
     ./wms/sway.nix
-    ./wms/hyprland.nix
-    ./wms/hyprlock.nix
-    ./wms/hyprpaper.nix
-    ./wms/widgets/ags.nix
     ./wms/widgets/dunst.nix
 
     ./common.nix
@@ -39,11 +31,7 @@
   tmux.enable = lib.mkDefault true;
   nu.enable = lib.mkDefault true;
 
-  hyprland.enable = lib.mkDefault false;
-  hyprlock.enable = lib.mkDefault config.hyprland.enable;
-  hyprpaper.enable = lib.mkDefault config.hyprland.enable;
   sway.enable = lib.mkDefault true;
   i3.enable = lib.mkDefault false;
-  ags.enable = lib.mkDefault config.hyprland.enable;
   dunst.enable = lib.mkDefault true;
 }
