@@ -255,6 +255,15 @@
             command = "${pkgs.wl-clipboard}/bin/wl-paste --watch cliphist store";
             always = true;
           }
+          {
+            command = let
+              script = pkgs.writeShellScript "1password-autostart" ''
+                sleep 3;
+                ${pkgs.uwsm}/bin/uwsm-app -- ${pkgs._1password-gui}/bin/1password --silent
+              '';
+            in "${script}";
+            always = false;
+          }
         ];
 
         defaultWorkspace = "workspace number 1";
