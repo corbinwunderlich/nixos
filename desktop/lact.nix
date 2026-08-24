@@ -15,7 +15,7 @@
     enable = true;
 
     settings = {
-      apply_settings_timer = 5;
+      version = 5;
 
       daemon = {
         log_level = "info";
@@ -23,12 +23,17 @@
         disable_clocks_cleanup = false;
       };
 
+      apply_settings_timer = 5;
+
       gpus."1002:744C-1DA2:475E-0000:03:00.0" = {
         fan_control_enabled = false;
         power_cap = 280.0;
         performance_level = "high";
         voltage_offset = -30;
       };
+
+      current_profile = "null";
+      auto_switch_profiles = false;
     };
   };
 }
