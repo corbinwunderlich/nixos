@@ -16,7 +16,7 @@
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   services.logind.settings.Login = {
-    HandlePowerKey = "hibernate";
+    HandlePowerKey = "sleep";
     HandlePowerKeyLongPress = "shutdown";
   };
 
@@ -35,17 +35,7 @@
     }
   ];
 
-  systemd.tmpfiles.rules = ["w /sys/power/image_size - - - - 1073741824"];
-
-  boot.resumeDevice = "/dev/disk/by-uuid/2721e962-d3ce-4f8e-a6eb-f6d2b4081dbf";
-
-  powerManagement.enable = true;
-
   boot.initrd.availableKernelModules = ["nvme" "btrfs"];
-
-  systemd.services.systemd-logind.environment = {
-    SYSTEMD_BYPASS_HIBERNATION_MEMORY_CHECK = "1";
-  };
 
   networking = {
     hostName = "desktop";
@@ -80,7 +70,7 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
-  boot.kernelParams = ["video=DP-1:3840x2160@120" "video=DP-2:3840x2160@150" "resume_offset=318583227" "hibernate.compressor=lzo"];
+  boot.kernelParams = ["video=DP-1:3840x2160@120" "video=DP-2:3840x2160@150"];
 
   hardware.amdgpu.initrd.enable = true;
 
