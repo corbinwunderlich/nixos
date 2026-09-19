@@ -19,8 +19,6 @@
       nwg-displays
 
       inputs.self.packages.x86_64-linux.sw_swaybar
-
-      (pkgs.callPackage ../../../packages/swayrst.nix {})
     ];
 
     xdg.configFile."ulauncher/user-themes/black" = {
