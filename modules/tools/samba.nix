@@ -4,8 +4,7 @@
   pkgs,
   ...
 }: {
-  options.samba.enable =
-    lib.mkEnableOption "Enables CIFS fileshare for Siarnaq";
+  options.samba.enable = lib.mkEnableOption "Enables CIFS fileshare for Siarnaq";
 
   config = lib.mkIf config.samba.enable {
     environment.systemPackages = [pkgs.cifs-utils];
@@ -30,7 +29,13 @@
     fileSystems."/mnt/siarnaq-home" = {
       device = "siarnaq.ridgewood:/volume1/homes/corbin";
       fsType = "nfs";
-      options = ["nfsvers=4.1" "x-systemd.automount" "noauto" "x-systemd.idle-timeout=600" "async"];
+      options = [
+        "nfsvers=4.1"
+        "x-systemd.automount"
+        "noauto"
+        "x-systemd.idle-timeout=600"
+        "async"
+      ];
     };
 
     services.nfs = {

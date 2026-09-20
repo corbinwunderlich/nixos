@@ -9,6 +9,9 @@
   config = lib.mkIf config.winboat.enable {
     podman.enable = true;
 
-    environment.systemPackages = with pkgs; [winboat freerdp];
+    environment.systemPackages = with pkgs; [
+      winboat
+      freerdp
+    ];
   };
 }

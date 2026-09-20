@@ -9,7 +9,12 @@
     package32 = pkgs.unstable.pkgsi686Linux.mesa;
   };
 
-  boot.kernelParams = ["amdgpu.sg_display=0" "amdgpu.gfx_off=0" "amdgpu.runtime_pm=0" "amdgpu.gpu_recovery=1"];
+  boot.kernelParams = [
+    "amdgpu.sg_display=0"
+    "amdgpu.gfx_off=0"
+    "amdgpu.runtime_pm=0"
+    "amdgpu.gpu_recovery=1"
+  ];
 
   services.lact = {
     enable = true;
@@ -19,7 +24,10 @@
 
       daemon = {
         log_level = "info";
-        admin_groups = ["wheel" "sudo"];
+        admin_groups = [
+          "wheel"
+          "sudo"
+        ];
         disable_clocks_cleanup = false;
       };
 

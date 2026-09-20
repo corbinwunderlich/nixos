@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: {
   options.bambu-studio.enable = lib.mkEnableOption "Enables Bambu Studio slicer and other 3d printing utilities";

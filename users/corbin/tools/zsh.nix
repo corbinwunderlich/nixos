@@ -41,62 +41,62 @@ in {
       fzf
     ];
 
-    programs.eza.enable = true;
+    programs = {
+      eza.enable = true;
 
-    programs.zsh = {
-      enable = true;
+      zsh = {
+        enable = true;
 
-      enableCompletion = false;
-      autosuggestion.enable = true;
+        enableCompletion = false;
+        autosuggestion.enable = true;
 
-      shellAliases = {
-        ll = "eza -l";
-        grim = "grimblast";
-        svim = "sudo -Es nvim";
+        shellAliases = {
+          ll = "eza -l";
+          grim = "grimblast";
+          svim = "sudo -Es nvim";
 
-        cat = "bat";
-        ls = "eza";
-        du = "dust";
+          cat = "bat";
+          ls = "eza";
+          du = "dust";
+        };
+
+        history = {
+          size = 10000;
+          path = "${config.xdg.dataHome}/zsh/history";
+        };
+
+        plugins = [
+          {
+            name = "zsh-autocomplete";
+            src = pkgs.zsh-autocomplete;
+            file = "share/zsh-autocomplete/zsh-autocomplete.plugin.zsh";
+          }
+          {
+            name = "zsh-autosuggestions";
+            src = pkgs.zsh-autosuggestions;
+            file = "share/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh";
+          }
+          {
+            name = "zsh-vi-mode";
+            src = pkgs.zsh-vi-mode;
+            file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
+          }
+        ];
+
+        initContent = zshrc;
       };
 
-      history = {
-        size = 10000;
-        path = "${config.xdg.dataHome}/zsh/history";
+      zoxide = {
+        enable = true;
+        enableZshIntegration = true;
       };
 
-      plugins = [
-        {
-          name = "zsh-autocomplete";
-          src = pkgs.zsh-autocomplete;
-          file = "share/zsh-autocomplete/zsh-autocomplete.plugin.zsh";
-        }
-        {
-          name = "zsh-autosuggestions";
-          src = pkgs.zsh-autosuggestions;
-          file = "share/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh";
-        }
-        {
-          name = "zsh-vi-mode";
-          src = pkgs.zsh-vi-mode;
-          file = "share/zsh-vi-mode/zsh-vi-mode.plugin.zsh";
-        }
-      ];
+      git.enable = true;
 
-      initContent = zshrc;
-    };
-
-    programs.zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    programs.git = {
-      enable = true;
-    };
-
-    programs.delta = {
-      enable = true;
-      enableGitIntegration = true;
+      delta = {
+        enable = true;
+        enableGitIntegration = true;
+      };
     };
   };
 }

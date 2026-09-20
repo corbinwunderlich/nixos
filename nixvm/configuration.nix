@@ -1,11 +1,12 @@
 {
   pkgs,
-  config,
-  lib,
   inputs,
   ...
 }: {
-  imports = [./hardware-configuration.nix ./../modules/modules.nix];
+  imports = [
+    ./hardware-configuration.nix
+    ./../modules/modules.nix
+  ];
 
   xrdp.enable = true;
 
@@ -91,7 +92,9 @@
   ];
 
   environment.etc."weston.ini".source = (pkgs.formats.ini {}).generate "weston.ini" {
-    shell = {locking = false;};
+    shell = {
+      locking = false;
+    };
 
     core = {
       idle-time = 0;
@@ -99,7 +102,9 @@
       xwayland = false;
     };
 
-    autolaunch = {path = "/home/corbin/xwayland";};
+    autolaunch = {
+      path = "/home/corbin/xwayland";
+    };
   };
 
   system.stateVersion = "24.05";

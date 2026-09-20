@@ -1,5 +1,8 @@
 {pkgs, ...}: {
-  imports = [./hardware-configuration.nix ./../modules/modules.nix];
+  imports = [
+    ./hardware-configuration.nix
+    ./../modules/modules.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

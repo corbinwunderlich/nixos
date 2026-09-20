@@ -24,7 +24,10 @@
           hash = "sha256-jiYWV9UMERWCUrBmnFPyoojCnD/7LTNcT3zavVECb+8=";
         };
 
-        nativeBuildInputs = with pkgs.python313Packages; [setuptools setuptools-scm];
+        nativeBuildInputs = with pkgs.python313Packages; [
+          setuptools
+          setuptools-scm
+        ];
       })
     ];
 

@@ -16,8 +16,12 @@
       age.keyFile = "/home/corbin/.config/sops/age/keys.txt";
 
       secrets = {
-        "samba/username" = {owner = "samba-credentials";};
-        "samba/password" = {owner = "samba-credentials";};
+        "samba/username" = {
+          owner = "samba-credentials";
+        };
+        "samba/password" = {
+          owner = "samba-credentials";
+        };
       };
     };
 

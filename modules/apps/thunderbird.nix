@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: {
   options.thunderbird.enable = lib.mkEnableOption "Enables Thunderbird";

@@ -7,7 +7,7 @@
 
   config = lib.mkIf config.passwordmanager.enable {
     nixpkgs.overlays = [
-      (final: prev: {
+      (_: prev: {
         _1password-cli = prev.unstable._1password-cli;
         _1password-gui = prev.unstable._1password-gui;
       })

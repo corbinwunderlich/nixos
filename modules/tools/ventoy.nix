@@ -16,6 +16,10 @@
       "ventoy-gtk3-1.1.12"
     ];
 
-    environment.systemPackages = with pkgs; [ventoy ventoy-full-gtk caligula];
+    environment.systemPackages = with pkgs; [
+      ventoy
+      ventoy-full-gtk
+      caligula
+    ];
   };
 }

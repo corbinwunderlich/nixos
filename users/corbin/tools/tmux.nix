@@ -101,7 +101,29 @@
       Service = {
         Environment = [
           "DISPLAY=:0"
-          "PATH=${lib.makeBinPath (with pkgs; [coreutils tmux hostname gnused gnutar gzip gawk gnugrep diffutils zsh zsh-completions] ++ config.home.packages ++ ["/run/current-system/sw" "/home/corbin/.nix-profile/bin"])}:$PATH"
+          "PATH=${
+            lib.makeBinPath (
+              with pkgs;
+                [
+                  coreutils
+                  tmux
+                  hostname
+                  gnused
+                  gnutar
+                  gzip
+                  gawk
+                  gnugrep
+                  diffutils
+                  zsh
+                  zsh-completions
+                ]
+                ++ config.home.packages
+                ++ [
+                  "/run/current-system/sw"
+                  "/home/corbin/.nix-profile/bin"
+                ]
+            )
+          }:$PATH"
           "TMUX=/run/user/1000/tmux-1000/default"
         ];
 

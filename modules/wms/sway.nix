@@ -8,7 +8,15 @@
   options.sway.enable = lib.mkEnableOption "Enables swaywm";
 
   config = lib.mkIf config.sway.enable {
-    environment.systemPackages = with pkgs; [grim slurp wl-clipboard dunst ulauncher swaysome uwsm];
+    environment.systemPackages = with pkgs; [
+      grim
+      slurp
+      wl-clipboard
+      dunst
+      ulauncher
+      swaysome
+      uwsm
+    ];
 
     services.gnome.gnome-keyring.enable = true;
 

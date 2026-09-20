@@ -3,7 +3,11 @@
   inputs,
   ...
 }: {
-  imports = [./hardware-configuration.nix ./lact.nix ./../modules/modules.nix];
+  imports = [
+    ./hardware-configuration.nix
+    ./lact.nix
+    ./../modules/modules.nix
+  ];
 
   boot.loader = {
     # Use the systemd-boot EFI boot loader.
@@ -33,7 +37,10 @@
     }
   ];
 
-  boot.initrd.availableKernelModules = ["nvme" "btrfs"];
+  boot.initrd.availableKernelModules = [
+    "nvme"
+    "btrfs"
+  ];
 
   networking = {
     hostName = "desktop";
@@ -68,7 +75,10 @@
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
-  boot.kernelParams = ["video=DP-1:3840x2160@120" "video=DP-2:3840x2160@150"];
+  boot.kernelParams = [
+    "video=DP-1:3840x2160@120"
+    "video=DP-2:3840x2160@150"
+  ];
 
   hardware.amdgpu.initrd.enable = true;
 

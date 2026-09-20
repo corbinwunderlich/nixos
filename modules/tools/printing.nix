@@ -9,10 +9,6 @@
   config = lib.mkIf config.printing.enable {
     nixpkgs.config.allowUnfree = true;
 
-    services.printing.enable = true;
-
-    services.printing.drivers = with pkgs; [hplip];
-
     hardware.printers = {
       ensurePrinters = [
         {
@@ -27,10 +23,17 @@
       ensureDefaultPrinter = "HP_7855";
     };
 
-    services.avahi = {
-      enable = true;
-      nssmdns4 = true;
-      openFirewall = true;
+    services = {
+      printing = {
+        enable = true;
+        drivers = with pkgs; [hplip];
+      };
+
+      avahi = {
+        enable = true;
+        nssmdns4 = true;
+        openFirewall = true;
+      };
     };
   };
 }

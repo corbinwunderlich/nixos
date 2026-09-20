@@ -31,7 +31,10 @@
       programs._1password-shell-plugins = {
         enable = true;
 
-        plugins = with pkgs; [gh cachix];
+        plugins = with pkgs; [
+          gh
+          cachix
+        ];
       };
 
       programs.ssh = {
@@ -85,11 +88,17 @@
         };
       };
 
-      home.packages = [pkgs._1password-cli forgejo-credential-1password];
+      home.packages = [
+        pkgs._1password-cli
+        forgejo-credential-1password
+      ];
 
       programs.git.settings = {
         "credential \"https://git.wcopy.net\"" = {
-          helper = ["" "!${forgejo-credential-1password}/bin/forgejo-credential-1password"];
+          helper = [
+            ""
+            "!${forgejo-credential-1password}/bin/forgejo-credential-1password"
+          ];
         };
       };
 

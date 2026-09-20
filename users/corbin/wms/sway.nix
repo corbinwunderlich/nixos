@@ -33,18 +33,20 @@
       };
     };
 
-    xdg.configFile."ulauncher/settings.json".source = pkgs.writeText "ulauncher-settings.json" (builtins.toJSON {
-      "blacklisted-desktop-dirs" = "/usr/share/locale:/usr/share/app-install:/usr/share/kservices5:/usr/share/fk5:/usr/share/kservicetypes5:/usr/share/applications/screensavers:/usr/share/kde4:/usr/share/mimelnk";
-      "clear-previous-query" = true;
-      "disable-desktop-filters" = false;
-      "grab-mouse-pointer" = true;
-      "hotkey-show-app" = "<Primary>space";
-      "render-on-screen" = "mouse-pointer-monitor";
-      "show-indicator-icon" = true;
-      "show-recent-apps" = "0";
-      "terminal-command" = "ghostty";
-      "theme-name" = "Black-Theme";
-    });
+    xdg.configFile."ulauncher/settings.json".source = pkgs.writeText "ulauncher-settings.json" (
+      builtins.toJSON {
+        "blacklisted-desktop-dirs" = "/usr/share/locale:/usr/share/app-install:/usr/share/kservices5:/usr/share/fk5:/usr/share/kservicetypes5:/usr/share/applications/screensavers:/usr/share/kde4:/usr/share/mimelnk";
+        "clear-previous-query" = true;
+        "disable-desktop-filters" = false;
+        "grab-mouse-pointer" = true;
+        "hotkey-show-app" = "<Primary>space";
+        "render-on-screen" = "mouse-pointer-monitor";
+        "show-indicator-icon" = true;
+        "show-recent-apps" = "0";
+        "terminal-command" = "ghostty";
+        "theme-name" = "Black-Theme";
+      }
+    );
 
     home.sessionVariables = {
       DISPLAY =
@@ -204,24 +206,21 @@
         in
           if machine == "desktop"
           then [
-            (bar
-              {
-                fontSize = 32;
-              })
+            (bar {
+              fontSize = 32;
+            })
           ]
           else if machine == "laptop"
           then [
-            (bar
-              {
-                fontSize = 26;
-                output = "eDP-1";
-              })
+            (bar {
+              fontSize = 26;
+              output = "eDP-1";
+            })
 
-            (bar
-              {
-                fontSize = 14;
-                output = "DP-8";
-              })
+            (bar {
+              fontSize = 14;
+              output = "DP-8";
+            })
           ]
           else if machine == "vm"
           then [
@@ -280,7 +279,7 @@
         };
 
         keybindings = let
-          numKeys = map (key: toString key) (lib.range 0 9);
+          numKeys = map toString (lib.range 0 9);
 
           numberFromKeyCombo = combo: let
             number = lib.last (lib.stringToCharacters combo);
@@ -289,51 +288,58 @@
             then "10"
             else number;
 
-          focusKeys = lib.genAttrs (map (key:
-            if machine == "vm"
-            then "${modifier}+ctrl+${key}"
-            else "${modifier}+${key}")
-          numKeys) (combo: "exec ${swaysome} focus ${numberFromKeyCombo combo}");
+          focusKeys = lib.genAttrs (map (
+              key:
+                if machine == "vm"
+                then "${modifier}+ctrl+${key}"
+                else "${modifier}+${key}"
+            )
+            numKeys) (combo: "exec ${swaysome} focus ${numberFromKeyCombo combo}");
 
-          moveKeys = lib.genAttrs (map (key: "${modifier}+Shift+${key}") numKeys) (combo: "exec ${swaysome} move ${numberFromKeyCombo combo}");
-        in (focusKeys
+          moveKeys = lib.genAttrs (map (key: "${modifier}+Shift+${key}") numKeys) (
+            combo: "exec ${swaysome} move ${numberFromKeyCombo combo}"
+          );
+        in
+          focusKeys
           // moveKeys
-          // (let
-            slurp = "${pkgs.slurp}/bin/slurp";
-            grim = "${pkgs.grim}/bin/grim";
-            wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
-            _1password = "${pkgs._1password-gui}/bin/1password";
-            hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
-            wlogout = "${pkgs.wlogout}/bin/wlogout";
-          in {
-            "${modifier}+Shift+r" = "restart";
+          // (
+            let
+              slurp = "${pkgs.slurp}/bin/slurp";
+              grim = "${pkgs.grim}/bin/grim";
+              wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+              _1password = "${pkgs._1password-gui}/bin/1password";
+              hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
+              wlogout = "${pkgs.wlogout}/bin/wlogout";
+            in {
+              "${modifier}+Shift+r" = "restart";
 
-            "${modifier}+Left" = "focus left";
-            "${modifier}+Right" = "focus right";
-            "${modifier}+Up" = "focus up";
-            "${modifier}+Down" = "focus down";
+              "${modifier}+Left" = "focus left";
+              "${modifier}+Right" = "focus right";
+              "${modifier}+Up" = "focus up";
+              "${modifier}+Down" = "focus down";
 
-            "${modifier}+Shift+Left" = "move left";
-            "${modifier}+Shift+Right" = "move right";
-            "${modifier}+Shift+Up" = "move up";
-            "${modifier}+Shift+Down" = "move down";
+              "${modifier}+Shift+Left" = "move left";
+              "${modifier}+Shift+Right" = "move right";
+              "${modifier}+Shift+Up" = "move up";
+              "${modifier}+Shift+Down" = "move down";
 
-            "${modifier}+r" = "mode resize";
+              "${modifier}+r" = "mode resize";
 
-            "${modifier}+f" = "fullscreen toggle";
+              "${modifier}+f" = "fullscreen toggle";
 
-            "${modifier}+Shift+v" = "focus mode_toggle";
-            "${modifier}+v" = "floating toggle";
+              "${modifier}+Shift+v" = "focus mode_toggle";
+              "${modifier}+v" = "floating toggle";
 
-            "${modifier}+Return" = "exec ${terminal}";
-            "${modifier}+d" = "exec ${launcher}";
-            "${modifier}+e" = "exec ${launcher}";
-            "${modifier}+Shift+q" = "kill";
-            "${modifier}+s" = "exec ${slurp} | ${grim} -g - - | ${wl-copy}";
-            "${modifier}+p" = "exec ${_1password} --quick-access";
-            "${modifier}+c" = "exec ${hyprpicker} -a";
-            "${modifier}+o" = "exec ${wlogout}";
-          })
+              "${modifier}+Return" = "exec ${terminal}";
+              "${modifier}+d" = "exec ${launcher}";
+              "${modifier}+e" = "exec ${launcher}";
+              "${modifier}+Shift+q" = "kill";
+              "${modifier}+s" = "exec ${slurp} | ${grim} -g - - | ${wl-copy}";
+              "${modifier}+p" = "exec ${_1password} --quick-access";
+              "${modifier}+c" = "exec ${hyprpicker} -a";
+              "${modifier}+o" = "exec ${wlogout}";
+            }
+          )
           // (
             if machine != "vm"
             then let
@@ -348,7 +354,7 @@
               "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
             }
             else {}
-          ));
+          );
       };
     };
 

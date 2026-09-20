@@ -8,9 +8,14 @@
   xpra-html5 = pkgs.callPackage ./xpra-html5.nix {};
 
   xpraOverride = pkgs.xpra.overrideAttrs (oldAttrs: {
-    nativeBuildInputs = (lib.remove pkgs.clang oldAttrs.nativeBuildInputs) ++ [pkgs.cudaPackages.cuda_nvcc];
+    nativeBuildInputs =
+      (lib.remove pkgs.clang oldAttrs.nativeBuildInputs)
+      ++ [
+        pkgs.cudaPackages.cuda_nvcc
+      ];
 
-    postInstall = oldAttrs.postInstall + "\n mkdir -p $out/share/www" + "\n cp -r ${xpra-html5}/* $out/share/www/";
+    postInstall =
+      oldAttrs.postInstall + "\n mkdir -p $out/share/www" + "\n cp -r ${xpra-html5}/* $out/share/www/";
   });
 
   xpra = xpraOverride.override {
@@ -23,7 +28,10 @@ in {
 
   config = lib.mkIf config.xrdp.enable {
     environment.systemPackages =
-      [xpra xpra-html5]
+      [
+        xpra
+        xpra-html5
+      ]
       ++ [
         pkgs.novnc
         pkgs.wayvnc
@@ -61,7 +69,10 @@ in {
       enable = true;
       wantedBy = ["default.target"];
       after = ["network.target"];
-      wants = ["wayvnc.service" "websockify.service"];
+      wants = [
+        "wayvnc.service"
+        "websockify.service"
+      ];
 
       serviceConfig = {
         RestartSec = 5;
@@ -85,7 +96,10 @@ in {
     systemd.user.services."wayvnc" = {
       enable = true;
       wantedBy = ["default.target"];
-      after = ["network.target" "sway.service"];
+      after = [
+        "network.target"
+        "sway.service"
+      ];
       bindsTo = ["sway.service"];
 
       serviceConfig = {
@@ -98,10 +112,12 @@ in {
       path = with pkgs; [wayvnc];
 
       script = let
-        wayvncConfig = pkgs.writeText "wayvnc-config" (lib.generators.toINI {} {
-          #username = builtins.readFile config.sops.secrets."vnc/username".path;
-          #password = builtins.readFile config.sops.secrets."vnc/password".path;
-        });
+        wayvncConfig = pkgs.writeText "wayvnc-config" (
+          lib.generators.toINI {} {
+            #username = builtins.readFile config.sops.secrets."vnc/username".path;
+            #password = builtins.readFile config.sops.secrets."vnc/password".path;
+          }
+        );
       in ''
         export PATH="''${XDG_BIN_HOME}:$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin"
 
@@ -114,7 +130,10 @@ in {
 
     hardware.uinput.enable = true;
 
-    boot.kernelModules = ["v4l2loopback" "uinput"];
+    boot.kernelModules = [
+      "v4l2loopback"
+      "uinput"
+    ];
     boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
 
     systemd.user.services."xwfb" = {
