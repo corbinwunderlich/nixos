@@ -13,8 +13,6 @@
     timeout = 1;
   };
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
-
   services.logind.settings.Login = {
     HandlePowerKey = "sleep";
     HandlePowerKeyLongPress = "shutdown";

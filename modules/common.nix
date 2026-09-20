@@ -3,6 +3,8 @@
   inputs,
   ...
 }: {
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
   environment.shells = with pkgs; [zsh];
   programs.zsh.enable = true;
 
