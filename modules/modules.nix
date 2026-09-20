@@ -38,7 +38,6 @@
     ./apps/chromium.nix
     ./apps/3d-printing.nix
     ./apps/remmina.nix
-    ./apps/jetbrains.nix
     ./apps/kicad.nix
     ./apps/openbubbles.nix
     ./apps/affinity.nix
@@ -114,8 +113,6 @@
   bambu-studio.enable = lib.mkDefault true;
 
   remmina.enable = lib.mkDefault true;
-
-  jetbrains.enable = lib.mkDefault false;
 
   kicad.enable = lib.mkDefault true;
 
