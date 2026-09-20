@@ -7,9 +7,6 @@
 }: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
-  sway.enable = true;
-  i3.enable = false;
-
   kde.enable = false;
 
   xrdp.enable = true;

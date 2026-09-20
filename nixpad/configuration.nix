@@ -1,8 +1,6 @@
 {pkgs, ...}: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
-  i3.enable = false;
-  sway.enable = true;
   kde.enable = false;
 
   nix.settings.experimental-features = ["nix-command" "flakes"];

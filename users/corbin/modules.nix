@@ -13,7 +13,6 @@
     ./tools/nushell.nix
     ./tools/git.nix
 
-    ./wms/i3.nix
     ./wms/sway.nix
     ./wms/widgets/dunst.nix
 
@@ -32,6 +31,5 @@
   nu.enable = lib.mkDefault true;
 
   sway.enable = lib.mkDefault true;
-  i3.enable = lib.mkDefault false;
   dunst.enable = lib.mkDefault true;
 }

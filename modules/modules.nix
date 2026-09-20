@@ -1,6 +1,5 @@
 {lib, ...}: {
   imports = [
-    ./wms/i3.nix
     ./wms/kde.nix
     ./wms/sway.nix
 
@@ -48,7 +47,6 @@
     ./common.nix
   ];
 
-  i3.enable = lib.mkDefault false;
   kde.enable = lib.mkDefault false;
 
   sway.enable = lib.mkDefault true;
