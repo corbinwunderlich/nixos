@@ -17,7 +17,6 @@
     ./tools/input-devices.nix
     ./tools/flatpak.nix
     ./tools/arduino.nix
-    ./tools/syncthing.nix
     ./tools/ventoy.nix
     ./tools/calculator.nix
     ./tools/localsend.nix
@@ -73,8 +72,6 @@
   flatpak.enable = lib.mkDefault true;
 
   arduino.enable = lib.mkDefault true;
-
-  syncthing.enable = lib.mkDefault false;
 
   ventoy.enable = lib.mkDefault true;
 
