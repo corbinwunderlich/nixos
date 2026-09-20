@@ -150,7 +150,7 @@
             machine = "laptop";
           }
           ++ [
-            nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen5
+            nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen6
           ];
       };
     };
