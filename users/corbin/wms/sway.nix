@@ -279,32 +279,34 @@
           };
         };
 
-        keybindings =
-          if (machine == "vm")
-          then {
+        keybindings = let
+          numKeys = map (key: toString key) (lib.range 0 9);
+
+          numberFromKeyCombo = combo: let
+            number = lib.last (lib.stringToCharacters combo);
+          in
+            if number == "0"
+            then "10"
+            else number;
+
+          focusKeys = lib.genAttrs (map (key:
+            if machine == "vm"
+            then "${modifier}+ctrl+${key}"
+            else "${modifier}+${key}")
+          numKeys) (combo: "exec ${swaysome} focus ${numberFromKeyCombo combo}");
+
+          moveKeys = lib.genAttrs (map (key: "${modifier}+Shift+${key}") numKeys) (combo: "exec ${swaysome} move ${numberFromKeyCombo combo}");
+        in (focusKeys
+          // moveKeys
+          // (let
+            slurp = "${pkgs.slurp}/bin/slurp";
+            grim = "${pkgs.grim}/bin/grim";
+            wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+            _1password = "${pkgs._1password-gui}/bin/1password";
+            hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
+            wlogout = "${pkgs.wlogout}/bin/wlogout";
+          in {
             "${modifier}+Shift+r" = "restart";
-
-            "${modifier}+ctrl+1" = "exec ${swaysome} focus 1";
-            "${modifier}+ctrl+2" = "exec ${swaysome} focus 2";
-            "${modifier}+ctrl+3" = "exec ${swaysome} focus 3";
-            "${modifier}+ctrl+4" = "exec ${swaysome} focus 4";
-            "${modifier}+ctrl+5" = "exec ${swaysome} focus 5";
-            "${modifier}+ctrl+6" = "exec ${swaysome} focus 6";
-            "${modifier}+ctrl+7" = "exec ${swaysome} focus 7";
-            "${modifier}+ctrl+8" = "exec ${swaysome} focus 8";
-            "${modifier}+ctrl+9" = "exec ${swaysome} focus 9";
-            "${modifier}+ctrl+0" = "exec ${swaysome} focus 10";
-
-            "${modifier}+Shift+1" = "exec swaysome move 1";
-            "${modifier}+Shift+2" = "exec swaysome move 2";
-            "${modifier}+Shift+3" = "exec swaysome move 3";
-            "${modifier}+Shift+4" = "exec swaysome move 4";
-            "${modifier}+Shift+5" = "exec swaysome move 5";
-            "${modifier}+Shift+6" = "exec swaysome move 6";
-            "${modifier}+Shift+7" = "exec swaysome move 7";
-            "${modifier}+Shift+8" = "exec swaysome move 8";
-            "${modifier}+Shift+9" = "exec swaysome move 9";
-            "${modifier}+Shift+0" = "exec swaysome move 10";
 
             "${modifier}+Left" = "focus left";
             "${modifier}+Right" = "focus right";
@@ -327,69 +329,26 @@
             "${modifier}+d" = "exec ${launcher}";
             "${modifier}+e" = "exec ${launcher}";
             "${modifier}+Shift+q" = "kill";
-            "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
-            "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
-            "${modifier}+c" = "exec ${pkgs.hyprpicker}/bin/hyprpicker -a";
-            "${modifier}+o" = "exec ${pkgs.wlogout}/bin/wlogout";
-          }
-          else {
-            "${modifier}+Shift+r" = "restart";
+            "${modifier}+s" = "exec ${slurp} | ${grim} -g - - | ${wl-copy}";
+            "${modifier}+p" = "exec ${_1password} --quick-access";
+            "${modifier}+c" = "exec ${hyprpicker} -a";
+            "${modifier}+o" = "exec ${wlogout}";
+          })
+          // (
+            if machine != "vm"
+            then let
+              brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+              pactl = "${pkgs.pulseaudio}/bin/pactl";
+            in {
+              "XF86MonBrightnessDown" = "exec ${brightnessctl} s 10%-";
+              "XF86MonBrightnessUp" = "exec ${brightnessctl} s 10%+";
 
-            "${modifier}+1" = "exec ${swaysome} focus 1";
-            "${modifier}+2" = "exec ${swaysome} focus 2";
-            "${modifier}+3" = "exec ${swaysome} focus 3";
-            "${modifier}+4" = "exec ${swaysome} focus 4";
-            "${modifier}+5" = "exec ${swaysome} focus 5";
-            "${modifier}+6" = "exec ${swaysome} focus 6";
-            "${modifier}+7" = "exec ${swaysome} focus 7";
-            "${modifier}+8" = "exec ${swaysome} focus 8";
-            "${modifier}+9" = "exec ${swaysome} focus 9";
-            "${modifier}+0" = "exec ${swaysome} focus 10";
-
-            "${modifier}+Shift+1" = "exec swaysome move 1";
-            "${modifier}+Shift+2" = "exec swaysome move 2";
-            "${modifier}+Shift+3" = "exec swaysome move 3";
-            "${modifier}+Shift+4" = "exec swaysome move 4";
-            "${modifier}+Shift+5" = "exec swaysome move 5";
-            "${modifier}+Shift+6" = "exec swaysome move 6";
-            "${modifier}+Shift+7" = "exec swaysome move 7";
-            "${modifier}+Shift+8" = "exec swaysome move 8";
-            "${modifier}+Shift+9" = "exec swaysome move 9";
-            "${modifier}+Shift+0" = "exec swaysome move 10";
-
-            "${modifier}+Left" = "focus left";
-            "${modifier}+Right" = "focus right";
-            "${modifier}+Up" = "focus up";
-            "${modifier}+Down" = "focus down";
-
-            "${modifier}+Shift+Left" = "move left";
-            "${modifier}+Shift+Right" = "move right";
-            "${modifier}+Shift+Up" = "move up";
-            "${modifier}+Shift+Down" = "move down";
-
-            "${modifier}+r" = "mode resize";
-
-            "${modifier}+f" = "fullscreen toggle";
-
-            "${modifier}+Shift+v" = "focus mode_toggle";
-            "${modifier}+v" = "floating toggle";
-
-            "${modifier}+Return" = "exec ${terminal}";
-            "${modifier}+d" = "exec ${launcher}";
-            "${modifier}+e" = "exec ${launcher}";
-            "${modifier}+Shift+q" = "kill";
-            "${modifier}+s" = "exec ${pkgs.slurp}/bin/slurp | ${pkgs.grim}/bin/grim -g - - | ${pkgs.wl-clipboard}/bin/wl-copy";
-            "${modifier}+p" = "exec ${pkgs._1password-gui}/bin/1password --quick-access";
-            "${modifier}+c" = "exec ${pkgs.hyprpicker}/bin/hyprpicker -a";
-            "${modifier}+o" = "exec ${pkgs.wlogout}/bin/wlogout";
-
-            "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
-            "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
-
-            "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
-            "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
-            "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
-          };
+              "XF86AudioMute" = "exec ${pactl} set-sink-mute @DEFAULT_SINK@ toggle";
+              "XF86AudioRaiseVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ +5%";
+              "XF86AudioLowerVolume" = "exec ${pactl} set-sink-volume @DEFAULT_SINK@ -5%";
+            }
+            else {}
+          ));
       };
     };
 
@@ -436,15 +395,7 @@
       };
     };
 
-    dconf.settings = {
-      "org/gnome/desktop/background" = {
-        picture-uri-dark = "file://${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
-      };
-
-      "org/gnome/desktop/interface" = {
-        color-scheme = "prefer-dark";
-      };
-    };
+    dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
     gtk = {
       enable = true;
