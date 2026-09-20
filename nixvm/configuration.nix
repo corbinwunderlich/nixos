@@ -7,8 +7,6 @@
 }: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
-  kde.enable = false;
-
   xrdp.enable = true;
 
   pulseaudio.enable = true;

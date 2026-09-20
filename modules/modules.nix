@@ -1,6 +1,5 @@
 {lib, ...}: {
   imports = [
-    ./wms/kde.nix
     ./wms/sway.nix
 
     ./tools/samba.nix
@@ -46,8 +45,6 @@
 
     ./common.nix
   ];
-
-  kde.enable = lib.mkDefault false;
 
   sway.enable = lib.mkDefault true;
 

@@ -1,8 +1,6 @@
 {pkgs, ...}: {
   imports = [./hardware-configuration.nix ./../modules/modules.nix];
 
-  kde.enable = false;
-
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
   boot.loader.systemd-boot.enable = true;
